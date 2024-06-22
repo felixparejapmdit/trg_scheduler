@@ -4,6 +4,7 @@
     <title>Events Management</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
     <style>
         body {
             font-family: 'Roboto', sans-serif;
@@ -51,9 +52,9 @@
                 <th>Title</th>
                 <th>Description</th>
                 <th>Incharge</th>
-                <th>Prepared By</th>
-                <th>Status</th>
-                <th>Priority</th>
+                <th style="display:none;">Prepared By</th>
+                <th style="display:none;">Status</th>
+                <th style="display:none;">Priority</th>
                 <th>Recurring</th>
                 <th>Actions</th>
             </tr>
@@ -65,13 +66,13 @@
                     <td>{{ $event->title }}</td>
                     <td>{{ $event->description }}</td>
                     <td>{{ $event->incharge }}</td>
-                    <td>{{ $event->prepared_by }}</td>
-                    <td>{{ $event->status }}</td>
-                    <td>{{ ucfirst($event->priority) }}</td>
+                    <td style="display:none;">{{ $event->prepared_by }}</td>
+                    <td style="display:none;">{{ $event->status }}</td>
+                    <td style="display:none;">{{ ucfirst($event->priority) }}</td>
                     <td>{{ ucfirst($event->recurring) }}</td>
                     <td>
-                        <button class="btn btn-info btn-sm" data-toggle="modal" data-target="#editEventModal{{ $event->id }}">Edit</button>
-                        <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteEventModal{{ $event->id }}">Delete</button>
+                        <button class="btn btn-info btn-sm" data-toggle="modal" data-target="#editEventModal{{ $event->id }}"><i class="fas fa-edit"></i></button>
+                        <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteEventModal{{ $event->id }}"><i class="fas fa-trash-alt"></i></button>
                     </td>
                 </tr>
 
@@ -193,18 +194,28 @@
                 <form action="{{ route('events.store') }}" method="POST">
                     @csrf
                     <div class="modal-body">
-                        <div class="form-group">
-                            <label for="event_type">Event Type</label>
-                            <select name="event_type" class="form-control">
-                                <option value="Meeting">Meeting</option>
-                                <option value="Birthday & Anniversary">Birthday & Anniversary</option>
-                                <option value="Non-Office">Non-Office</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="event_datetime">Event DateTime</label>
-                            <input type="datetime-local" name="event_datetime" class="form-control">
-                        </div>
+                    <div class="form-group">
+                        <label for="event_type">Event Type</label>
+                        <select name="event_type" class="form-control" id="event_type">
+                            <option value="Meeting">Meeting</option>
+                            <option value="Birthday & Anniversary">Birthday & Anniversary</option>
+                            <option value="Non-Office">Non-Office</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="event_datetime">Event DateTime</label>
+                        <input type="datetime-local" name="event_datetime" class="form-control" id="event_datetime">
+                    </div>
+
+                    <script>
+                        document.getElementById('event_type').addEventListener('change', function() {
+                            if (this.value === 'Birthday & Anniversary') {
+                                document.getElementById('event_datetime').type = 'date';
+                            } else {
+                                document.getElementById('event_datetime').type = 'datetime-local';
+                            }
+                        });
+                    </script>
                         <div class="form-group">
                             <label for="title">Title</label>
                             <input type="text" name="title" class="form-control">

@@ -55,10 +55,12 @@ class SuguanController extends Controller
 
     public function update(Request $request, Suguan $suguan)
     {
+
+        
         $request->validate([
             'name' => 'required|string',
             'lokal' => 'required|string',
-            'district' => 'required|string',
+            'edit_district' => 'required|string',
             'suguan_datetime' => 'required|date',
             'gampanin' => 'required|string',
             'prepared_by' => 'nullable|integer',
@@ -76,19 +78,24 @@ class SuguanController extends Controller
             'QUEZON CITY' => 'QC',
         ];
     
-        $district = array_search($request['district'], $districtAcronyms);
-        if ($district) {
-            $request['district'] = $districtAcronyms[$request['district']];
+        // Find the key (name) for the district acronym provided in the request
+        $districtName = array_search($request['edit_district'], $districtAcronyms);
+    
+        if ($districtName !== false) {
+            // If found, set the district to its full name
+            $request['district'] = $districtName;
         } else {
             // Handle the case when the district is not found in the array
             // For example, you can set a default value or throw an error
             $request['district'] = ''; // or any default value
         }
     
-        $suguan->update($request->all());
+        // Update the suguan with the request data
+        $suguan->update($request->except('edit_district'));
     
         return redirect()->route('suguan.index')->with('success', 'Suguan updated successfully.');
     }
+    
 
     public function destroy(Suguan $suguan)
     {

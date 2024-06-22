@@ -20,7 +20,7 @@ class ReminderController extends Controller
             'week_number' => 'required|integer',
             'verse_of_the_week' => 'required|string',
             'incharge' => 'required|string',
-            'prepared_by' => 'required|integer',
+            'prepared_by' => 'nullable|integer',
             'status' => 'required|in:active,completed,cancelled',
             'priority' => 'required|in:low,medium,high',
         ]);
@@ -38,7 +38,7 @@ class ReminderController extends Controller
             'week_number' => 'required|integer',
             'verse_of_the_week' => 'required|string',
             'incharge' => 'required|string',
-            'prepared_by' => 'required|integer',
+            'prepared_by' => 'nullable|integer',
             'status' => 'required|in:active,completed,cancelled',
             'priority' => 'required|in:low,medium,high',
         ]);

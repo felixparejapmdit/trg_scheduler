@@ -3,127 +3,157 @@
 <head>
     <title>Scheduler Application</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Include jQuery -->
+<!-- Include jQuery -->
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<!-- Include Popper.js -->
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+<!-- Include Bootstrap JS -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+
+
+    
     <style>
-        body {
-            margin: 0;
-            font-family: 'Roboto', sans-serif;
-            background-color: #F8F9FA  ;
-        }
-        .container {
-            display: flex;
-            width: 100%;
-            height: 100vh;
-            overflow: hidden;
-        }
-        .column {
-            flex: 1;
-            padding: 20px;
-            border-right: 1px solid #ccc;
-            overflow-y: auto;
-            transition: background-color 0.3s ease;
-        }
-        .column:last-child {
-            border-right: none;
-        }
-        .column h2 {
-            font-size: 28px; /* Increased font size */
-            color: #333;
-            margin-bottom: 20px;
-        }
-        .column ul {
-            list-style: none;
-            padding: 0;
-        }
-        .column ul li {
-            background: #fff;
-            margin-bottom: 15px;
-            padding: 5px; /* Increased padding */
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            font-size: 18px; /* Increased font size */
-        }
-        .column ul li:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-        }
-        .column ul li strong {
-            color: #007BFF;
-        }
-        .column ul li em {
-            color: #555;
-            font-style: italic;
-        }
-        .day-section {
-            margin-bottom: 20px;
-            width: 50%; /* Adjust width as needed */
-            float: left; /* Float left for Midweek */
-        }
-        .weekend-section {
-            margin-bottom: 20px;
-            width: 50%; /* Adjust width as needed */
-            float: right; /* Float right for Weekend */
-        }
-        .day-title {
-            font-size: 22px; /* Increased font size */
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-        .reminders-column {
-            position: relative;
-            flex: 1;
-            padding: 20px;
-            border-right: 1px solid #ccc;
-            display: flex;
-            flex-direction: column;
-        }
-        .reminders-column .reminder-list {
-            flex: 1; /* Fill remaining space */
-            overflow-y: auto;
-        }
-        .reminders-column .reminder-list ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-        .reminders-column .verse-of-the-week {
-            height: 20%; /* Set height to 20% */
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-end; /* Align content to bottom */
-        }
-        .reminders-column .verse-of-the-week h3 {
-            margin-top: 0;
-            font-size: 22px; /* Increased font size */
-            color: #333;
-        }
-        .reminders-column .verse-of-the-week ul {
-            list-style: none;
-            padding: 0;
-            margin: 10px 0;
-        }
-        .reminders-column .verse-of-the-week ul li {
-            font-style: italic;
-            color: #555;
-            position: relative;
-            padding-left: 20px;
-            font-size: 18px; /* Increased font size */
-        }
-        .reminders-column .verse-of-the-week ul li:before {
-            content: '“';
-            position: absolute;
-            left: 0;
-            font-size: 1.5em;
-            line-height: 1em;
-        }
-        .reminders-column .verse-of-the-week ul li:after {
-            content: '”';
-            position: absolute;
-            right: 0;
-            font-size: 1.5em;
-            line-height: 1em;
-        }
-    </style>
+
+        /* Scoped Bootstrap styles */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+@import url('https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css');
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css');
+
+    body {
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+    background-color: #F8F9FA;
+}
+.container {
+    display: flex;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+}
+.column {
+    flex: 1;
+    padding: 20px;
+    border-right: 1px solid #ccc;
+    overflow-y: auto;
+    transition: background-color 0.3s ease;
+}
+.column:last-child {
+    border-right: none;
+}
+.column h2 {
+    font-size: 28px;
+    color: #333;
+    margin-bottom: 20px;
+}
+.column ul {
+    list-style: none;
+    padding: 0;
+    columns: 1;
+}
+.column ul li {
+    background: #fff;
+    margin-bottom: 15px;
+    padding: 5px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    font-size: 18px;
+}
+.column ul li:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+.column ul li strong {
+    color: #007BFF;
+}
+.column ul li em {
+    color: #555;
+    font-style: italic;
+}
+.day-section {
+    margin-bottom: 20px;
+    width: 50%;
+    float: left;
+}
+.weekend-section {
+    margin-bottom: 20px;
+    width: 50%;
+    float: right;
+}
+.day-title {
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+.reminders-column {
+    position: relative;
+    flex: 1;
+    padding: 20px;
+    border-right: 1px solid #ccc;
+    display: flex;
+    flex-direction: column;
+}
+.reminders-column .reminder-list {
+    flex: 1;
+    overflow-y: auto;
+}
+.reminders-column .reminder-list ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.reminders-column .verse-of-the-week {
+    height: 20%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+.reminders-column .verse-of-the-week h3 {
+    margin-top: 0;
+    font-size: 22px;
+    color: #333;
+}
+.reminders-column .verse-of-the-week ul {
+    list-style: none;
+    padding: 0;
+    margin: 10px 0;
+}
+.reminders-column .verse-of-the-week ul li {
+    font-style: italic;
+    color: #555;
+    position: relative;
+    padding-left: 20px;
+    font-size: 18px;
+}
+.reminders-column .verse-of-the-week ul li:before {
+    content: '“';
+    position: absolute;
+    left: 0;
+    font-size: 1.5em;
+    line-height: 1em;
+}
+.reminders-column .verse-of-the-week ul li:after {
+    content: '”';
+    position: absolute;
+    right: 0;
+    font-size: 1.5em;
+    line-height: 1em;
+}
+
+/* Media query for multi-column layout */
+@media (min-height: 800px) {
+    .events-section ul {
+        columns: 2;
+        column-gap: 20px;
+    }
+    .events-section ul li {
+        break-inside: avoid;
+    }
+}
+</style>
+
 </head>
 <body>
     <div class="container">
@@ -145,7 +175,6 @@
         </ul>
     </div>
 </div>
-
 
 <div class="column">
     <h2>Events</h2>
@@ -197,10 +226,76 @@
             @endif
         </ul>
     </div>
+    
+<!-- Modal Structure -->
+<div class="modal fade" id="eventsModal" tabindex="-1" role="dialog" aria-labelledby="eventsModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="eventsModalLabel">Events</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="modal-body">
+                <!-- AJAX response will be injected here -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 </div>
 
 
+<script>
+$(document).ready(function() {
+    $('.events-section h3').dblclick(function() {
+   
+        let eventType = $(this).text();
+      
+        $('#eventsModalLabel').text(eventType);  // Set the modal title
+      
+        $.ajax({
+            url: '{{ route("events.filter") }}',
+            method: 'GET',
+            data: { event_type: eventType },
+            success: function(data) {
+               
+                $('#modal-body').html(data);  // Inject the response data into the modal body
+                $('#eventsModal').modal('show');  // Show the modal
+            }
+        });
+    });
+
+    // Event handler for checkboxes
+    $(document).on('change', '.event-checkbox', function() {
+        let eventId = $(this).data('event-id');
+        let status = $(this).is(':checked') ? 'active' : 'inactive';
+
+        // Make an AJAX call to update the event status
+        $.ajax({
+            url: '{{ route("events.updateStatus") }}',
+            method: 'POST',
+            data: {
+                _token: '{{ csrf_token() }}',
+                event_id: eventId,
+                status: status
+            },
+            success: function(response) {
+                console.log('Status updated successfully.');
+            }
+        });
+    });
+});
+</script>
+
+
+
         <div class="column">
+            
             <h2>Suguan</h2>
             <div class="day-section mr-2">
                 <div class="day-title">Midweek</div>
@@ -208,13 +303,13 @@
                     <li>
                         <strong>Wednesday:</strong><br>
                         @foreach($suguan_midweek['Wednesday'] as $suguan)
-                        <b>{{ $suguan->name }}</b>, <i>{{ \Carbon\Carbon::parse($suguan->suguan_datetime)->format('g:iA') }}</i> {{ $suguan->lokal }}, {{ $suguan->district }} <br>{{ $suguan->gampanin }}<br><br>
+                        <b>{{ $suguan->name }}</b>, <i>{{ \Carbon\Carbon::parse($suguan->suguan_datetime)->format('g:iA') }}</i> {{ $suguan->lokal }}, {{ getAcronym($suguan->district) }} <br>{{ $suguan->gampanin }}<br>
                         @endforeach
                     </li>
                     <li>
                         <strong>Thursday:</strong><br>
                         @foreach($suguan_midweek['Thursday'] as $suguan)
-                        <b>{{ $suguan->name }}</b>, <i>{{ \Carbon\Carbon::parse($suguan->suguan_datetime)->format('g:iA') }}</i> {{ $suguan->lokal }}, {{ $suguan->district }} <br>{{ $suguan->gampanin }}<br><br>
+                        <b>{{ $suguan->name }}</b>, <i>{{ \Carbon\Carbon::parse($suguan->suguan_datetime)->format('g:iA') }}</i> {{ $suguan->lokal }}, {{ getAcronym($suguan->district) }} <br>{{ $suguan->gampanin }}<br>
                         @endforeach
                     </li>
                 </ul>
@@ -225,18 +320,20 @@
                     <li>
                         <strong>Saturday:</strong><br>
                         @foreach($suguan_weekend['Saturday'] as $suguan)
-                        <b>{{ $suguan->name }}</b>, <i>{{ \Carbon\Carbon::parse($suguan->suguan_datetime)->format('g:iA') }}</i> {{ $suguan->lokal }}, {{ $suguan->district }} <br>{{ $suguan->gampanin }}<br><br>
+                        <b>{{ $suguan->name }}</b>, <i>{{ \Carbon\Carbon::parse($suguan->suguan_datetime)->format('g:iA') }}</i> {{ $suguan->lokal }}, {{ getAcronym($suguan->district) }} <br>{{ $suguan->gampanin }}<br>
                         @endforeach
                     </li>
                     <li>
                         <strong>Sunday:</strong><br>
                         @foreach($suguan_weekend['Sunday'] as $suguan)
-                        <b>{{ $suguan->name }}</b>, <i>{{ \Carbon\Carbon::parse($suguan->suguan_datetime)->format('g:iA') }}</i> {{ $suguan->lokal }}, {{ $suguan->district }} <br>{{ $suguan->gampanin }}<br><br>
+                        <b>{{ $suguan->name }}</b>, <i>{{ \Carbon\Carbon::parse($suguan->suguan_datetime)->format('g:iA') }}</i> {{ $suguan->lokal }}, {{ getAcronym($suguan->district) }} <br>{{ $suguan->gampanin }}<br>
                         @endforeach
                     </li>
                 </ul>
             </div>
         </div>
     </div>
+
+    
 </body>
 </html>

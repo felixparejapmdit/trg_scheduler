@@ -20,8 +20,8 @@ class EventController extends Controller
             'event_datetime' => 'required|date',
             'title' => 'required|string',
             'description' => 'nullable|string',
-            'incharge' => 'required|string',
-            'prepared_by' => 'required|integer',
+            'incharge' => 'nullable|string',
+            'prepared_by' => 'nullable|integer',
             'status' => 'required|in:active,completed,cancelled',
             'priority' => 'required|in:low,medium,high',
             'recurring' => 'required|in:none,daily,weekly,monthly',
@@ -31,6 +31,46 @@ class EventController extends Controller
 
         return redirect()->route('events.index')->with('success', 'Event created successfully.');
     }
+
+    public function filterEvents(Request $request)
+    {
+     
+        $eventType = $request->input('event_type');
+        $events = Event::where('event_type', $eventType)->where('status', 'active')->get();
+    
+        $html = '';
+        foreach ($events as $event) {
+            $html .= '<div class="event-box">';
+            $html .= '<div class="event-details">';
+            $html .= \Carbon\Carbon::parse($event->event_datetime)->format('F j, Y g:iA') . ' - ' . $event->title;
+            $html .= '</div>';
+            $html .= '<div class="event-status">';
+            $html .= '<input type="checkbox" class="event-checkbox" ' . ($event->status == 'active' ? 'checked' : '') . ' data-event-id="' . $event->id . '">';
+            $html .= '</div>';
+            $html .= '</div>';
+        }
+    
+        return response()->json($html);
+    }
+    
+
+    
+    public function updateStatus(Request $request)
+    {
+        dd('asd');
+        \Log::info('Update Status Request', $request->all()); // Log the request data
+    
+        $event = Event::find($request->event_id);
+        if ($event) {
+            $event->status = $request->status;
+            $event->save();
+            return response()->json(['message' => 'Status updated successfully.'], 200);
+        }
+    
+        return response()->json(['message' => 'Event not found.'], 404);
+    }
+    
+
 
     public function update(Request $request, Event $event)
     {

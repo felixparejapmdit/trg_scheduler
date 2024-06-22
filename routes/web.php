@@ -52,6 +52,10 @@ Route::post('/events', [EventController::class, 'store'])->name('events.store');
 Route::put('/events/{event}', [EventController::class, 'update'])->name('events.update');
 Route::delete('/events/{event}', [EventController::class, 'destroy'])->name('events.destroy');
 
+Route::post('/events/updateStatus', [EventController::class, 'updateStatus'])->name('events.updateStatus');
+Route::get('/events/filter', [EventController::class, 'filterEvents'])->name('events.filter');
+
+
 
 Route::get('/suguan', [SuguanController::class, 'index'])->name('suguan.index');
 Route::post('/suguan', [SuguanController::class, 'store'])->name('suguan.store');
