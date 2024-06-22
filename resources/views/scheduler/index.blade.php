@@ -15,10 +15,6 @@
 
     
     <style>
-
-        /* Scoped Bootstrap styles */
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
-@import url('https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css');
 @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css');
 
     body {
@@ -227,47 +223,68 @@
         </ul>
     </div>
     
-<!-- Modal Structure -->
-<div class="modal fade" id="eventsModal" tabindex="-1" role="dialog" aria-labelledby="eventsModalLabel" aria-hidden="true">
+    <div class="modal fade" id="eventsModal" tabindex="-1" role="dialog" aria-labelledby="eventsModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="eventsModalLabel">Events</h5>
+                <h5 class="modal-title" id="eventsModalLabel">Edit Event</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body" id="modal-body">
-                <!-- AJAX response will be injected here -->
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <!-- Modal content will be loaded here via AJAX -->
             </div>
         </div>
     </div>
 </div>
 
+
 </div>
+
+
+<!-- Include Bootstrap CSS dynamically -->
+<script>
+function loadBootstrapCSS() {
+    if (!document.getElementById('bootstrap-css')) {
+        var link = document.createElement('link');
+        link.id = 'bootstrap-css';
+        link.rel = 'stylesheet';
+        link.href = 'https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css';
+        document.head.appendChild(link);
+    }
+}
+
+function removeBootstrapCSS() {
+    var bootstrapCSS = document.getElementById('bootstrap-css');
+    if (bootstrapCSS) {
+        document.head.removeChild(bootstrapCSS);
+    }
+}
+</script>
 
 
 <script>
 $(document).ready(function() {
     $('.events-section h3').dblclick(function() {
-   
         let eventType = $(this).text();
-      
         $('#eventsModalLabel').text(eventType);  // Set the modal title
-      
+
+        loadBootstrapCSS();  // Load Bootstrap CSS
+
         $.ajax({
             url: '{{ route("events.filter") }}',
             method: 'GET',
             data: { event_type: eventType },
             success: function(data) {
-               
                 $('#modal-body').html(data);  // Inject the response data into the modal body
                 $('#eventsModal').modal('show');  // Show the modal
             }
         });
+    });
+
+    $('#eventsModal').on('hidden.bs.modal', function () {
+        removeBootstrapCSS();  // Remove Bootstrap CSS when modal is hidden
     });
 
     // Event handler for checkboxes
@@ -291,6 +308,7 @@ $(document).ready(function() {
     });
 });
 </script>
+
 
 
 
