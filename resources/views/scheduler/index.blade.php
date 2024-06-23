@@ -4,23 +4,32 @@
     <title>Scheduler Application</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <!-- Include jQuery -->
-<!-- Include jQuery -->
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-<!-- Include Popper.js -->
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
-<!-- Include Bootstrap JS -->
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
-
-
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <!-- Include Popper.js -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <!-- Include Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- Include Font Awesome CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
     
     <style>
-@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css');
+
+/* Modern and Minimalistic Color Palette */
+:root {
+    --primary-color: #EEEEEE;
+    --secondary-color: #6C757D;
+    --accent-color: #404258;
+    --background-color: #F7F7F7  ;
+    --text-color: #2C3E50;
+    --border-color: #D5DBDB;
+    --shadow-color: rgba(0, 0, 0, 0.1);
+}
 
     body {
     margin: 0;
     font-family: 'Roboto', sans-serif;
-    background-color: #F8F9FA;
+    background-color: #F7F7F7 ;
+    color: var(--text-color);
 }
 .container {
     display: flex;
@@ -31,7 +40,8 @@
 .column {
     flex: 1;
     padding: 20px;
-    border-right: 1px solid #ccc;
+    border-left: 1px solid var(--border-color);
+    border-right: 1px solid var(--border-color);
     overflow-y: auto;
     transition: background-color 0.3s ease;
 }
@@ -40,8 +50,19 @@
 }
 .column h2 {
     font-size: 28px;
-    color: #333;
-    margin-bottom: 20px;
+    color: var(--primary-color);
+    border-radius: 8px;
+    background-color: var(--accent-color);
+    margin-top: 0px;
+    text-align: center;
+}
+.column h3 {
+    font-size: 18px;
+    color: var(--primary-color);
+    border-radius: 8px;
+    background-color: var(--accent-color);
+    margin-top: 0px;
+    text-align: center;
 }
 .column ul {
     list-style: none;
@@ -70,18 +91,22 @@
 }
 .day-section {
     margin-bottom: 20px;
-    width: 50%;
+    width: 49%;
     float: left;
 }
 .weekend-section {
     margin-bottom: 20px;
-    width: 50%;
+    width: 49%;
     float: right;
 }
 .day-title {
-    font-size: 22px;
+    font-size: 18px;
     font-weight: bold;
     margin-bottom: 10px;
+    color: var(--primary-color);
+    border-radius: 8px;
+    background-color: var(--accent-color);
+    text-align: center;
 }
 .reminders-column {
     position: relative;
@@ -101,7 +126,7 @@
     margin: 0;
 }
 .reminders-column .verse-of-the-week {
-    height: 20%;
+    height: 35%;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
@@ -109,7 +134,9 @@
 .reminders-column .verse-of-the-week h3 {
     margin-top: 0;
     font-size: 22px;
-    color: #333;
+    color: var(--primary-color);
+    background-color: var(--accent-color);
+    text-align: center;
 }
 .reminders-column .verse-of-the-week ul {
     list-style: none;
@@ -152,7 +179,7 @@
 
 </head>
 <body>
-    <div class="container">
+    <div class="container mt-0">
 
     <div class="column reminders-column">
     <h2>Reminders</h2>
@@ -186,7 +213,7 @@
                 @endif
             @endforeach
             @if(!($events->where('event_type', 'Meeting')->count() > 0))
-                <li><center><i style="color:red;">No entries for Meeting.</i></center></li>
+                <li><center><i style="color:#D5DBDB;">No entries for Meeting.</i></center></li>
             @endif
         </ul>
     </div>
@@ -202,7 +229,7 @@
                 @endif
             @endforeach
             @if(!($events->where('event_type', 'Birthday & Anniversary')->count() > 0))
-                <li><center><i style="color:red;">No entries for Birthdays and Anniversaries.</i></center></li>
+                <li><center><i style="color:#D5DBDB;">No entries for Birthdays and Anniversaries.</i></center></li>
             @endif
         </ul>
     </div>
@@ -218,73 +245,38 @@
                 @endif
             @endforeach
             @if(!($events->where('event_type', 'Non-Office')->count() > 0))
-                <li><center><i style="color:red;">No entries for Non-Office.</i></center></li>
+                <li><center><i style="color:#D5DBDB;">No entries for Non-Office.</i></center></li>
             @endif
         </ul>
     </div>
     
-    <div class="modal fade" id="eventsModal" tabindex="-1" role="dialog" aria-labelledby="eventsModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="eventsModalLabel">Edit Event</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body" id="modal-body">
-                <!-- Modal content will be loaded here via AJAX -->
-            </div>
-        </div>
-    </div>
-</div>
+    
+
 
 
 </div>
 
 
-<!-- Include Bootstrap CSS dynamically -->
-<script>
-function loadBootstrapCSS() {
-    if (!document.getElementById('bootstrap-css')) {
-        var link = document.createElement('link');
-        link.id = 'bootstrap-css';
-        link.rel = 'stylesheet';
-        link.href = 'https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css';
-        document.head.appendChild(link);
-    }
-}
-
-function removeBootstrapCSS() {
-    var bootstrapCSS = document.getElementById('bootstrap-css');
-    if (bootstrapCSS) {
-        document.head.removeChild(bootstrapCSS);
-    }
-}
-</script>
 
 
 <script>
 $(document).ready(function() {
     $('.events-section h3').dblclick(function() {
+   
         let eventType = $(this).text();
+      
         $('#eventsModalLabel').text(eventType);  // Set the modal title
-
-        loadBootstrapCSS();  // Load Bootstrap CSS
-
+      
         $.ajax({
             url: '{{ route("events.filter") }}',
             method: 'GET',
             data: { event_type: eventType },
             success: function(data) {
+               
                 $('#modal-body').html(data);  // Inject the response data into the modal body
                 $('#eventsModal').modal('show');  // Show the modal
             }
         });
-    });
-
-    $('#eventsModal').on('hidden.bs.modal', function () {
-        removeBootstrapCSS();  // Remove Bootstrap CSS when modal is hidden
     });
 
     // Event handler for checkboxes
@@ -308,7 +300,6 @@ $(document).ready(function() {
     });
 });
 </script>
-
 
 
 

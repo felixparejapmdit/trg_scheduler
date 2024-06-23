@@ -13,15 +13,33 @@ class SchedulerController extends Controller
 {
     public function index()
     {
+// Get the current date and time
+$now = Carbon::now();
+
+// Get the current week number
+$week = $now->weekOfYear;
+
+// Get the current year
+$year = $now->year;
+
+// Get the first day of the week (Monday)
+$startOfWeek = Carbon::parse($year. '-W'. $week)->startOfWeek();
+
+// Get the last day of the week (Sunday) at 23:59:59
+$endOfWeek = $startOfWeek->copy()->addDays(6)->endOfDay();
+       //0 dd($startOfWeek);
         // Retrieve reminders for the current week
-        $currentWeek = Carbon::now()->weekOfYear;
-        $reminders = Reminder::where('week_number', $currentWeek)->get();
+        $reminders = Reminder::whereBetween('reminder_datetime', [$startOfWeek,  $endOfWeek])->get();
     
-        // Retrieve all active events
-        $events = Event::where('status', 'active')->get();
-        
-        // Retrieve all suguan entries, ordered by suguan_datetime ascending
-        $suguan = Suguan::orderBy('suguan_datetime', 'asc')->get();
+        // Retrieve events for the current week and with status 'active'
+        $events = Event::where('status', 'active')
+                        ->whereBetween('event_datetime', [$startOfWeek, $endOfWeek])
+                        ->get();
+    
+        // Retrieve suguan entries for the current week, ordered by suguan_datetime ascending
+        $suguan = Suguan::whereBetween('suguan_datetime', [$startOfWeek, $endOfWeek])
+                        ->orderBy('suguan_datetime', 'asc')
+                        ->get();
     
         // Group Suguan by day of the week (Midweek and Weekend)
         $suguan_midweek = $this->groupSuguanByDay($suguan, ['Wednesday', 'Thursday']);
@@ -32,6 +50,7 @@ class SchedulerController extends Controller
     
         return view('scheduler.index', compact('reminders', 'events', 'suguan_midweek', 'suguan_weekend', 'verseOfTheWeek'));
     }
+    
     
    
     

@@ -39,7 +39,9 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 
-Route::get('/', [SchedulerController::class, 'index']);
+//Route::get('/', [SchedulerController::class, 'index']);
+
+Route::get('/scheduler', [SchedulerController::class, 'index'])->name('scheduler.index');
 
 
 Route::get('/reminders', [ReminderController::class, 'index'])->name('reminders.index');
