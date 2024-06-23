@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 23, 2024 at 06:29 AM
+-- Generation Time: Jun 23, 2024 at 07:30 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -58,7 +58,8 @@ INSERT INTO `events` (`id`, `event_type`, `event_datetime`, `title`, `descriptio
 (10, 'Birthday & Anniversary', '2024-06-21 00:00:00', 'bday 1', 'bday 1', NULL, NULL, 'active', 'medium', 'none', '2024-06-21 13:04:17', '2024-06-21 13:04:17'),
 (11, 'Birthday & Anniversary', '2024-06-22 00:00:00', 'bday 2', 'bday 2', NULL, NULL, 'active', 'medium', 'none', '2024-06-21 13:04:28', '2024-06-21 13:04:28'),
 (12, 'Birthday & Anniversary', '2024-06-18 00:00:00', 'bday 3', 'bday 3', NULL, NULL, 'active', 'medium', 'none', '2024-06-21 13:04:41', '2024-06-21 13:04:41'),
-(17, 'Non-Office', '2024-06-21 12:00:00', 'PAMAMAGAYAG Novaliches', 'test', 'asd', 1, 'active', 'medium', 'daily', '2024-06-22 20:00:47', '2024-06-22 20:00:47');
+(17, 'Non-Office', '2024-06-21 12:00:00', 'PAMAMAGAYAG Novaliches', 'test', 'asd', 1, 'active', 'medium', 'daily', '2024-06-22 20:00:47', '2024-06-22 20:00:47'),
+(18, 'Meeting', '2024-06-21 00:55:00', 'test', 'test', 'PMD IT', NULL, 'active', 'medium', 'none', '2024-06-23 08:55:13', '2024-06-23 09:00:46');
 
 -- --------------------------------------------------------
 
@@ -155,7 +156,7 @@ CREATE TABLE `reminders` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `reminder_datetime` datetime NOT NULL,
   `reminder` text NOT NULL,
-  `week_number` int(11) NOT NULL,
+  `week_number` int(11) DEFAULT NULL,
   `verse_of_the_week` text DEFAULT NULL,
   `incharge` text NOT NULL,
   `prepared_by` int(11) DEFAULT NULL,
@@ -174,7 +175,8 @@ INSERT INTO `reminders` (`id`, `reminder_datetime`, `reminder`, `week_number`, `
 (2, '2024-06-18 11:58:00', 'test 2', 25, 'asda', 'test', 1, 'active', 'medium', '2024-06-22 19:58:48', '2024-06-22 19:58:48'),
 (3, '2024-06-19 11:58:00', 'test 3', 25, 'asdsa', 'asd', 1, 'active', 'medium', '2024-06-22 19:58:59', '2024-06-22 19:58:59'),
 (4, '2024-06-20 11:59:00', 'test 4', 25, 'asd', 'asd', 1, 'active', 'medium', '2024-06-22 19:59:12', '2024-06-22 19:59:12'),
-(5, '2024-06-21 11:59:00', 'test 5', 25, 'tasdas', 'asd', 1, 'active', 'medium', '2024-06-22 19:59:25', '2024-06-22 19:59:25');
+(5, '2024-06-21 11:59:00', 'test 5', 25, 'tasdas', 'asd', 1, 'active', 'medium', '2024-06-22 19:59:25', '2024-06-22 19:59:25'),
+(6, '2024-06-23 00:39:00', 'tet', NULL, 'st', '1', NULL, 'active', 'medium', '2024-06-23 08:39:30', '2024-06-23 08:39:30');
 
 -- --------------------------------------------------------
 
@@ -207,7 +209,8 @@ INSERT INTO `suguan` (`id`, `name`, `lokal`, `district`, `suguan_datetime`, `gam
 (5, 'Kyrt Jurada', 'Lawang Bato', 'Caloocan North', '2024-06-22 14:00:00', 'Sugo 2', NULL, NULL, '2024-06-21 13:13:48', '2024-06-21 13:24:28'),
 (6, 'Carl Mariano', 'Mt Heights', 'Caloocan North', '2024-06-23 06:00:00', 'Reserba', 1, 'asd', '2024-06-22 20:01:26', '2024-06-22 20:01:26'),
 (7, 'Teo Ramos', 'Caloocan', 'Camanava', '2024-06-23 10:00:00', 'Sugo 2', 1, 'asd', '2024-06-22 20:01:55', '2024-06-22 20:01:55'),
-(8, 'Zion Mills', 'Balintawak', 'Camanava', '2024-06-23 06:00:00', 'Sugo 2', 1, 'asd', '2024-06-22 20:02:21', '2024-06-22 20:02:21');
+(8, 'Zion Mills', 'Balintawak', 'Camanava', '2024-06-23 06:00:00', 'Sugo 2', 1, 'asd', '2024-06-22 20:02:21', '2024-06-22 20:02:21'),
+(9, 'test', 'test', 'Camanava', '2024-06-26 01:12:00', 'Sugo 2', NULL, NULL, '2024-06-23 09:12:54', '2024-06-23 09:12:54');
 
 -- --------------------------------------------------------
 
@@ -303,7 +306,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `events`
 --
 ALTER TABLE `events`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `failed_jobs`
@@ -327,13 +330,13 @@ ALTER TABLE `personal_access_tokens`
 -- AUTO_INCREMENT for table `reminders`
 --
 ALTER TABLE `reminders`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `suguan`
 --
 ALTER TABLE `suguan`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `users`
