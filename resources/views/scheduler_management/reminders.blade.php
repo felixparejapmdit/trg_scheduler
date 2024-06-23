@@ -1,15 +1,13 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Reminders Management</title>
+
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <style>
+   
+<x-app-layout>
+<style>
         body {
             font-family: 'Roboto', sans-serif;
             background-color: #f4f4f9;
             margin: 0;
-            padding: 20px;
         }
         .container {
             margin-top: 50px;
@@ -21,7 +19,7 @@
         .modal-footer button {
             color: white;
         }
-        .priority-low {
+        /* .priority-low {
             background-color: #d4edda;
         }
         .priority-medium {
@@ -29,12 +27,14 @@
         }
         .priority-high {
             background-color: #f8d7da;
-        }
+        } */
     </style>
-</head>
-<body>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+            {{ __('Reminders Management') }}
+        </h2>
+    </x-slot>
     <div class="container">
-        <h2>Reminders Management</h2>
         <button class="btn btn-primary mb-3" data-toggle="modal" data-target="#addReminderModal">Add Reminder</button>
 
         @if ($message = Session::get('success'))
@@ -231,5 +231,4 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-</body>
-</html>
+    </x-app-layout>

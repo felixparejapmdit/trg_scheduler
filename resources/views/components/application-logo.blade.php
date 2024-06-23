@@ -1,1 +1,1 @@
-<img src="{{ asset('images/scheduler.png') }}" alt="Scheduler Logo" style="width:60px; height:60px;">
+<img src="{{ asset('images/scheduler.jpg') }}" alt="Scheduler Logo" style="width:60px; height:60px;">
