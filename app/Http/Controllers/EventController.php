@@ -9,7 +9,7 @@ class EventController extends Controller
 {
     public function index()
     {
-        $events = Event::all();
+        $events = Event::orderBy('id', 'desc')->paginate(5);
         return view('scheduler_management.events', compact('events'));
     }
 
@@ -57,7 +57,7 @@ class EventController extends Controller
     
     public function updateStatus(Request $request)
     {
-        dd('asd');
+        
         \Log::info('Update Status Request', $request->all()); // Log the request data
     
         $event = Event::find($request->event_id);
@@ -79,8 +79,8 @@ class EventController extends Controller
             'event_datetime' => 'required|date',
             'title' => 'required|string',
             'description' => 'nullable|string',
-            'incharge' => 'required|string',
-            'prepared_by' => 'required|integer',
+            'incharge' => 'nullable|string',
+            'prepared_by' => 'nullable|integer',
             'status' => 'required|in:active,completed,cancelled',
             'priority' => 'required|in:low,medium,high',
             'recurring' => 'required|in:none,daily,weekly,monthly',

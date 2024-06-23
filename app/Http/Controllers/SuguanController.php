@@ -8,7 +8,13 @@ class SuguanController extends Controller
 {
     public function index()
     {
-        $suguan = Suguan::all();
+        $startOfWeek = now()->startOfWeek();
+        $endOfWeek = now()->endOfWeek();
+    
+        $suguan = Suguan::whereBetween('suguan_datetime', [$startOfWeek, $endOfWeek])
+                        ->orderBy('suguan_datetime', 'asc')
+                        ->paginate(15);
+    
         return view('scheduler_management.suguan', compact('suguan'));
     }
 

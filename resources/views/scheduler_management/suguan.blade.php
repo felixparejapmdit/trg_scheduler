@@ -1,65 +1,82 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Suguan Management</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+   
+<x-app-layout>
     <style>
         body {
             font-family: 'Roboto', sans-serif;
             background-color: #f4f4f9;
             margin: 0;
-            padding: 20px;
         }
         .container {
             margin-top: 50px;
         }
         .modal-header, .modal-footer {
-            background-color: #007BFF;
-            color: white;
+            background-color: #EEEEEE;
+            color: gray;
         }
         .modal-footer button {
             color: white;
         }
+        /* .priority-low {
+            background-color: #d4edda;
+        }
+        .priority-medium {
+            background-color: #fff3cd;
+        }
+        .priority-high {
+            background-color: #f8d7da;
+        } */
     </style>
-</head>
-<body>
+    <x-slot name="header">
+        <div class="flex justify-between items-center my-8">
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                {{ __('Suguan Management') }}
+            </h2>
+            <div>
+            <a href="{{ route('dashboard') }}" class="btn btn-secondary">Back</a>
+                
+        <button class="btn btn-primary" data-toggle="modal" data-target="#addSuguanModal"><i class="fas fa-plus"></i> Suguan</button>
+            </div>
+        </div>
+    </x-slot>
     <div class="container">
-        <h2>Suguan Management</h2>
-        <button class="btn btn-primary mb-3" data-toggle="modal" data-target="#addSuguanModal">Add Suguan</button>
 
         @if ($message = Session::get('success'))
             <div class="alert alert-success">
                 <p>{{ $message }}</p>
             </div>
         @endif
-
-         <table class="table table-bordered">
+        {{ $suguan->links() }}
+         <table class="table table-bordered mt-3">
         <tr>
-            <th>ID</th>
+            <th class="text-center" >#</th>
             <th>Name</th>
             <th>Lokal</th>
             <th>District</th>
             <th>Suguan DateTime</th>
+            <th>Day</th>
             <th>Gampanin</th>
-            <th>Prepared By</th>
-            <th>Comments</th>
-            <th>Actions</th>
+            <th style="display:none;">Prepared By</th>
+            <th style="display:none;">Comments</th>
+            <th class="text-center" >Actions</th>
         </tr>
         @forelse ($suguan as $item)
         @if($item)
             <tr>
-                <td>{{ $item->id }}</td>
+                <td class="text-center" style="width: 5%;">{{ $loop->iteration }}</td>
                 <td>{{ $item->name }}</td>
                 <td>{{ $item->lokal }}</td>
                 <td>{{ $item->district }}</td>
-                <td>{{ $item->suguan_datetime }}</td>
+                <td>{{ date('Y-m-d g:i A', strtotime($item->suguan_datetime)) }}</td>
+                <td>{{ date('l', strtotime($item->suguan_datetime)) }}</td>
                 <td>{{ $item->gampanin }}</td>
-                <td>{{ $item->prepared_by }}</td>
-                <td>{{ $item->comments }}</td>
-                <td>
-                    <button class="btn btn-info btn-sm" data-toggle="modal" data-target="#editSuguanModal{{ $item->id }}">Edit</button>
-                    <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteSuguanModal{{ $item->id }}">Delete</button>
+                <td style="display:none;">{{ $item->prepared_by }}</td>
+                <td style="display:none;">{{ $item->comments }}</td>
+                <td class="text-center" >
+                    <button class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#editSuguanModal{{ $item->id }}"><i class="fas fa-edit"></i></button>
+                    <button class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#deleteSuguanModal{{ $item->id }}"><i class="fas fa-trash-alt"></i></button>
                 </td>
             </tr>
 
@@ -107,11 +124,11 @@
             <label for="gampanin">Gampanin</label>
             <input type="text" name="gampanin" class="form-control" value="{{ $item->gampanin }}" required>
         </div>
-        <div class="form-group">
+        <div class="form-group" style="display:none;">
             <label for="prepared_by">Prepared By</label>
             <input type="number" name="prepared_by" class="form-control" value="{{ $item->prepared_by }}">
         </div>
-        <div class="form-group">
+        <div class="form-group" style="display:none;">
             <label for="comments">Comments</label>
             <textarea name="comments" class="form-control">{{ $item->comments }}</textarea>
         </div>
@@ -157,6 +174,7 @@
             </tr>
         @endforelse
     </table>
+    {{ $suguan->links() }}
     </div>
 
     <!-- Add Suguan Modal -->
@@ -202,11 +220,11 @@
                             <label for="gampanin">Gampanin</label>
                             <input type="text" name="gampanin" class="form-control">
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" style="display:none;">
                             <label for="prepared_by">Prepared By</label>
                             <input type="number" name="prepared_by" class="form-control">
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" style="display:none;">
                             <label for="comments">Comments</label>
                             <textarea name="comments" class="form-control"></textarea>
                         </div>
@@ -223,5 +241,4 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-</body>
-</html>
+</x-app-layout>

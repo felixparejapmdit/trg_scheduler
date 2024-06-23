@@ -1,28 +1,25 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Events Management</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+   
+<x-app-layout>
     <style>
         body {
             font-family: 'Roboto', sans-serif;
             background-color: #f4f4f9;
             margin: 0;
-            padding: 20px;
         }
         .container {
             margin-top: 50px;
         }
         .modal-header, .modal-footer {
-            background-color: #007BFF;
-            color: white;
+            background-color: #EEEEEE;
+            color: gray;
         }
         .modal-footer button {
             color: white;
         }
-        .priority-low {
+        /* .priority-low {
             background-color: #d4edda;
         }
         .priority-medium {
@@ -30,23 +27,30 @@
         }
         .priority-high {
             background-color: #f8d7da;
-        }
+        } */
     </style>
-</head>
-<body>
+    <x-slot name="header">
+        <div class="flex justify-between items-center my-8">
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                {{ __('Events Management') }}
+            </h2>
+            <div>
+            <a href="{{ route('dashboard') }}" class="btn btn-secondary">Back</a>
+                
+        <button class="btn btn-primary" data-toggle="modal" data-target="#addEventModal"><i class="fas fa-plus"></i> Event</button>
+            </div>
+        </div>
+    </x-slot>
     <div class="container">
-        <h2>Events Management</h2>
-        <button class="btn btn-primary mb-3" data-toggle="modal" data-target="#addEventModal">Add Event</button>
-
         @if ($message = Session::get('success'))
             <div class="alert alert-success">
                 <p>{{ $message }}</p>
             </div>
         @endif
-
-        <table class="table table-bordered">
+        {{ $events->links() }}
+        <table class="table table-bordered mt-3">
             <tr>
-                <th>ID</th>
+                <th class="text-center">#</th>
                 <th>Event Type</th>
                 <th>Event DateTime</th>
                 <th>Title</th>
@@ -55,24 +59,24 @@
                 <th style="display:none;">Prepared By</th>
                 <th style="display:none;">Status</th>
                 <th style="display:none;">Priority</th>
-                <th>Recurring</th>
-                <th>Actions</th>
+                <th style="display:none;">Recurring</th>
+                <th class="text-center">Actions</th>
             </tr>
             @foreach ($events as $event)
                 <tr class="priority-{{ $event->priority }}">
-                    <td>{{ $event->id }}</td>
+                    <td class="text-center" style="width: 5%;">{{ $loop->iteration }}</td>
                     <td>{{ $event->event_type }}</td>
-                    <td>{{ $event->event_datetime }}</td>
+                    <td>{{ date('Y-m-d g:i A', strtotime($event->event_datetime)) }}</td>
                     <td>{{ $event->title }}</td>
                     <td>{{ $event->description }}</td>
                     <td>{{ $event->incharge }}</td>
                     <td style="display:none;">{{ $event->prepared_by }}</td>
                     <td style="display:none;">{{ $event->status }}</td>
                     <td style="display:none;">{{ ucfirst($event->priority) }}</td>
-                    <td>{{ ucfirst($event->recurring) }}</td>
-                    <td>
-                        <button class="btn btn-info btn-sm" data-toggle="modal" data-target="#editEventModal{{ $event->id }}"><i class="fas fa-edit"></i></button>
-                        <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteEventModal{{ $event->id }}"><i class="fas fa-trash-alt"></i></button>
+                    <td style="display:none;">{{ ucfirst($event->recurring) }}</td>
+                    <td class="text-center">
+                        <button class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#editEventModal{{ $event->id }}"><i class="fas fa-edit"></i></button>
+                        <button class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#deleteEventModal{{ $event->id }}"><i class="fas fa-trash-alt"></i></button>
                     </td>
                 </tr>
 
@@ -114,11 +118,11 @@
                                         <label for="incharge">Incharge</label>
                                         <input type="text" name="incharge" class="form-control" value="{{ $event->incharge }}">
                                     </div>
-                                    <div class="form-group">
+                                    <div class="form-group" style="display:none;">
                                         <label for="prepared_by">Prepared By</label>
                                         <input type="number" name="prepared_by" class="form-control" value="{{ $event->prepared_by }}">
                                     </div>
-                                    <div class="form-group">
+                                    <div class="form-group" style="display:none;">
                                         <label for="status">Status</label>
                                         <select name="status" class="form-control">
                                             <option value="active" {{ $event->status == 'active' ? 'selected' : '' }}>Active</option>
@@ -126,7 +130,7 @@
                                             <option value="cancelled" {{ $event->status == 'cancelled' ? 'selected' : '' }}>Cancelled</option>
                                         </select>
                                     </div>
-                                    <div class="form-group">
+                                    <div class="form-group" style="display:none;">
                                         <label for="priority">Priority</label>
                                         <select name="priority" class="form-control">
                                             <option value="low" {{ $event->priority == 'low' ? 'selected' : '' }}>Low</option>
@@ -134,7 +138,7 @@
                                             <option value="high" {{ $event->priority == 'high' ? 'selected' : '' }}>High</option>
                                         </select>
                                     </div>
-                                    <div class="form-group">
+                                    <div class="form-group" style="display:none;">
                                         <label for="recurring">Recurring</label>
                                         <select name="recurring" class="form-control">
                                             <option value="none" {{ $event->recurring == 'none' ? 'selected' : '' }}>None</option>
@@ -179,6 +183,7 @@
                 </div>
             @endforeach
         </table>
+        {{ $events->links() }}
     </div>
 
     <!-- Add Event Modal -->
@@ -228,11 +233,11 @@
                             <label for="incharge">Incharge</label>
                             <input type="text" name="incharge" class="form-control">
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" style="display:none;">
                             <label for="prepared_by">Prepared By</label>
                             <input type="number" name="prepared_by" class="form-control">
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" style="display:none;">
                             <label for="status">Status</label>
                             <select name="status" class="form-control">
                                 <option value="active">Active</option>
@@ -240,7 +245,7 @@
                                 <option value="cancelled">Cancelled</option>
                             </select>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" style="display:none;">
                             <label for="priority">Priority</label>
                             <select name="priority" class="form-control">
                                 <option value="low">Low</option>
@@ -248,7 +253,7 @@
                                 <option value="high">High</option>
                             </select>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" style="display:none;">
                             <label for="recurring">Recurring</label>
                             <select name="recurring" class="form-control">
                                 <option value="none">None</option>
@@ -270,5 +275,4 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-</body>
-</html>
+</x-app-layout>

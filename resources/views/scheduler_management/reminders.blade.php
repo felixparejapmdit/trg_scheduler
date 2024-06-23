@@ -1,6 +1,7 @@
 
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
    
 <x-app-layout>
 <style>
@@ -13,8 +14,8 @@
             margin-top: 50px;
         }
         .modal-header, .modal-footer {
-            background-color: #007BFF;
-            color: white;
+            background-color: #EEEEEE;
+            color: gray;
         }
         .modal-footer button {
             color: white;
@@ -29,47 +30,55 @@
             background-color: #f8d7da;
         } */
     </style>
+
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Reminders Management') }}
-        </h2>
+        <div class="flex justify-between items-center my-8">
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                {{ __('Reminders Management') }}
+            </h2>
+            <div>
+            <a href="{{ route('dashboard') }}" class="btn btn-secondary">Back</a>
+                
+        <button class="btn btn-primary" data-toggle="modal" data-target="#addReminderModal"><i class="fas fa-plus"></i> Reminder</button>
+            </div>
+        </div>
     </x-slot>
+
     <div class="container">
-        <button class="btn btn-primary mb-3" data-toggle="modal" data-target="#addReminderModal">Add Reminder</button>
 
         @if ($message = Session::get('success'))
             <div class="alert alert-success">
                 <p>{{ $message }}</p>
             </div>
         @endif
-
-        <table class="table table-bordered">
+        {{ $reminders->links() }}
+        <table class="table table-bordered mt-3">
             <tr>
-                <th>ID</th>
-                <th>Reminder DateTime</th>
-                <th>Reminder</th>
-                <th>Week Number</th>
-                <th>Verse of the Week</th>
-                <th>Incharge</th>
-                <th>Prepared By</th>
-                <th>Status</th>
-                <th>Priority</th>
-                <th>Actions</th>
+                <th class="text-center">#</th>
+                <th style="width:20%;">DateTime</th>
+                <th style="width:35%;">Reminder</th>
+                <th style="display:none;">Week Number</th>
+                <th style="display:none;">Verse of the Week</th>
+                <th style="width:20%;">Incharge</th>
+                <th style="display:none;">Prepared By</th>
+                <th style="display:none;">Status</th>
+                <th style="display:none;">Priority</th>
+                <th style="width:10%;" class="text-center">Actions</th>
             </tr>
             @foreach ($reminders as $reminder)
                 <tr class="priority-{{ $reminder->priority }}">
-                    <td>{{ $reminder->id }}</td>
-                    <td>{{ $reminder->reminder_datetime }}</td>
+                    <td class="text-center" style="width: 5%;">{{ $loop->iteration }}</td>
+                    <td>{{ $reminder->reminder_datetime->format('Y-m-d g:i A') }}</td>
                     <td>{{ $reminder->reminder }}</td>
-                    <td>{{ $reminder->week_number }}</td>
-                    <td>{{ $reminder->verse_of_the_week }}</td>
+                    <td style="display:none;">{{ $reminder->week_number }}</td>
+                    <td style="display:none;">{{ $reminder->verse_of_the_week }}</td>
                     <td>{{ $reminder->incharge }}</td>
-                    <td>{{ $reminder->prepared_by }}</td>
-                    <td>{{ $reminder->status }}</td>
-                    <td>{{ ucfirst($reminder->priority) }}</td>
-                    <td>
-                        <button class="btn btn-info btn-sm" data-toggle="modal" data-target="#editReminderModal{{ $reminder->id }}">Edit</button>
-                        <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteReminderModal{{ $reminder->id }}">Delete</button>
+                    <td style="display:none;">{{ $reminder->prepared_by }}</td>
+                    <td style="display:none;">{{ $reminder->status }}</td>
+                    <td style="display:none;">{{ ucfirst($reminder->priority) }}</td>
+                    <td style="width:10%;" class="text-center">
+                        <button class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#editReminderModal{{ $reminder->id }}"><i class="fas fa-edit"></i></button>
+                        <button class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#deleteReminderModal{{ $reminder->id }}"><i class="fas fa-trash-alt"></i></button>
                     </td>
                 </tr>
 
@@ -95,7 +104,7 @@
                                         <label for="reminder">Reminder</label>
                                         <textarea name="reminder" class="form-control">{{ $reminder->reminder }}</textarea>
                                     </div>
-                                    <div class="form-group">
+                                    <div class="form-group" style="display:none;">
                                         <label for="week_number">Week Number</label>
                                         <input type="number" name="week_number" class="form-control" value="{{ $reminder->week_number }}">
                                     </div>
@@ -107,11 +116,11 @@
                                         <label for="incharge">Incharge</label>
                                         <input type="text" name="incharge" class="form-control" value="{{ $reminder->incharge }}">
                                     </div>
-                                    <div class="form-group">
+                                    <div class="form-group" style="display:none;">
                                         <label for="prepared_by">Prepared By</label>
                                         <input type="number" name="prepared_by" class="form-control" value="{{ $reminder->prepared_by }}">
                                     </div>
-                                    <div class="form-group">
+                                    <div class="form-group" style="display:none;">
                                         <label for="status">Status</label>
                                         <select name="status" class="form-control">
                                             <option value="active" {{ $reminder->status == 'active' ? 'selected' : '' }}>Active</option>
@@ -119,7 +128,7 @@
                                             <option value="cancelled" {{ $reminder->status == 'cancelled' ? 'selected' : '' }}>Cancelled</option>
                                         </select>
                                     </div>
-                                    <div class="form-group">
+                                    <div class="form-group" style="display:none;">
                                         <label for="priority">Priority</label>
                                         <select name="priority" class="form-control">
                                             <option value="low" {{ $reminder->priority == 'low' ? 'selected' : '' }}>Low</option>
@@ -163,6 +172,7 @@
                 </div>
             @endforeach
         </table>
+        {{ $reminders->links() }}
     </div>
 
     <!-- Add Modal -->
@@ -186,7 +196,7 @@
                             <label for="reminder">Reminder</label>
                             <textarea name="reminder" class="form-control"></textarea>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" style="display:none;">
                             <label for="week_number">Week Number</label>
                             <input type="number" name="week_number" class="form-control">
                         </div>
@@ -198,11 +208,11 @@
                             <label for="incharge">Incharge</label>
                             <input type="text" name="incharge" class="form-control">
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" style="display:none;">
                             <label for="prepared_by">Prepared By</label>
                             <input type="number" name="prepared_by" class="form-control">
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" style="display:none;">
                             <label for="status">Status</label>
                             <select name="status" class="form-control">
                                 <option value="active">Active</option>
@@ -210,7 +220,7 @@
                                 <option value="cancelled">Cancelled</option>
                             </select>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" style="display:none;">
                             <label for="priority">Priority</label>
                             <select name="priority" class="form-control">
                                 <option value="low">Low</option>

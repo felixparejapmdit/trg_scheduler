@@ -9,7 +9,7 @@ class ReminderController extends Controller
 {
     public function index()
     {
-        $reminders = Reminder::all();
+        $reminders = Reminder::orderBy('id', 'desc')->paginate(5); 
         return view('scheduler_management.reminders', compact('reminders'));
     }
 
@@ -18,7 +18,7 @@ class ReminderController extends Controller
         $request->validate([
             'reminder_datetime' => 'required|date',
             'reminder' => 'required|string',
-            'week_number' => 'required|integer',
+            'week_number' => 'nullable|integer',
             'verse_of_the_week' => 'required|string',
             'incharge' => 'required|string',
             'prepared_by' => 'nullable|integer',
