@@ -31,9 +31,7 @@
             <x-input-error :messages="$errors->get('password')" class="mt-2" />
         </div>
         <div class="flex items-center justify-center mt-4">
-        @if (Route::has('password.request'))
-        <a href="{{ route('register') }}" class="sm:hidden ml-4 font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Register</a>
-        @endif
+   
 
         <x-primary-button class="ms-3" style="width:200px;justify-content: center; background-color:#007bff;">
             {{ __('Log in') }}
