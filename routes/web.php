@@ -1,10 +1,11 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\SchedulerController;
 use App\Http\Controllers\ReminderController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\SuguanController;
+use App\Http\Controllers\SchedulerController;
+use App\Http\Controllers\VerseOfTheWeekController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -63,3 +64,9 @@ Route::get('/suguan', [SuguanController::class, 'index'])->name('suguan.index');
 Route::post('/suguan', [SuguanController::class, 'store'])->name('suguan.store');
 Route::put('/suguan/{suguan}', [SuguanController::class, 'update'])->name('suguan.update');
 Route::delete('/suguan/{suguan}', [SuguanController::class, 'destroy'])->name('suguan.destroy');
+
+Route::get('/scheduler', [SchedulerController::class, 'index'])->name('scheduler.index');
+Route::get('/verseoftheweek', [VerseOfTheWeekController::class, 'index'])->name('verseoftheweek.index');
+Route::post('/verseoftheweek', [VerseOfTheWeekController::class, 'store'])->name('verseoftheweek.store');
+Route::put('/verseoftheweek/{id}', [VerseOfTheWeekController::class, 'update'])->name('verseoftheweek.update');
+Route::delete('/verseoftheweek/{id}', [VerseOfTheWeekController::class, 'destroy'])->name('verseoftheweek.destroy');

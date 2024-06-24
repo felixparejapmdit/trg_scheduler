@@ -151,14 +151,12 @@
     font-size: 18px;
 }
 .reminders-column .verse-of-the-week ul li:before {
-    content: '“';
     position: absolute;
     left: 0;
     font-size: 1.5em;
     line-height: 1em;
 }
 .reminders-column .verse-of-the-week ul li:after {
-    content: '”';
     position: absolute;
     right: 0;
     font-size: 1.5em;
@@ -191,12 +189,22 @@
             </li>
         @endforeach
     </ul>
-    <div class="verse-of-the-week">
+
+    <div class="verse-of-the-week nav-link">
+    <a href="{{ route('verseoftheweek.index') }}">
         <h3>Verse of the Week</h3>
+    </a>
+    @if ($verseOfTheWeek)
         <ul>
-            <li>{{ $verseOfTheWeek }}</li>
+            <li><i>"{{ $verseOfTheWeek->content }}"</i><br><br>
+                <strong>{{ $verseOfTheWeek->verse }}</strong>
+            </li>
         </ul>
-    </div>
+    @else
+        <p>No verse available for this week.</p>
+    @endif
+</div>
+
 </div>
 
 <div class="column">

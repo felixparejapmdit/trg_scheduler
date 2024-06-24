@@ -6,7 +6,7 @@
     <style>
         body {
             font-family: 'Roboto', sans-serif;
-            background-color: #f4f4f9;
+            background-color: #ffffff;
             margin: 0;
         }
         .container {

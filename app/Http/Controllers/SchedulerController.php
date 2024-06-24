@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Reminder;
 use App\Models\Event;
 use App\Models\Suguan;
+use App\Models\VerseOfTheWeek;
 use Carbon\Carbon;
 use App\Helpers\helpers;
 
@@ -13,20 +14,20 @@ class SchedulerController extends Controller
 {
     public function index()
     {
-// Get the current date and time
-$now = Carbon::now();
+        // Get the current date and time
+        $now = Carbon::now();
 
-// Get the current week number
-$week = $now->weekOfYear;
+        // Get the current week number
+        $week = $now->weekOfYear;
 
-// Get the current year
-$year = $now->year;
+        // Get the current year
+        $year = $now->year;
 
-// Get the first day of the week (Monday)
-$startOfWeek = Carbon::parse($year. '-W'. $week)->startOfWeek();
+        // Get the first day of the week (Monday)
+        $startOfWeek = Carbon::parse($year. '-W'. $week)->startOfWeek();
 
-// Get the last day of the week (Sunday) at 23:59:59
-$endOfWeek = $startOfWeek->copy()->addDays(6)->endOfDay();
+        // Get the last day of the week (Sunday) at 23:59:59
+        $endOfWeek = $startOfWeek->copy()->addDays(6)->endOfDay();
        //0 dd($startOfWeek);
         // Retrieve reminders for the current week
         $reminders = Reminder::whereBetween('reminder_datetime', [$startOfWeek,  $endOfWeek])->get();
@@ -46,7 +47,7 @@ $endOfWeek = $startOfWeek->copy()->addDays(6)->endOfDay();
         $suguan_weekend = $this->groupSuguanByDay($suguan, ['Saturday', 'Sunday']);
     
         // Retrieve the top 1 verse of the week
-        $verseOfTheWeek = $reminders->isNotEmpty() ? $reminders->first()->verse_of_the_week : 'No verse available for this week.';
+        $verseOfTheWeek = VerseOfTheWeek::where('weeknumber', $now->weekOfYear)->first();
     
         return view('scheduler.index', compact('reminders', 'events', 'suguan_midweek', 'suguan_weekend', 'verseOfTheWeek'));
     }

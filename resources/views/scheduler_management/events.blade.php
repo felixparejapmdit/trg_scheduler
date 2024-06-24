@@ -6,7 +6,7 @@
     <style>
         body {
             font-family: 'Roboto', sans-serif;
-            background-color: #f4f4f9;
+            background-color: #ffffff;
             margin: 0;
         }
         .container {
@@ -96,17 +96,17 @@
                                 <div class="modal-body">
                                     <div class="form-group">
                                         <label for="event_type">Event Type</label>
-                                        <select name="event_type" class="form-control">
+                                        <select name="event_type" class="form-control" required>
                                             <option value="Meeting" {{ $event->event_type == 'Meeting' ? 'selected' : '' }}>Meeting</option>
                                             <option value="Birthday & Anniversary" {{ $event->event_type == 'Birthday & Anniversary' ? 'selected' : '' }}>Birthday & Anniversary</option>
                                             <option value="Non-Office" {{ $event->event_type == 'Non-Office' ? 'selected' : '' }}>Non-Office</option>
                                         </select>
                                     </div>
-                                    <div class="form-group">
+                                    <div class="form-group" required>
                                         <label for="event_datetime">Event DateTime</label>
                                         <input type="datetime-local" name="event_datetime" class="form-control" value="{{ date('Y-m-d\TH:i', strtotime($event->event_datetime)) }}">
                                     </div>
-                                    <div class="form-group">
+                                    <div class="form-group" required>
                                         <label for="title">Title</label>
                                         <input type="text" name="title" class="form-control" value="{{ $event->title }}">
                                     </div>
