@@ -17,6 +17,7 @@ class AuthenticatedSessionController extends Controller
      */
     public function create(): View
     {
+        dd('asd');
         return view('auth.login');
     }
 
@@ -25,7 +26,15 @@ class AuthenticatedSessionController extends Controller
      */
     public function store(LoginRequest $request): RedirectResponse
     {
-        $request->authenticate();
+        dd($request);
+        // Adjusted to use username and password for authentication
+        $credentials = $request->only('username', 'password');
+        dd($credentials);
+        if (!Auth::attempt($credentials, $request->boolean('remember'))) {
+            return back()->withErrors([
+                'username' => __('auth.failed'),
+            ]);
+        }
 
         $request->session()->regenerate();
 
