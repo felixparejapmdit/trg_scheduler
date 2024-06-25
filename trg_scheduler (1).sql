@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 24, 2024 at 10:12 AM
+-- Generation Time: Jun 25, 2024 at 10:26 AM
 -- Server version: 10.4.25-MariaDB
 -- PHP Version: 8.1.10
 
@@ -238,7 +238,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `username`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'Felix Pareja', 'admin', 'felixpareja.pmdit07@gmail.com', NULL, '$2y$12$tRUTbgT//AqqRCYDEAK4JOZIhGFi3CRGhtesODL3s6quRaPZtPYFS', 'c8kEJeHs1h99oPbHtYIkVEfFXV7UZHqTtsxlBpawWmOwcZw2QEyn6lAwdqXP', '2024-06-22 19:36:25', '2024-06-22 19:36:25');
+(1, 'Felix Pareja', 'admin', 'felixpareja.pmdit07@gmail.com', NULL, '$2y$12$IpL1AXSs6boAdAcSLNqoUev3IQRrnHKaLg3OmnixdoLX0II4/uI/q', NULL, '2024-06-24 17:20:41', '2024-06-24 17:20:41'),
+(2, 'Kim Amaro', 'kamaro', 'kamaro@gmail.com', NULL, '$2y$12$Z2b6bSFMWh4wA2yk7XseEOWhIZmKCiQ6SyA78G00lMLjQ.zDsKRiO', NULL, '2024-06-24 18:22:06', '2024-06-24 18:22:06');
 
 -- --------------------------------------------------------
 
@@ -261,7 +262,8 @@ CREATE TABLE `verseoftheweek` (
 --
 
 INSERT INTO `verseoftheweek` (`id`, `date`, `weeknumber`, `verse`, `content`, `created_at`, `updated_at`) VALUES
-(1, '2024-06-24', 26, 'Colossians 4:2 Contemporary English Version', 'Never give up praying. And when you pray, keep alert and be thankful.', '2024-06-23 22:24:01', '2024-06-23 23:27:07');
+(1, '2024-06-24', 26, 'Colossians 4:2 Contemporary English Version', 'Never give up praying. And when you pray, keep alert and be thankful.', '2024-06-23 22:24:01', '2024-06-23 23:27:07'),
+(2, '2024-06-25', 27, 'test111', 'test123', '2024-06-24 23:53:30', '2024-06-24 23:57:27');
 
 --
 -- Indexes for dumped tables
@@ -376,13 +378,13 @@ ALTER TABLE `suguan`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `verseoftheweek`
 --
 ALTER TABLE `verseoftheweek`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
