@@ -3,11 +3,14 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Auth\LoginRequest;
+use App\Models\User;
 use App\Providers\RouteServiceProvider;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rules;
 use Illuminate\View\View;
 
 class AuthenticatedSessionController extends Controller
@@ -17,7 +20,6 @@ class AuthenticatedSessionController extends Controller
      */
     public function create(): View
     {
-        dd('asd');
         return view('auth.login');
     }
 
@@ -26,10 +28,8 @@ class AuthenticatedSessionController extends Controller
      */
     public function store(LoginRequest $request): RedirectResponse
     {
-        dd($request);
-        // Adjusted to use username and password for authentication
+        dd($credentials );
         $credentials = $request->only('username', 'password');
-        dd($credentials);
         if (!Auth::attempt($credentials, $request->boolean('remember'))) {
             return back()->withErrors([
                 'username' => __('auth.failed'),
@@ -38,7 +38,7 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->intended(RouteServiceProvider::DASHBOARD);
+        return redirect()->intended(RouteServiceProvider::HOME);
     }
 
     /**

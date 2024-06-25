@@ -6,8 +6,11 @@ use App\Http\Controllers\EventController;
 use App\Http\Controllers\SuguanController;
 use App\Http\Controllers\SchedulerController;
 use App\Http\Controllers\VerseOfTheWeekController;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\RegisteredUserController;
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -19,6 +22,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+
+Route::get('login', [AuthenticatedSessionController::class, 'create'])
+    ->name('login');
+
+Route::post('login', [AuthenticatedSessionController::class, 'store']);
+
+Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
+    ->name('logout');
+    
 Route::get('/', function () {
     return view('auth/login');
 });

@@ -14,196 +14,196 @@
     
     <style>
 
-/* Modern and Minimalistic Color Palette */
-:root {
-    --primary-color: #EEEEEE;
-    --secondary-color: #6C757D;
-    --accent-color: #404258;
-    --background-color: #F7F7F7  ;
-    --text-color: #2C3E50;
-    --border-color: #D5DBDB;
-    --shadow-color: rgba(0, 0, 0, 0.1);
-}
-
-    body {
-    margin: 0;
-    font-family: 'Roboto', sans-serif;
-    background-color: #F7F7F7 ;
-    color: var(--text-color);
-}
-.container {
-    display: flex;
-    width: 100%;
-    height: 100vh;
-    overflow: hidden;
-}
-.column {
-    flex: 1;
-    padding: 20px;
-    border-left: 1px solid var(--border-color);
-    border-right: 1px solid var(--border-color);
-    overflow-y: auto;
-    transition: background-color 0.3s ease;
-}
-.column:last-child {
-    border-right: none;
-}
-.column h2 {
-    font-size: 28px;
-    color: var(--primary-color);
-    border-radius: 8px;
-    background-color: var(--accent-color);
-    margin-top: 0px;
-    text-align: center;
-}
-.column h3 {
-    font-size: 18px;
-    color: var(--primary-color);
-    border-radius: 8px;
-    background-color: var(--accent-color);
-    margin-top: 0px;
-    text-align: center;
-}
-.column ul {
-    list-style: none;
-    padding: 0;
-    columns: 1;
-}
-.column ul li {
-    background: #fff;
-    margin-bottom: 15px;
-    padding: 5px;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    font-size: 18px;
-}
-.column ul li:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-}
-.column ul li strong {
-    color: #007BFF;
-}
-.column ul li em {
-    color: #555;
-    font-style: italic;
-}
-.day-section {
-    margin-bottom: 20px;
-    width: 49%;
-    float: left;
-}
-.weekend-section {
-    margin-bottom: 20px;
-    width: 49%;
-    float: right;
-}
-.day-title {
-    font-size: 18px;
-    font-weight: bold;
-    margin-bottom: 10px;
-    color: var(--primary-color);
-    border-radius: 8px;
-    background-color: var(--accent-color);
-    text-align: center;
-}
-.reminders-column {
-    position: relative;
-    flex: 1;
-    padding: 20px;
-    border-right: 1px solid #ccc;
-    display: flex;
-    flex-direction: column;
-}
-.reminders-column .reminder-list {
-    flex: 1;
-    overflow-y: auto;
-}
-.reminders-column .reminder-list ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-.reminders-column .verse-of-the-week {
-    height: 35%;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-}
-.reminders-column .verse-of-the-week h3 {
-    margin-top: 0;
-    font-size: 22px;
-    color: var(--primary-color);
-    background-color: var(--accent-color);
-    text-align: center;
-}
-.reminders-column .verse-of-the-week ul {
-    list-style: none;
-    padding: 0;
-    margin: 10px 0;
-}
-.reminders-column .verse-of-the-week ul li {
-    font-style: italic;
-    color: #555;
-    position: relative;
-    padding-left: 20px;
-    font-size: 18px;
-}
-.reminders-column .verse-of-the-week ul li:before {
-    position: absolute;
-    left: 0;
-    font-size: 1.5em;
-    line-height: 1em;
-}
-.reminders-column .verse-of-the-week ul li:after {
-    position: absolute;
-    right: 0;
-    font-size: 1.5em;
-    line-height: 1em;
-}
-
-/* Media query for multi-column layout */
-@media (min-height: 800px) {
-    .events-section ul {
-        columns: 2;
-        column-gap: 20px;
+    /* Modern and Minimalistic Color Palette */
+    :root {
+        --primary-color: #EEEEEE;
+        --secondary-color: #6C757D;
+        --accent-color: #404258;
+        --background-color: #F7F7F7  ;
+        --text-color: #2C3E50;
+        --border-color: #D5DBDB;
+        --shadow-color: rgba(0, 0, 0, 0.1);
     }
-    .events-section ul li {
-        break-inside: avoid;
+
+        body {
+        margin: 0;
+        font-family: 'Roboto', sans-serif;
+        background-color: #F7F7F7 ;
+        color: var(--text-color);
     }
+    .container {
+        display: flex;
+        width: 100%;
+        height: 100vh;
+        overflow: hidden;
+    }
+    .column {
+        flex: 1;
+        padding: 20px;
+        border-left: 1px solid var(--border-color);
+        border-right: 1px solid var(--border-color);
+        overflow-y: auto;
+        transition: background-color 0.3s ease;
+    }
+    .column:last-child {
+        border-right: none;
+    }
+    .column h2 {
+        font-size: 28px;
+        color: var(--primary-color);
+        border-radius: 8px;
+        background-color: var(--accent-color);
+        margin-top: 0px;
+        margin-bottom: 6px;
+        text-align: center;
+    }
+    .column h3 {
+        font-size: 18px;
+        color: var(--primary-color);
+        border-radius: 8px;
+        background-color: var(--accent-color);
+        margin-top: 0px;
+        text-align: center;
+    }
+    .column ul {
+        list-style: none;
+        padding: 0;
+        columns: 1;
+    }
+    .column ul li {
+        background: #fff;
+        margin-bottom: 15px;
+        padding: 5px;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        font-size: 18px;
+    }
+    .column ul li:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+    .column ul li strong {
+        color: #007BFF;
+    }
+    .column ul li em {
+        color: #555;
+        font-style: italic;
+    }
+    .day-section {
+        margin-bottom: 20px;
+        width: 49%;
+        float: left;
+    }
+    .weekend-section {
+        margin-bottom: 20px;
+        width: 49%;
+        float: right;
+    }
+    .day-title {
+        font-size: 18px;
+        font-weight: bold;
+        margin-bottom: 10px;
+        color: var(--primary-color);
+        border-radius: 8px;
+        background-color: var(--accent-color);
+        text-align: center;
+    }
+    .reminders-column {
+        position: relative;
+        flex: 1;
+        padding: 20px;
+        border-right: 1px solid #ccc;
+        display: flex;
+        flex-direction: column;
+    }
+    .reminders-column.reminder-list {
+    flex: 1;
+    overflow-y: auto;
 }
+.reminders-column.reminder-list ul {
+    list-style: square; /* or disc, or circle, depending on the bullet style you want */
+    padding: 0;
+    margin: 0;
+}
+    .reminders-column .verse-of-the-week {
+        height: 20%;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+    }
+    .reminders-column .verse-of-the-week h3 {
+        margin-top: 0;
+        margin-bottom: 6px;
+        font-size: 22px;
+        color: var(--primary-color);
+        background-color: var(--accent-color);
+        text-align: center;
+    }
+    .reminders-column .verse-of-the-week ul {
+        list-style: none;
+        padding: 0;
+        margin: 10px 0;
+    }
+    .reminders-column .verse-of-the-week ul li {
+        font-style: italic;
+        color: #555;
+        position: relative;
+        padding-left: 20px;
+        font-size: 18px;
+    }
+    .reminders-column .verse-of-the-week ul li:before {
+        position: absolute;
+        left: 0;
+        font-size: 1.5em;
+        line-height: 1em;
+    }
+    .reminders-column .verse-of-the-week ul li:after {
+        position: absolute;
+        right: 0;
+        font-size: 1.5em;
+        line-height: 1em;
+    }
+
+    /* Media query for multi-column layout */
+    @media (min-height: 800px) {
+        .events-section ul {
+            columns: 2;
+            column-gap: 20px;
+        }
+        .events-section ul li {
+            break-inside: avoid;
+        }
+    }
 </style>
 
 </head>
 <body>
     <div class="container mt-0">
 
-    <div class="column reminders-column">
-    <h2>Reminders</h2>
-    <ul class="reminder-list">
-        @foreach($reminders as $reminder)
-            <li>
-                {{ \Carbon\Carbon::parse($reminder->reminder_datetime)->format('F j, Y') }} 
-                <em>{{ \Carbon\Carbon::parse($reminder->reminder_datetime)->format('g:iA') }}</em> - {{ $reminder->reminder }}<br>
-            </li>
-        @endforeach
-    </ul>
+<div class="column reminders-column">
+    
 
-    <div class="verse-of-the-week nav-link">
-    <a href="{{ route('verseoftheweek.index') }}">
-        <h3>Verse of the Week</h3>
-    </a>
-    @if ($verseOfTheWeek)
-        <ul>
-            <li><i>"{{ $verseOfTheWeek->content }}"</i><br><br>
-                <strong>{{ $verseOfTheWeek->verse }}</strong>
-            </li>
-        </ul>
-    @else
-        <p>No verse available for this week.</p>
-    @endif
-</div>
+    <div class="verse-of-the-week">
+    <h2>Verse of the Week</h2>
+        @if ($verseOfTheWeek)
+            <ul>
+                <li><i>"{{ $verseOfTheWeek->content }}"</i><br><br>
+                    <strong>{{ $verseOfTheWeek->verse }}</strong>
+                </li>
+            </ul>
+        @else
+            <p>No verse available for this week.</p>
+        @endif
+    </div>
+    <h2>Reminders</h2>
+<ul class="reminder-list">
+    @foreach($reminders as $reminder)
+        <li>
+            <span style="font-size: 22px;">&#8227;</span> {{ $reminder->reminder }}<br>
+        </li>
+    @endforeach
+</ul>
 
 </div>
 
@@ -215,8 +215,8 @@
             @foreach($events as $event)
                 @if($event->event_type == 'Meeting')
                     <li>
-                        {{ \Carbon\Carbon::parse($event->event_datetime)->format('F j, Y') }} 
-                        <em>{{ \Carbon\Carbon::parse($event->event_datetime)->format('g:iA') }}</em> - {{ $event->title }}<br>
+                        {{ \Carbon\Carbon::parse($event->event_datetime)->format('F j') }} 
+                        <em>{{ \Carbon\Carbon::parse($event->event_datetime)->format('gA') }}</em> - {{ $event->title }}<br>
                     </li>
                 @endif
             @endforeach
@@ -230,10 +230,9 @@
         <ul>
             @foreach($events as $event)
                 @if($event->event_type == 'Birthday & Anniversary')
-                    <li>
-                        {{ \Carbon\Carbon::parse($event->event_datetime)->format('F j, Y') }} 
-                        <em>{{ \Carbon\Carbon::parse($event->event_datetime)->format('g:iA') }}</em> - {{ $event->title }}<br>
-                    </li>
+                <li>
+                    {{ \Carbon\Carbon::parse($event->event_datetime)->format('F j') }}  - {{ $event->title }}<br>
+                </li>
                 @endif
             @endforeach
             @if(!($events->where('event_type', 'Birthday & Anniversary')->count() > 0))
@@ -247,8 +246,8 @@
             @foreach($events as $event)
                 @if($event->event_type == 'Non-Office')
                     <li>
-                        {{ \Carbon\Carbon::parse($event->event_datetime)->format('F j, Y') }} 
-                        <em>{{ \Carbon\Carbon::parse($event->event_datetime)->format('g:iA') }}</em> - {{ $event->title }}<br>
+                        {{ \Carbon\Carbon::parse($event->event_datetime)->format('F j') }} - 
+                        <em>{{ \Carbon\Carbon::parse($event->event_datetime)->format('gA') }}</em> - {{ $event->title }}<br>
                     </li>
                 @endif
             @endforeach
@@ -309,8 +308,6 @@ $(document).ready(function() {
 });
 </script>
 
-
-
         <div class="column">
             
             <h2>Suguan</h2>
@@ -320,13 +317,13 @@ $(document).ready(function() {
                     <li>
                         <strong>Wednesday:</strong><br>
                         @foreach($suguan_midweek['Wednesday'] as $suguan)
-                        <b>{{ $suguan->name }}</b>, <i>{{ \Carbon\Carbon::parse($suguan->suguan_datetime)->format('g:iA') }}</i> {{ $suguan->lokal }}, {{ getAcronym($suguan->district) }} <br>{{ $suguan->gampanin }}<br>
+                        <b>{{ $suguan->name }}</b>, <i>{{ \Carbon\Carbon::parse($suguan->suguan_datetime)->format('gA') }}</i> {{ $suguan->lokal }} <br> 
                         @endforeach
                     </li>
                     <li>
                         <strong>Thursday:</strong><br>
                         @foreach($suguan_midweek['Thursday'] as $suguan)
-                        <b>{{ $suguan->name }}</b>, <i>{{ \Carbon\Carbon::parse($suguan->suguan_datetime)->format('g:iA') }}</i> {{ $suguan->lokal }}, {{ getAcronym($suguan->district) }} <br>{{ $suguan->gampanin }}<br>
+                        <b>{{ $suguan->name }}</b>, <i>{{ \Carbon\Carbon::parse($suguan->suguan_datetime)->format('gA') }}</i> {{ $suguan->lokal }} <br> 
                         @endforeach
                     </li>
                 </ul>
@@ -337,20 +334,108 @@ $(document).ready(function() {
                     <li>
                         <strong>Saturday:</strong><br>
                         @foreach($suguan_weekend['Saturday'] as $suguan)
-                        <b>{{ $suguan->name }}</b>, <i>{{ \Carbon\Carbon::parse($suguan->suguan_datetime)->format('g:iA') }}</i> {{ $suguan->lokal }}, {{ getAcronym($suguan->district) }} <br>{{ $suguan->gampanin }}<br>
+                        <b>{{ $suguan->name }}</b>, <i>{{ \Carbon\Carbon::parse($suguan->suguan_datetime)->format('gA') }}</i> {{ $suguan->lokal }} <br> 
                         @endforeach
                     </li>
                     <li>
                         <strong>Sunday:</strong><br>
                         @foreach($suguan_weekend['Sunday'] as $suguan)
-                        <b>{{ $suguan->name }}</b>, <i>{{ \Carbon\Carbon::parse($suguan->suguan_datetime)->format('g:iA') }}</i> {{ $suguan->lokal }}, {{ getAcronym($suguan->district) }} <br>{{ $suguan->gampanin }}<br>
+                        <b>{{ $suguan->name }}</b>, <i>{{ \Carbon\Carbon::parse($suguan->suguan_datetime)->format('gA') }}</i> {{ $suguan->lokal }} <br> 
                         @endforeach
                     </li>
                 </ul>
             </div>
         </div>
+
+   
+<!-- Back to Dashboard Icon -->
+<div class="fixed-icon">
+    <a href="{{ route('dashboard') }}" class="toggle-icon">
+        <i class="fas fa-chevron-right toggle-chevron"></i>
+        <span class="tooltip-text">Back</span>
+    </a>
+</div>
+
     </div>
 
-    
-</body>
+<style>
+.fixed-icon {
+  display: block; /* or inline-block, depending on your layout */
+}
+.hidden {
+  display: none;
+}
+    .fixed-icon {
+        position: fixed;
+        left: 0;
+        top: 45%;
+        transform: translateY(-50%);
+        background-color: #007bff;
+        padding: 10px;
+        border-radius: 0 5px 5px 0;
+        z-index: 1000;
+        transition: all 0.3s;
+        width:15px;
+    }
+
+    .fixed-icon .toggle-icon {
+        color: white;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+    }
+
+    .fixed-icon .tooltip-text {
+        visibility: hidden;
+        opacity: 0;
+        margin-left: 10px;
+        transition: visibility 0s, opacity 0.3s linear;
+    }
+
+    .fixed-icon:hover {
+        padding-left: 15px;
+        width:60px;
+    }
+    .fixed-icon:hover .toggle-chevron {
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+}
+
+.fixed-icon:hover .toggle-chevron:before {
+    content: "\f053"; /* fa-chevron-left */
+}
+    .fixed-icon:hover .tooltip-text {
+        visibility: visible;
+        opacity: 1;
+    }
+</style>
+
+<script src="https://kit.fontawesome.com/a076d05399.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+// Add event listeners for fullscreen change
+document.addEventListener('webkitfullscreenchange', function() {
+  toggleFixedIcon();
+});
+document.addEventListener('mozfullscreenchange', function() {
+  toggleFixedIcon();
+});
+
+// Function to toggle fixed icon visibility
+function toggleFixedIcon() {
+  if (document.webkitIsFullScreen || document.mozFullScreen) {
+    // Hide fixed icon when entering fullscreen
+    document.querySelectorAll('.fixed-icon').forEach(function(icon) {
+      icon.classList.add('hidden');
+    });
+  } else {
+    // Show fixed icon when exiting fullscreen
+    document.querySelectorAll('.fixed-icon').forEach(function(icon) {
+      icon.classList.remove('hidden');
+    });
+  }
+}
+    });
+</script>
 </html>
+        

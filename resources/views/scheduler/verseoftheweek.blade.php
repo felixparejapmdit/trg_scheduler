@@ -28,7 +28,7 @@
             <thead>
                 <tr>
                     <th>#</th>
-                    <th style="width:15%;">Date</th>
+                    <th style="width:15%; display:none;">Date</th>
                     <th style="width:8%;">Week #</th>
                     <th>Verse</th>
                     <th>Content</th>
@@ -39,20 +39,19 @@
                 @foreach ($verses as $verse)
                     <tr>
                         <td>{{ $loop->iteration }}</td>
-                        <td>{{ \Carbon\Carbon::parse($verse->date)->format('Y-m-d') }}</td>
+                        <td style="display:none;">{{ \Carbon\Carbon::parse($verse->date)->format('Y-m-d') }}</td>
                         <td>{{ $verse->weeknumber }}</td>
                         <td><strong>{{ $verse->verse }}</strong></td>
                         <td><i>"{{ $verse->content }}"</i></td>
                         <td class="text-center">
                         <button class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#editVerseModal{{ $verse->id }}"><i class="fas fa-edit"></i></button>
-<form action="{{ route('verseoftheweek.destroy', $verse->id) }}" method="POST" style="display:inline-block;">
-    @csrf
-    @method('DELETE')
-    <button type="submit" class="btn btn-secondary btn-sm"><i class="fas fa-trash-alt"></i></button>
-</form>
+                    <form action="{{ route('verseoftheweek.destroy', $verse->id) }}" method="POST" style="display:inline-block;">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-secondary btn-sm"><i class="fas fa-trash-alt"></i></button>
+                    </form>
                         </td>
                     </tr>
-
                     <!-- Edit Modal -->
                     <div class="modal fade" id="editVerseModal{{ $verse->id }}" tabindex="-1" role="dialog" aria-labelledby="editVerseModalLabel{{ $verse->id }}" aria-hidden="true">
                         <div class="modal-dialog" role="document">
@@ -75,6 +74,10 @@
                                             <label for="content">Content</label>
                                             <textarea class="form-control" id="content" name="content" rows="4" required>{{ $verse->content }}</textarea>
                                         </div>
+                                        <div class="form-group">
+                                            <label for="weeknumber">Week Number</label>
+                                            <input type="number" class="form-control" id="weeknumber" name="weeknumber" value="{{ $verse->weeknumber }}" required>
+                                        </div>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -91,35 +94,41 @@
     </div>
 
     <!-- Create Modal -->
-    <div class="modal fade" id="createVerseModal" tabindex="-1" role="dialog" aria-labelledby="createVerseModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="createVerseModalLabel">Add New Verse of the Week</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <form action="{{ route('verseoftheweek.store') }}" method="POST">
-                    @csrf
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <label for="verse">Verse</label>
-                            <input type="text" class="form-control" id="verse" name="verse" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="content">Content</label>
-                            <textarea class="form-control" id="content" name="content" rows="4" required></textarea>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Save</button>
-                    </div>
-                </form>
+<div class="modal fade" id="createVerseModal" tabindex="-1" role="dialog" aria-labelledby="createVerseModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="createVerseModalLabel">Add New Verse of the Week</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
+            <form action="{{ route('verseoftheweek.store') }}" method="POST">
+                @csrf
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="verse">Verse</label>
+                        <input type="text" class="form-control" id="verse" name="verse" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="content">Content</label>
+                        <textarea class="form-control" id="content" name="content" rows="4" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="weeknumber">Week Number</label>
+                        <input type="number" class="form-control" id="weeknumber" name="weeknumber" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </form>
         </div>
     </div>
+</div>
+
+
 
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
