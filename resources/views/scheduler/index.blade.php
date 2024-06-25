@@ -77,7 +77,7 @@
         border-radius: 8px;
         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         transition: transform 0.3s ease, box-shadow 0.3s ease;
-        font-size: 18px;
+        font-size: 1vw;
     }
     .column ul li:hover {
         transform: translateY(-5px);
@@ -131,6 +131,7 @@
         display: flex;
         flex-direction: column;
         justify-content: flex-start;
+        margin-bottom: 12px;
     }
     .reminders-column .verse-of-the-week h3 {
         margin-top: 0;
@@ -150,7 +151,7 @@
         color: #555;
         position: relative;
         padding-left: 20px;
-        font-size: 18px;
+        font-size: 1vw;
     }
     .reminders-column .verse-of-the-week ul li:before {
         position: absolute;
@@ -204,6 +205,8 @@
         </li>
     @endforeach
 </ul>
+
+<h2>Broadcast Suguan</h2>
 
 </div>
 
@@ -310,20 +313,20 @@ $(document).ready(function() {
 
         <div class="column">
             
-            <h2>Suguan</h2>
+            <h2>WS Suguan</h2>
             <div class="day-section mr-2">
                 <div class="day-title">Midweek</div>
                 <ul>
-                    <li>
-                        <strong>Wednesday:</strong><br>
-                        @foreach($suguan_midweek['Wednesday'] as $suguan)
-                        <b>{{ $suguan->name }}</b>, <i>{{ \Carbon\Carbon::parse($suguan->suguan_datetime)->format('gA') }}</i> {{ $suguan->lokal }} <br> 
-                        @endforeach
-                    </li>
+                <li>
+                    <strong>Wednesday:</strong><br>
+                    @foreach($suguan_midweek['Wednesday'] as $suguan)
+                    <b>{{ implode('', array_map(function($word) { return substr($word, 0, 1); }, explode(' ', $suguan->name))) }}</b>, <i>{{ \Carbon\Carbon::parse($suguan->suguan_datetime)->format('gA') }}</i> {{ $suguan->lokal }} <br> 
+                    @endforeach
+                </li>
                     <li>
                         <strong>Thursday:</strong><br>
                         @foreach($suguan_midweek['Thursday'] as $suguan)
-                        <b>{{ $suguan->name }}</b>, <i>{{ \Carbon\Carbon::parse($suguan->suguan_datetime)->format('gA') }}</i> {{ $suguan->lokal }} <br> 
+                        <b>{{ implode('', array_map(function($word) { return substr($word, 0, 1); }, explode(' ', $suguan->name))) }}</b>, <i>{{ \Carbon\Carbon::parse($suguan->suguan_datetime)->format('gA') }}</i> {{ $suguan->lokal }} <br> 
                         @endforeach
                     </li>
                 </ul>
@@ -334,13 +337,13 @@ $(document).ready(function() {
                     <li>
                         <strong>Saturday:</strong><br>
                         @foreach($suguan_weekend['Saturday'] as $suguan)
-                        <b>{{ $suguan->name }}</b>, <i>{{ \Carbon\Carbon::parse($suguan->suguan_datetime)->format('gA') }}</i> {{ $suguan->lokal }} <br> 
+                        <b>{{ implode('', array_map(function($word) { return substr($word, 0, 1); }, explode(' ', $suguan->name))) }}</b>, <i>{{ \Carbon\Carbon::parse($suguan->suguan_datetime)->format('gA') }}</i> {{ $suguan->lokal }} <br> 
                         @endforeach
                     </li>
                     <li>
                         <strong>Sunday:</strong><br>
                         @foreach($suguan_weekend['Sunday'] as $suguan)
-                        <b>{{ $suguan->name }}</b>, <i>{{ \Carbon\Carbon::parse($suguan->suguan_datetime)->format('gA') }}</i> {{ $suguan->lokal }} <br> 
+                        <b>{{ implode('', array_map(function($word) { return substr($word, 0, 1); }, explode(' ', $suguan->name))) }}</b>, <i>{{ \Carbon\Carbon::parse($suguan->suguan_datetime)->format('gA') }}</i> {{ $suguan->lokal }} <br> 
                         @endforeach
                     </li>
                 </ul>
