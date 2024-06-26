@@ -180,25 +180,7 @@
 
 </head>
 <body>
-<div class="header" style="width: 100%; height: 60px; background-color: #3386c5; display: flex; justify-content: space-between; align-items: center;">
-  <img src="{{ asset('images/TRG Logo.png') }}" alt="Scheduler Logo" style="width:200px; height:90px;">
-  <div id="current-datetime" style="margin-right:22px; font-size:1.5vw;color:#cdd2d6;"></div>
-</div>
 
-<script>
-  function updateDateTime() {
-    const currentDateTime = document.getElementById('current-datetime');
-    const now = new Date();
-    const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-    const month = monthNames[now.getMonth()];
-    const day = now.getDate();
-    const year = now.getFullYear();
-    const timeString = now.toLocaleTimeString();
-    currentDateTime.innerHTML = `${month} ${day}, ${year} <span style="font-weight: bold; color: #ffffff">${timeString}</span>`;
-  }
-
-  setInterval(updateDateTime, 1000); // update every 1 second
-</script>
     <div class="container mt-0">
     
 <div class="column reminders-column">
@@ -459,5 +441,91 @@ function toggleFixedIcon() {
 }
     });
 </script>
+<!-- HTML remains the same -->
+<div class="footer" style="width: 100%; height: 60px; background-color: #3386c5; display: flex; justify-content: space-between; align-items: center; position: fixed; bottom: 0; left: 0;">
+  <img src="{{ asset('images/TRG Logo.png') }}" alt="Scheduler Logo" style="width:200px; height:90px; max-width: 30%; max-height: 90px;">
+  <div id="current-datetime" style="margin-right:22px; font-size:1.5vw;color:#cdd2d6;"></div>
+</div>
+
+<!-- Add this CSS -->
+<style>
+  /* Make the body and html elements take up the full height of the screen */
+  body, html {
+    height: 100%;
+    margin: 0;
+  }
+
+  /* Make the footer fixed at the bottom of the screen */
+  .footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 60px;
+    background-color: #3386c5;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 1; /* Add a z-index to ensure the footer is on top of other elements */
+  }
+
+  /* Make the logo and datetime responsive */
+  .footer img {
+    max-width: 30%;
+    max-height: 90px;
+    height: auto;
+    margin: 0 20px;
+  }
+
+  .footer #current-datetime {
+    font-size: 1.5vw;
+    margin-right: 22px;
+    color: #cdd2d6;
+  }
+
+  /* Add media queries to adjust the footer for different screen sizes */
+  @media only screen and (max-width: 768px) {
+    .footer {
+      height: 40px;
+    }
+    .footer img {
+      max-width: 20%;
+      max-height: 40px;
+    }
+    .footer #current-datetime {
+      font-size: 1.2vw;
+    }
+  }
+
+  @media only screen and (max-width: 480px) {
+    .footer {
+      height: 30px;
+    }
+    .footer img {
+      max-width: 15%;
+      max-height: 30px;
+    }
+    .footer #current-datetime {
+      font-size: 1vw;
+    }
+  }
+</style>
+
+<!-- JavaScript remains the same -->
+<script>
+  function updateDateTime() {
+    const currentDateTime = document.getElementById('current-datetime');
+    const now = new Date();
+    const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    const month = monthNames[now.getMonth()];
+    const day = now.getDate();
+    const year = now.getFullYear();
+    const timeString = now.toLocaleTimeString();
+    currentDateTime.innerHTML = `${month} ${day}, ${year} <span style="font-weight: bold; color: #ffffff">${timeString}</span>`;
+  }
+
+  setInterval(updateDateTime, 1000); // update every 1 second
+</script>
+</body>
 </html>
         
