@@ -13,7 +13,8 @@
          <!-- Navigation Links -->
 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
     <x-nav-link :href="route('scheduler.index')" :active="request()->routeIs('scheduler.index')">
-        {{ __('Scheduler') }}
+        
+        <span style="background: linear-gradient(to right, #475b9a, #6aa8c4); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: bold;">TRG Scheduler</span>
     </x-nav-link>
 </div>
 

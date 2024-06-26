@@ -18,7 +18,7 @@
     :root {
         --primary-color: #EEEEEE;
         --secondary-color: #6C757D;
-        --accent-color: #404258;
+        --accent-color: #226aa0;
         --background-color: #F7F7F7  ;
         --text-color: #2C3E50;
         --border-color: #D5DBDB;
@@ -28,7 +28,7 @@
         body {
         margin: 0;
         font-family: 'Roboto', sans-serif;
-        background-color: #F7F7F7 ;
+        background: linear-gradient(to bottom, #5eb8d3 30%, #4975b4 150%);
         color: var(--text-color);
     }
     .container {
@@ -180,8 +180,27 @@
 
 </head>
 <body>
-    <div class="container mt-0">
+<div class="header" style="width: 100%; height: 60px; background-color: #3386c5; display: flex; justify-content: space-between; align-items: center;">
+  <img src="{{ asset('images/TRG Logo.png') }}" alt="Scheduler Logo" style="width:200px; height:90px;">
+  <div id="current-datetime" style="margin-right:22px; font-size:1.5vw;color:#cdd2d6;"></div>
+</div>
 
+<script>
+  function updateDateTime() {
+    const currentDateTime = document.getElementById('current-datetime');
+    const now = new Date();
+    const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    const month = monthNames[now.getMonth()];
+    const day = now.getDate();
+    const year = now.getFullYear();
+    const timeString = now.toLocaleTimeString();
+    currentDateTime.innerHTML = `${month} ${day}, ${year} <span style="font-weight: bold; color: #ffffff">${timeString}</span>`;
+  }
+
+  setInterval(updateDateTime, 1000); // update every 1 second
+</script>
+    <div class="container mt-0">
+    
 <div class="column reminders-column">
     
 
@@ -216,12 +235,12 @@
         <h3>Meeting</h3>
         <ul>
             @foreach($events as $event)
-                @if($event->event_type == 'Meeting')
-                    <li>
-                        {{ \Carbon\Carbon::parse($event->event_datetime)->format('F j') }} 
-                        <em>{{ \Carbon\Carbon::parse($event->event_datetime)->format('gA') }}</em> - {{ $event->title }}<br>
-                    </li>
-                @endif
+            @if($event->event_type == 'Meeting')
+                <li>
+                    {{ \Carbon\Carbon::parse($event->event_datetime)->format('m-d') }} 
+                    <em>{{ \Carbon\Carbon::parse($event->event_datetime)->format('gA') }}</em> - {{ $event->title }}<br>
+                </li>
+            @endif
             @endforeach
             @if(!($events->where('event_type', 'Meeting')->count() > 0))
                 <li><center><i style="color:#D5DBDB;">No entries for Meeting.</i></center></li>
@@ -232,11 +251,11 @@
         <h3>Birthdays and Anniversaries</h3>
         <ul>
             @foreach($events as $event)
-                @if($event->event_type == 'Birthday & Anniversary')
-                <li>
-                    {{ \Carbon\Carbon::parse($event->event_datetime)->format('F j') }}  - {{ $event->title }}<br>
-                </li>
-                @endif
+            @if($event->event_type == 'Birthday & Anniversary')
+    <li>
+        {{ \Carbon\Carbon::parse($event->event_datetime)->format('m-d') }}  - {{ $event->title }}<br>
+    </li>
+@endif
             @endforeach
             @if(!($events->where('event_type', 'Birthday & Anniversary')->count() > 0))
                 <li><center><i style="color:#D5DBDB;">No entries for Birthdays and Anniversaries.</i></center></li>
@@ -249,7 +268,7 @@
             @foreach($events as $event)
                 @if($event->event_type == 'Non-Office')
                     <li>
-                        {{ \Carbon\Carbon::parse($event->event_datetime)->format('F j') }} - 
+                        {{ \Carbon\Carbon::parse($event->event_datetime)->format('m-d') }} - 
                         <em>{{ \Carbon\Carbon::parse($event->event_datetime)->format('gA') }}</em> - {{ $event->title }}<br>
                     </li>
                 @endif
