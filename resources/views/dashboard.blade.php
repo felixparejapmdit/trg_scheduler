@@ -21,6 +21,10 @@
                         <h3 class="text-2xl font-bold mb-2">Suguan</h3>
                         <p class="text-gray-700">View and manage suguan.</p>
                     </a>
+                    <a href="{{ route('broadcast_suguan.index') }}" class="box-menu bg-white text-red-500 p-6 rounded-lg shadow-lg hover:bg-red-100 transition duration-300">
+                        <h3 class="text-2xl font-bold mb-2">Suguan Broadcast</h3>
+                        <p class="text-gray-700">View and manage suguan broadcasts.</p>
+                    </a>
                     <a href="{{ route('verseoftheweek.index') }}" class="box-menu bg-white text-purple-500 p-6 rounded-lg shadow-lg hover:bg-purple-100 transition duration-300">
                         <h3 class="text-2xl font-bold mb-2">Verse of the week</h3>
                         <p class="text-gray-700">View and manage verse.</p>

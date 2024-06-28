@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReminderController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\SuguanController;
+use App\Http\Controllers\BroadcastSuguanController;
 use App\Http\Controllers\SchedulerController;
 use App\Http\Controllers\VerseOfTheWeekController;
 use App\Http\Controllers\Auth\LoginController;
@@ -82,3 +83,8 @@ Route::get('/verseoftheweek', [VerseOfTheWeekController::class, 'index'])->name(
 Route::post('/verseoftheweek', [VerseOfTheWeekController::class, 'store'])->name('verseoftheweek.store');
 Route::put('/verseoftheweek/{id}', [VerseOfTheWeekController::class, 'update'])->name('verseoftheweek.update');
 Route::delete('/verseoftheweek/{id}', [VerseOfTheWeekController::class, 'destroy'])->name('verseoftheweek.destroy');
+
+
+Route::resource('broadcast_suguan', BroadcastSuguanController::class);
+Route::get('broadcast_suguan/export/csv', [BroadcastSuguanController::class, 'exportCSV'])->name('broadcast_suguan.export_csv');
+Route::post('/broadcast_suguan/import', [BroadcastSuguanController::class, 'import'])->name('broadcast_suguan.import');

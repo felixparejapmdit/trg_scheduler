@@ -208,7 +208,15 @@
 </ul>
 
 <h2>Broadcast Suguan</h2>
-
+<ul class="broadcast-list">
+    @foreach($broadcastSuguan as $broadcast)
+        <li>
+            <strong>Date:</strong> {{ \Carbon\Carbon::parse($broadcast->date)->format('F j, Y, g:i A') }}<br>
+            <strong>Name:</strong> {{ $broadcast->name }}<br>
+            <strong>To be Broadcast:</strong> {{ $broadcast->tobebroadcast }}<br>
+        </li>
+    @endforeach
+</ul>
 </div>
 
 <div class="column">

@@ -7,6 +7,7 @@ use App\Models\Reminder;
 use App\Models\Event;
 use App\Models\Suguan;
 use App\Models\VerseOfTheWeek;
+use App\Models\BroadcastSuguan;
 use Carbon\Carbon;
 use App\Helpers\helpers;
 
@@ -48,8 +49,13 @@ class SchedulerController extends Controller
     
         // Retrieve the top 1 verse of the week
         $verseOfTheWeek = VerseOfTheWeek::where('weeknumber', $now->weekOfYear)->first();
+
+          // Retrieve Broadcast Suguan for the current week
+        $broadcastSuguan = BroadcastSuguan::whereBetween('date', [$startOfWeek, $endOfWeek])
+        ->orderBy('date', 'asc')
+        ->get();
     
-        return view('scheduler.index', compact('reminders', 'events', 'suguan_midweek', 'suguan_weekend', 'verseOfTheWeek'));
+        return view('scheduler.index', compact('reminders', 'events', 'suguan_midweek', 'suguan_weekend', 'verseOfTheWeek', 'broadcastSuguan'));
     }
     
     
