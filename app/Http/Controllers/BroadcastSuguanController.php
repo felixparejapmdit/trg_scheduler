@@ -10,12 +10,16 @@ use Illuminate\Support\Facades\Response;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Imports\BroadcastSuguanImport;
 
+use App\Exports\BroadcastSuguanExport;
 use Maatwebsite\Excel\Sheet;
+
+
 
 class BroadcastSuguanController extends Controller
 {
     public function index()
     {
+      
         $currentWeek = now()->week;
         $startOfWeek = now()->startOfWeek();
         $endOfWeek = now()->endOfWeek();
@@ -89,6 +93,13 @@ public function weeklyData(Request $request, $week)
         BroadcastSuguan::findOrFail($id)->delete();
         return redirect()->route('broadcast_suguan.index')->with('success', 'Entry deleted successfully.');
     }
+
+
+public function exportXLSX()
+{
+    $filename = 'broadcast_suguan_' . Carbon::now()->format('Ymd_His') . '.xlsx';
+    return Excel::download(new BroadcastSuguanExport, $filename);
+}
 
     public function exportCSV()
 {

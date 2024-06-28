@@ -43,15 +43,16 @@
         @endif
 
         <div class="row">
-    <div class="mb-3 col">
-        <a href="{{ route('broadcast_suguan.export_csv') }}" class="btn btn-success">
-            <i class="fas fa-file-export"></i> Export to CSV
-        </a>
-        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#importBroadcastSuguanModal">
-            <i class="fas fa-arrow-left"></i> Import from CSV
-        </button>
+    <div class="col-8 text-left">
+        <form action="{{ route('broadcast_suguan.export_xlsx') }}" method="POST" enctype="multipart/form-data">
+            @csrf
+            <button type="submit" class="btn btn-success">Export to XLSX</button>
+            <button type="button" class="btn btn-info" data-toggle="modal" data-target="#importBroadcastSuguanModal">
+                <i class="fas fa-arrow-left"></i> Import from CSV
+            </button>
+        </form>
     </div>
-    <div class="week-selector col">
+    <div class="col-4 text-right">
         <button class="btn btn-primary" id="prev-week">
             <i class="fas fa-chevron-left"></i>
         </button>

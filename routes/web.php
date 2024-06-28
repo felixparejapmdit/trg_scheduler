@@ -90,6 +90,10 @@ Route::get('broadcast_suguan/export/csv', [BroadcastSuguanController::class, 'ex
 Route::get('/broadcast_suguan/import', [BroadcastSuguanController::class, 'import'])->name('broadcast_suguan.import');
 Route::post('/broadcast_suguan/import', [BroadcastSuguanController::class, 'import'])->name('broadcast_suguan.import');
 
+Route::get('broadcast_suguan/export_xlsx', [BroadcastSuguanController::class, 'exportXLSX'])->name('broadcast_suguan.export_xlsx');
+Route::post('broadcast_suguan/export_xlsx', [BroadcastSuguanController::class, 'exportXLSX'])->name('broadcast_suguan.export_xlsx');
+
 Route::prefix('api')->group(function () {
     Route::get('/broadcast-suguan/{week}', [BroadcastSuguanController::class,'weeklyData'])->name('api.broadcast_suguan.weeklyData');
 });
+
