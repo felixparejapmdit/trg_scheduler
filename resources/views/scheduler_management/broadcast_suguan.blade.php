@@ -30,10 +30,7 @@
                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createBroadcastSuguanModal">
                     Add New Entry
                 </button>
-                <a href="{{ route('broadcast_suguan.export_csv') }}" class="btn btn-success">Export to CSV</a>
-                <button type="button" class="btn btn-info" data-toggle="modal" data-target="#importBroadcastSuguanModal">
-                    Import from CSV
-                </button>
+             
             </div>
         </div>
     </x-slot>
@@ -44,6 +41,95 @@
                 {{ session('success') }}
             </div>
         @endif
+
+        <div class="row">
+    <div class="mb-3 col">
+        <a href="{{ route('broadcast_suguan.export_csv') }}" class="btn btn-success">
+            <i class="fas fa-file-export"></i> Export to CSV
+        </a>
+        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#importBroadcastSuguanModal">
+            <i class="fas fa-arrow-left"></i> Import from CSV
+        </button>
+    </div>
+    <div class="week-selector col">
+        <button class="btn btn-primary" id="prev-week">
+            <i class="fas fa-chevron-left"></i>
+        </button>
+        <span id="current-week">Week {{ $currentWeek }}</span>
+        <button class="btn btn-primary" id="next-week">
+            <i class="fas fa-chevron-right"></i>
+        </button>
+    </div>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const currentWeekSpan = document.getElementById('current-week');
+        const prevWeekButton = document.getElementById('prev-week');
+        const nextWeekButton = document.getElementById('next-week');
+
+        // Helper function to get the week number from a Date object
+        Date.prototype.getWeek = function(){
+            var onejan = new Date(this.getFullYear(), 0, 1);
+            return Math.ceil((((this - onejan) / 86400000) + onejan.getDay() + 1) / 7);
+        }
+
+        let currentWeek = new Date().getWeek();
+
+        function updateWeek(newWeek) {
+            currentWeek = newWeek;
+            currentWeekSpan.textContent = `Week ${currentWeek}`;
+            loadBroadcastSuguanForWeek(currentWeek);
+        }
+
+        prevWeekButton.addEventListener('click', () => {
+            updateWeek(currentWeek - 1);
+        });
+
+        nextWeekButton.addEventListener('click', () => {
+            updateWeek(currentWeek + 1);
+        });
+
+        updateWeek(currentWeek);
+
+        function loadBroadcastSuguanForWeek(week) {
+    axios.get(`/api/broadcast-suguan/${week}`)
+   .then(response => {
+        const tableBody = document.querySelector('table tbody');
+        tableBody.innerHTML = '';
+        
+        if (response.data.length === 0) {
+            const noRecordRow = document.createElement('tr');
+            noRecordRow.innerHTML = `
+                <td colspan="6" class="text-center color-red">No Record Found</td>`;
+            tableBody.appendChild(noRecordRow);
+        } else {
+            response.data.forEach(entry => {
+                const date = new Date(entry.date);
+                const day = date.toLocaleDateString('en-US', { weekday: 'long' }); // Get the day of the week from the date
+                const time = date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }); // Get the time from the date in 12-hour format
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${entry.date}</td>
+                    <td>${day}</td>
+                    <td>${time}</td>
+                    <td>${entry.name}</td>
+                    <td>${entry.tobebroadcast}</td>
+                    <td>
+                        <button class="btn btn-secondary" data-toggle="modal" data-target="#editBroadcastSuguanModal${entry.id}"><i class="fas fa-edit"></i></button>
+                        <button class="btn btn-secondary" data-toggle="modal" data-target="#deleteBroadcastSuguanModal${entry.id}"><i class="fas fa-trash-alt"></i></button>
+                    </td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+    })
+   .catch(error => {
+        console.error('Error fetching broadcast suguan data:', error);
+    });
+}
+    });
+</script>
+
 
         <table class="table mt-3">
             <thead>
@@ -184,7 +270,7 @@
                         <div class="modal-body">
                             <div class="form-group">
                                 <label for="file">Choose CSV File</label>
-                                <input type="file" class="form-control-file" id="file" name="file" required>
+                                <input type="file" class="form-control-file" id="file" name="import_file">
                                 
                             </div>
                         </div>

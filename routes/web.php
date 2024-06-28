@@ -87,4 +87,9 @@ Route::delete('/verseoftheweek/{id}', [VerseOfTheWeekController::class, 'destroy
 
 Route::resource('broadcast_suguan', BroadcastSuguanController::class);
 Route::get('broadcast_suguan/export/csv', [BroadcastSuguanController::class, 'exportCSV'])->name('broadcast_suguan.export_csv');
+Route::get('/broadcast_suguan/import', [BroadcastSuguanController::class, 'import'])->name('broadcast_suguan.import');
 Route::post('/broadcast_suguan/import', [BroadcastSuguanController::class, 'import'])->name('broadcast_suguan.import');
+
+Route::prefix('api')->group(function () {
+    Route::get('/broadcast-suguan/{week}', [BroadcastSuguanController::class,'weeklyData'])->name('api.broadcast_suguan.weeklyData');
+});

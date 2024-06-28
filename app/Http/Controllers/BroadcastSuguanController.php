@@ -10,13 +10,34 @@ use Illuminate\Support\Facades\Response;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Imports\BroadcastSuguanImport;
 
+use Maatwebsite\Excel\Sheet;
+
 class BroadcastSuguanController extends Controller
 {
     public function index()
     {
-        $broadcastSuguan = BroadcastSuguan::all();
-        return view('scheduler_management.broadcast_suguan', compact('broadcastSuguan'));
+        $currentWeek = now()->week;
+        $startOfWeek = now()->startOfWeek();
+        $endOfWeek = now()->endOfWeek();
+      
+       $broadcastSuguan = BroadcastSuguan::whereBetween('date', [$startOfWeek,  $endOfWeek])->get();
+   //dd($startOfWeek);
+        return view('scheduler_management.broadcast_suguan', compact('broadcastSuguan', 'currentWeek'));
     }
+
+// In your BroadcastSuguanController.php
+
+public function weeklyData(Request $request, $week)
+{
+    // Fetch the data for the selected week
+    $currentWeek = now()->week;
+    $startOfWeek = now()->startOfWeek()->subWeeks($currentWeek - $week);
+    $endOfWeek = $startOfWeek->copy()->endOfWeek();
+
+    $data = BroadcastSuguan::whereBetween('date', [$startOfWeek, $endOfWeek])->get();
+    // Return the data as JSON
+    return response()->json($data);
+}
 
     public function store(Request $request)
     {
@@ -116,18 +137,10 @@ public function import(Request $request)
 {
     try {
 
-     
-
-
-        $file = $request->file('file');
-        //dd($file->getClientMimeType());
-
-
-        $request->validate([
-            'file' => 'required|file|mimes:csv,xls,xlsx,text/plain',
+        $this->validate($request, [
+            'import_file' => 'required|file|mimes:csv,txt,xlsx',
         ]);
-        dd($request);
-        Excel::import(new BroadcastSuguanImport, $request->file('file'));
+        Excel::import(new BroadcastSuguanImport, $request->file('import_file'));
         return redirect()->back()->with('success', 'Data imported successfully.');
     } catch (\Exception $e) {
         dd($e);
