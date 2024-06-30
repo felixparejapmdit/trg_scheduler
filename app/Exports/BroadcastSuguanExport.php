@@ -8,12 +8,13 @@ use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithStyles;
+use Maatwebsite\Excel\Concerns\WithCustomStartCell;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use PhpOffice\PhpSpreadsheet\Style\Fill;
 use PhpOffice\PhpSpreadsheet\Style\Border;
 use PhpOffice\PhpSpreadsheet\Style\Alignment;
 
-class BroadcastSuguanExport implements FromCollection, WithHeadings, WithMapping, WithStyles
+class BroadcastSuguanExport implements FromCollection, WithHeadings, WithMapping, WithStyles, WithCustomStartCell
 {
     /**
      * @return \Illuminate\Support\Collection
@@ -67,8 +68,22 @@ class BroadcastSuguanExport implements FromCollection, WithHeadings, WithMapping
             $sheet->getColumnDimension($columnID)->setAutoSize(true);
         }
 
+        // Set title styles
+        $sheet->mergeCells('A1:F1');
+        $sheet->setCellValue('A1', 'SUGUAN PARA SA PAGBROADCAST NG TEMPLO WORSHIP SERVICE WEEK 26');
+        $sheet->getStyle('A1')->applyFromArray([
+            'font' => [
+                'bold' => true,
+                'size' => 14,
+            ],
+            'alignment' => [
+                'horizontal' => Alignment::HORIZONTAL_CENTER,
+                'vertical' => Alignment::VERTICAL_CENTER,
+            ],
+        ]);
+
         // Set header styles
-        $sheet->getStyle('A1:F1')->applyFromArray([
+        $sheet->getStyle('A2:F2')->applyFromArray([
             'font' => [
                 'bold' => true,
             ],
@@ -95,7 +110,7 @@ class BroadcastSuguanExport implements FromCollection, WithHeadings, WithMapping
         $previousValue = null;
         $totalRows = $sheet->getHighestDataRow();
 
-        for ($rowIndex = 2; $rowIndex <= $totalRows; $rowIndex++) {
+        for ($rowIndex = 3; $rowIndex <= $totalRows; $rowIndex++) {
             $currentValue = $sheet->getCell('E' . $rowIndex)->getValue();
             if ($currentValue !== $previousValue) {
                 $currentColorIndex = ($currentColorIndex + 1) % 3;
@@ -120,5 +135,13 @@ class BroadcastSuguanExport implements FromCollection, WithHeadings, WithMapping
         }
 
         return [];
+    }
+
+    /**
+     * @return string
+     */
+    public function startCell(): string
+    {
+        return 'A2';
     }
 }
