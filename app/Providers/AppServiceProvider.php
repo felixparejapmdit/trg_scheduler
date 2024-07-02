@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Providers;
-namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\View;
@@ -11,6 +10,7 @@ class AppServiceProvider extends ServiceProvider
 {
     public function boot()
     {
+        \Illuminate\Support\Facades\URL::forceScheme('https');
         View::composer('*', TitleComposer::class);
     }
 
