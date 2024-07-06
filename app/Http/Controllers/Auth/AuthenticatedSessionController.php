@@ -28,7 +28,7 @@ class AuthenticatedSessionController extends Controller
      */
     public function store(LoginRequest $request): RedirectResponse
     {
-        dd($credentials );
+      
         $credentials = $request->only('username', 'password');
         if (!Auth::attempt($credentials, $request->boolean('remember'))) {
             return back()->withErrors([
