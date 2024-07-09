@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers\Auth;
 
-use Illuminate\Http\Request; // Import the correct Request class
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth; // Import the correct Auth facade
 use Illuminate\Support\Facades\Session; // Add this line to import the Session facade
 
 use App\Http\Controllers\Controller;
@@ -44,9 +45,16 @@ class LoginController extends Controller
     // Add this method to verify the token is being stored in the session
     public function login(Request $request)
     {
-        $token = Session::token();
-        dd($token); // This will dump the token value
-        // Call the parent login method
-        return $this->loginUsername($request);
+        $this->validateLogin($request);
+
+        if (Auth::attempt($request->only($this->username(), 'password'), $request->filled('remember'))) {
+            $request->session()->regenerate();
+
+            // If the login is successful, redirect to the intended route
+            return redirect()->intended($this->redirectTo);
+        }
+
+        // If the login is not successful, redirect back with errors
+        return $this->sendFailedLoginResponse($request);
     }
 }

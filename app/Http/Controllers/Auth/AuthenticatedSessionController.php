@@ -10,6 +10,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session; // Add this line to import the Session facade
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
 
@@ -28,7 +29,6 @@ class AuthenticatedSessionController extends Controller
      */
     public function store(LoginRequest $request): RedirectResponse
     {
-      
         $credentials = $request->only('username', 'password');
         if (!Auth::attempt($credentials, $request->boolean('remember'))) {
             return back()->withErrors([
@@ -37,6 +37,9 @@ class AuthenticatedSessionController extends Controller
         }
 
         $request->session()->regenerate();
+
+        // Add this line to dump the token value
+        dd(Session::token()); 
 
         return redirect()->intended(RouteServiceProvider::HOME);
     }
