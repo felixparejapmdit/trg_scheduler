@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use Illuminate\Http\Request; // Import the correct Request class
+use Illuminate\Support\Facades\Session; // Add this line to import the Session facade
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
@@ -40,9 +41,12 @@ class LoginController extends Controller
         $this->middleware('auth')->only('logout');
     }
 
-    // protected function credentials(Request $request)
-    // {
-    //     dd($request);
-    //     return $request->only('username', 'password');
-    // }
+    // Add this method to verify the token is being stored in the session
+    public function login(Request $request)
+    {
+        $token = Session::token();
+        dd($token); // This will dump the token value
+        // Call the parent login method
+        return $this->loginUsername($request);
+    }
 }
