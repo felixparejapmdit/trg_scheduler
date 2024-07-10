@@ -45,6 +45,7 @@ class LoginController extends Controller
     // Add this method to verify the token is being stored in the session
     public function login(Request $request)
     {
+        //dd($request);
         $this->validateLogin($request);
 
         if (Auth::attempt($request->only($this->username(), 'password'), $request->filled('remember'))) {

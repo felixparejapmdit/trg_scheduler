@@ -32,6 +32,8 @@ Route::post('login', [AuthenticatedSessionController::class, 'store']);
 Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
     ->name('logout');
     
+
+    Route::post('/login', 'Auth\LoginController@login');
 Route::get('/', function () {
     return view('auth/login');
 });
