@@ -2,60 +2,46 @@
 
 namespace App\Http\Controllers\Auth;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth; // Import the correct Auth facade
-use Illuminate\Support\Facades\Session; // Add this line to import the Session facade
-
 use App\Http\Controllers\Controller;
-use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
-    /*
-    |--------------------------------------------------------------------------
-    | Login Controller
-    |--------------------------------------------------------------------------
-    |
-    | This controller handles authenticating users for the application and
-    | redirecting them to your home screen. The controller uses a trait
-    | to conveniently provide its functionality to your applications.
-    |
-    */
-
-    use AuthenticatesUsers;
-
-    /**
-     * Where to redirect users after login.
-     *
-     * @var string
-     */
-    protected $redirectTo = '/dashboard';
-
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware('guest')->except('logout');
-        $this->middleware('auth')->only('logout');
-    }
-
-    // Add this method to verify the token is being stored in the session
     public function login(Request $request)
     {
-        //dd($request);
-        $this->validateLogin($request);
+        $request->validate([
+            'username' => 'required|string|username',
+            'password' => 'required|string',
+        ]);
 
-        if (Auth::attempt($request->only($this->username(), 'password'), $request->filled('remember'))) {
-            $request->session()->regenerate();
+        $credentials = $request->only('username', 'password');
 
-            // If the login is successful, redirect to the intended route
-            return redirect()->intended($this->redirectTo);
+        // Attempt to log the user in
+        if (Auth::attempt($credentials)) {
+            // Check if the user is activated
+            // if (Auth::user()->activated != 1) {
+            //     Auth::logout();
+
+            //     return redirect()->route('login')->withErrors(['username' => 'Your account is not activated.']);
+            // }
+
+            // Authentication passed, redirect to the intended page
+            return redirect()->intended('/dashboard');
         }
 
-        // If the login is not successful, redirect back with errors
-        return $this->sendFailedLoginResponse($request);
+        // If login attempt failed, redirect back with an error
+        return redirect()->route('login')->withErrors(['username' => 'These credentials do not match our records.']);
+    }
+
+    public function showLoginForm()
+    {
+        return view('auth.login');
+    }
+
+      public function logout(Request $request)
+    {
+        Auth::logout();
+        return redirect()->route('login');
     }
 }

@@ -207,14 +207,14 @@
     @endforeach
 </ul>
 
-<h2>Broadcast Suguan</h2>
+<!-- <h2>Broadcast Suguan</h2>
 <ul class="broadcast-list">
     @foreach($broadcastSuguan as $broadcast)
         <li>
         {{ \Carbon\Carbon::parse($broadcast->date)->format('m-d') }}, {{ $broadcast->name }},{{ $broadcast->tobebroadcast }}
         </li>
     @endforeach
-</ul>
+</ul> -->
 </div>
 
 <div class="column">

@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInitc96cb3176ec8d434d94ea57c1cd53321
+class ComposerStaticInitc4b3bafcf3e4693ac4db51205309d4f3
 {
     public static $files = array (
         '6e3fae29631ef280660b3cdad06f25a8' => __DIR__ . '/..' . '/symfony/deprecation-contracts/function.php',
@@ -612,8 +612,11 @@ class ComposerStaticInitc96cb3176ec8d434d94ea57c1cd53321
     );
 
     public static $classMap = array (
+        'App\\Console\\Commands\\ExtractPdfText' => __DIR__ . '/../..' . '/app/Console/Commands/ExtractPdfText.php',
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',
+        'App\\Helpers\\AccessRightsHelper' => __DIR__ . '/../..' . '/app/Helpers/AccessRightsHelper.php',
+        'App\\Helpers\\ActivityLogHelper' => __DIR__ . '/../..' . '/app/Helpers/ActivityLogHelper.php',
         'App\\Http\\Controllers\\Auth\\AuthenticatedSessionController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/AuthenticatedSessionController.php',
         'App\\Http\\Controllers\\Auth\\ConfirmPasswordController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/ConfirmPasswordController.php',
         'App\\Http\\Controllers\\Auth\\ConfirmablePasswordController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/ConfirmablePasswordController.php',
@@ -650,7 +653,6 @@ class ComposerStaticInitc96cb3176ec8d434d94ea57c1cd53321
         'App\\Http\\Middleware\\VerifyCsrfToken' => __DIR__ . '/../..' . '/app/Http/Middleware/VerifyCsrfToken.php',
         'App\\Http\\Requests\\Auth\\LoginRequest' => __DIR__ . '/../..' . '/app/Http/Requests/Auth/LoginRequest.php',
         'App\\Http\\Requests\\ProfileUpdateRequest' => __DIR__ . '/../..' . '/app/Http/Requests/ProfileUpdateRequest.php',
-        'App\\Http\\View\\Composers\\TitleComposer' => __DIR__ . '/../..' . '/app/Http/View/Composers/TitleComposer.php',
         'App\\Models\\BroadcastSuguan' => __DIR__ . '/../..' . '/app/Models/BroadcastSuguan.php',
         'App\\Models\\Event' => __DIR__ . '/../..' . '/app/Models/Event.php',
         'App\\Models\\Reminder' => __DIR__ . '/../..' . '/app/Models/Reminder.php',
@@ -7810,10 +7812,10 @@ class ComposerStaticInitc96cb3176ec8d434d94ea57c1cd53321
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInitc96cb3176ec8d434d94ea57c1cd53321::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInitc96cb3176ec8d434d94ea57c1cd53321::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInitc96cb3176ec8d434d94ea57c1cd53321::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInitc96cb3176ec8d434d94ea57c1cd53321::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInitc4b3bafcf3e4693ac4db51205309d4f3::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInitc4b3bafcf3e4693ac4db51205309d4f3::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInitc4b3bafcf3e4693ac4db51205309d4f3::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInitc4b3bafcf3e4693ac4db51205309d4f3::$classMap;
 
         }, null, ClassLoader::class);
     }

@@ -7,20 +7,20 @@
         @csrf
 
         <!-- Email Address -->
-        <div>
+        <!-- <div>
             <x-input-label for="email" :value="__('Email')" />
             <x-text-input id="email" class="block mt-1 w-full" type="text" name="email" :value="old('email')" required autofocus autocomplete="email" />
             <x-input-error :messages="$errors->get('email')" class="mt-2" />
-        </div>
+        </div> -->
    
         <!-- Username -->
-        <!-- <div>
+        <div>
                 <label for="username">{{ __('Username') }}</label>
                 <input id="username" class="block mt-1 w-full" type="text" name="username" :value="old('username')" required autofocus autocomplete="username">
                 @error('username')
                     <span class="text-red-500 text-sm">{{ $message }}</span>
                 @enderror
-        </div> -->
+        </div>
 
         <!-- Password -->
         <div class="mt-4">
