@@ -36,14 +36,13 @@ class ReminderController extends Controller
         $request->validate([
             'reminder_datetime' => 'required|date',
             'reminder' => 'required|string',
-            'week_number' => 'required|integer',
+            'week_number' => 'nullable|integer',
             'verse_of_the_week' => 'required|string',
             'incharge' => 'required|string',
             'prepared_by' => 'nullable|integer',
             'status' => 'required|in:active,completed,cancelled',
             'priority' => 'required|in:low,medium,high',
         ]);
-
         $reminder->update($request->all());
 
         return redirect()->route('reminders.index')->with('success', 'Reminder updated successfully.');
