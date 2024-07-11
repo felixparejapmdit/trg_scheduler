@@ -27,7 +27,7 @@ class LoginController extends Controller
             // }
 
             // Authentication passed, redirect to the intended page
-            return redirect()->intended('/scheduler');
+            return redirect()->intended('/dashboard');
         }
 
         // If login attempt failed, redirect back with an error
