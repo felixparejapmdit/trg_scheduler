@@ -11,7 +11,7 @@ class LoginController extends Controller
     public function login(Request $request)
     {
         $request->validate([
-            'username' => 'required|string|username',
+            'username' => 'required|string',
             'password' => 'required|string',
         ]);
 
@@ -19,13 +19,6 @@ class LoginController extends Controller
 
         // Attempt to log the user in
         if (Auth::attempt($credentials)) {
-            // Check if the user is activated
-            // if (Auth::user()->activated != 1) {
-            //     Auth::logout();
-
-            //     return redirect()->route('login')->withErrors(['username' => 'Your account is not activated.']);
-            // }
-
             // Authentication passed, redirect to the intended page
             return redirect()->intended('/dashboard');
         }
@@ -39,7 +32,7 @@ class LoginController extends Controller
         return view('auth.login');
     }
 
-      public function logout(Request $request)
+    public function logout(Request $request)
     {
         Auth::logout();
         return redirect()->route('login');

@@ -12,6 +12,7 @@ use App\Http\Controllers\Auth\RegisteredUserController;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -27,16 +28,13 @@ Route::get('/', function () {
     return view('auth/login');
 });
 
-Route::get('/login', 'Auth\LoginController@showLoginForm')->name('login');
-
-
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-// Route::get('/phpinfo', function () {
-//     return view('phpinfo');
-// })->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/home', function () {
+    return view('home');
+})->middleware(['auth', 'verified'])->name('home');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -51,11 +49,9 @@ require __DIR__.'/auth.php';
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-
 //Route::get('/', [SchedulerController::class, 'index']);
 
 Route::get('/scheduler', [SchedulerController::class, 'index'])->name('scheduler.index');
-
 
 Route::get('/reminders', [ReminderController::class, 'index'])->name('reminders.index');
 Route::post('/reminders', [ReminderController::class, 'store'])->name('reminders.store');
@@ -70,8 +66,6 @@ Route::delete('/events/{event}', [EventController::class, 'destroy'])->name('eve
 Route::post('/events/updateStatus', [EventController::class, 'updateStatus'])->name('events.updateStatus');
 Route::get('/events/filter', [EventController::class, 'filterEvents'])->name('events.filter');
 
-
-
 Route::get('/suguan', [SuguanController::class, 'index'])->name('suguan.index');
 Route::post('/suguan', [SuguanController::class, 'store'])->name('suguan.store');
 Route::put('/suguan/{suguan}', [SuguanController::class, 'update'])->name('suguan.update');
@@ -82,7 +76,6 @@ Route::get('/verseoftheweek', [VerseOfTheWeekController::class, 'index'])->name(
 Route::post('/verseoftheweek', [VerseOfTheWeekController::class, 'store'])->name('verseoftheweek.store');
 Route::put('/verseoftheweek/{id}', [VerseOfTheWeekController::class, 'update'])->name('verseoftheweek.update');
 Route::delete('/verseoftheweek/{id}', [VerseOfTheWeekController::class, 'destroy'])->name('verseoftheweek.destroy');
-
 
 Route::resource('broadcast_suguan', BroadcastSuguanController::class);
 Route::get('broadcast_suguan/export/csv', [BroadcastSuguanController::class, 'exportCSV'])->name('broadcast_suguan.export_csv');
@@ -98,5 +91,3 @@ Route::prefix('api')->group(function () {
 
 
 Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

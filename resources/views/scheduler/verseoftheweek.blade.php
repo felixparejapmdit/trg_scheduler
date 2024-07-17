@@ -75,9 +75,22 @@
                                             <textarea class="form-control" id="content" name="content" rows="4" required>{{ $verse->content }}</textarea>
                                         </div>
                                         <div class="form-group">
-                                            <label for="weeknumber">Week Number</label>
-                                            <input type="number" class="form-control" id="weeknumber" name="weeknumber" value="{{ $verse->weeknumber }}" required>
-                                        </div>
+    <label for="weeknumber">Week Number</label>
+    <select class="form-control" id="weeknumber" name="weeknumber" required>
+        @php
+            $current_week = date('W'); // get the current week number
+            $start_week = max(0, $current_week - 4); // get the start week number
+            for ($i = $start_week; $i <= $current_week; $i++) {
+                $selected = ($i == $verse->weeknumber) ? 'selected' : '';
+                echo "<option value='$i' $selected>$i</option>";
+            }
+            for ($i = $current_week + 1; $i <= 52; $i++) {
+                $selected = ($i == $verse->weeknumber) ? 'selected' : '';
+                echo "<option value='$i' $selected>$i</option>";
+            }
+        @endphp
+    </select>
+</div>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -114,10 +127,23 @@
                         <label for="content">Content</label>
                         <textarea class="form-control" id="content" name="content" rows="4" required></textarea>
                     </div>
-                    <div class="form-group">
-                        <label for="weeknumber">Week Number</label>
-                        <input type="number" class="form-control" id="weeknumber" name="weeknumber" required>
-                    </div>
+<div class="form-group">
+    <label for="weeknumber">Week Number</label>
+    <select class="form-control" id="weeknumber" name="weeknumber" required>
+        @php
+            $current_week = date('W'); // get the current week number
+            $start_week = max(0, $current_week - 4); // get the start week number
+            for ($i = $start_week; $i <= $current_week; $i++) {
+                $selected = ($i == $verse->weeknumber) ? 'selected' : '';
+                echo "<option value='$i' $selected>$i</option>";
+            }
+            for ($i = $current_week + 1; $i <= 52; $i++) {
+                $selected = ($i == $verse->weeknumber) ? 'selected' : '';
+                echo "<option value='$i' $selected>$i</option>";
+            }
+        @endphp
+    </select>
+</div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

@@ -48,6 +48,91 @@
                 <p>{{ $message }}</p>
             </div>
         @endif
+
+              <div class="row hidden">
+
+    <div class="col-4 text-left">
+        <button class="btn btn-primary" id="prev-week">
+            <i class="fas fa-chevron-left"></i>
+        </button>
+        <span id="current-week">Week {{ $currentWeek }}</span>
+        <button class="btn btn-primary" id="next-week">
+            <i class="fas fa-chevron-right"></i>
+        </button>
+    </div>
+</div>
+
+<!-- 
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const currentWeekSpan = document.getElementById('current-week');
+        const prevWeekButton = document.getElementById('prev-week');
+        const nextWeekButton = document.getElementById('next-week');
+
+        // Helper function to get the week number from a Date object
+        Date.prototype.getWeek = function(){
+            var onejan = new Date(this.getFullYear(), 0, 1);
+            return Math.ceil((((this - onejan) / 86400000) + onejan.getDay() + 1) / 7);
+        }
+
+        let currentWeek = new Date().getWeek();
+
+        function updateWeek(newWeek) {
+            currentWeek = newWeek;
+            currentWeekSpan.textContent = `Week ${currentWeek}`;
+            loadBroadcastSuguanForWeek(currentWeek);
+        }
+
+        prevWeekButton.addEventListener('click', () => {
+            updateWeek(currentWeek - 1);
+        });
+
+        nextWeekButton.addEventListener('click', () => {
+            updateWeek(currentWeek + 1);
+        });
+
+        updateWeek(currentWeek);
+
+        function loadBroadcastSuguanForWeek(week) {
+    axios.get(`/api/broadcast-suguan/${week}`)
+   .then(response => {
+        const tableBody = document.querySelector('table tbody');
+        tableBody.innerHTML = '';
+        
+        if (response.data.length === 0) {
+            const noRecordRow = document.createElement('tr');
+            noRecordRow.innerHTML = `
+                <td colspan="6" class="text-center color-red">No Record Found</td>`;
+            tableBody.appendChild(noRecordRow);
+        } else {
+            response.data.forEach(entry => {
+                const date = new Date(entry.date);
+                const day = date.toLocaleDateString('en-US', { weekday: 'long' }); // Get the day of the week from the date
+                const time = date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }); // Get the time from the date in 12-hour format
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${entry.date}</td>
+                    <td>${day}</td>
+                    <td>${time}</td>
+                    <td>${entry.name}</td>
+                    <td>${entry.tobebroadcast}</td>
+                    <td>
+                        <button class="btn btn-secondary" data-toggle="modal" data-target="#editBroadcastSuguanModal${entry.id}"><i class="fas fa-edit"></i></button>
+                        <button class="btn btn-secondary" data-toggle="modal" data-target="#deleteBroadcastSuguanModal${entry.id}"><i class="fas fa-trash-alt"></i></button>
+                    </td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+    })
+   .catch(error => {
+        console.error('Error fetching broadcast suguan data:', error);
+    });
+}
+    });
+</script> -->
+
+
         {{ $suguan->links() }}
          <table class="table table-bordered mt-3">
         <tr>
@@ -120,10 +205,21 @@
             <label for="suguan_datetime">Suguan DateTime</label>
             <input type="datetime-local" name="suguan_datetime" class="form-control" value="{{ date('Y-m-d\TH:i', strtotime($item->suguan_datetime)) }}" required>
         </div>
-        <div class="form-group">
-            <label for="gampanin">Gampanin</label>
-            <input type="text" name="gampanin" class="form-control" value="{{ $item->gampanin }}" required>
-        </div>
+<div class="form-group">
+    <label for="gampanin">Gampanin</label>
+    <select name="gampanin" class="form-control" required>
+        <option value="">Select Gampanin</option>
+        <option value="Kasama sa Tribuna" {{ $item->gampanin == 'Kasama sa Tribuna' ? 'selected' : '' }}>Kasama sa Tribuna</option>
+        <option value="Reserba SL" {{ $item->gampanin == 'Reserba SL' ? 'selected' : '' }}>Reserba SL</option>
+        <option value="Sugo SL" {{ $item->gampanin == 'Sugo SL' ? 'selected' : '' }}>Sugo SL</option>
+        <option value="Reserba 2" {{ $item->gampanin == 'Reserba 2' ? 'selected' : '' }}>Reserba 2</option>
+        <option value="Reserba 1" {{ $item->gampanin == 'Reserba 1' ? 'selected' : '' }}>Reserba 1</option>
+        <option value="Sugo 2" {{ $item->gampanin == 'Sugo 2' ? 'selected' : '' }}>Sugo 2</option>
+        <option value="Sugo 1" {{ $item->gampanin == 'Sugo 1' ? 'selected' : '' }}>Sugo 1</option>
+        <option value="Sugo" {{ $item->gampanin == 'Sugo' ? 'selected' : '' }}>Sugo</option>
+        <option value="Reserba" {{ $item->gampanin == 'Reserba' ? 'selected' : '' }}>Reserba</option>
+    </select>
+</div>
         <div class="form-group" style="display:none;">
             <label for="prepared_by">Prepared By</label>
             <input type="number" name="prepared_by" class="form-control" value="{{ $item->prepared_by }}">
@@ -216,10 +312,21 @@
                             <label for="suguan_datetime">Suguan DateTime</label>
                             <input type="datetime-local" name="suguan_datetime" class="form-control">
                         </div>
-                        <div class="form-group">
-                            <label for="gampanin">Gampanin</label>
-                            <input type="text" name="gampanin" class="form-control">
-                        </div>
+                 <div class="form-group">
+    <label for="gampanin">Gampanin</label>
+    <select name="gampanin" class="form-control" required>
+        <option value="">Select Gampanin</option>
+        <option value="Kasama sa Tribuna" {{ $item->gampanin == 'Kasama sa Tribuna' ? 'selected' : '' }}>Kasama sa Tribuna</option>
+        <option value="Reserba SL" {{ $item->gampanin == 'Reserba SL' ? 'selected' : '' }}>Reserba SL</option>
+        <option value="Sugo SL" {{ $item->gampanin == 'Sugo SL' ? 'selected' : '' }}>Sugo SL</option>
+        <option value="Reserba 2" {{ $item->gampanin == 'Reserba 2' ? 'selected' : '' }}>Reserba 2</option>
+        <option value="Reserba 1" {{ $item->gampanin == 'Reserba 1' ? 'selected' : '' }}>Reserba 1</option>
+        <option value="Sugo 2" {{ $item->gampanin == 'Sugo 2' ? 'selected' : '' }}>Sugo 2</option>
+        <option value="Sugo 1" {{ $item->gampanin == 'Sugo 1' ? 'selected' : '' }}>Sugo 1</option>
+        <option value="Sugo" {{ $item->gampanin == 'Sugo' ? 'selected' : '' }}>Sugo</option>
+        <option value="Reserba" {{ $item->gampanin == 'Reserba' ? 'selected' : '' }}>Reserba</option>
+    </select>
+</div>
                         <div class="form-group" style="display:none;">
                             <label for="prepared_by">Prepared By</label>
                             <input type="number" name="prepared_by" class="form-control">

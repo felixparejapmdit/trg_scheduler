@@ -8,6 +8,7 @@ class SuguanController extends Controller
 {
     public function index()
     {
+        $currentWeek = now()->week;
         $startOfWeek = now()->startOfWeek();
         $endOfWeek = now()->endOfWeek();
     
@@ -15,7 +16,7 @@ class SuguanController extends Controller
                         ->orderBy('suguan_datetime', 'asc')
                         ->paginate(15);
     
-        return view('scheduler_management.suguan', compact('suguan'));
+        return view('scheduler_management.suguan', compact('suguan', 'currentWeek'));
     }
 
     public function store(Request $request)
@@ -62,7 +63,7 @@ class SuguanController extends Controller
     public function update(Request $request, Suguan $suguan)
     {
 
-        
+    
         $request->validate([
             'name' => 'required|string',
             'lokal' => 'required|string',
@@ -72,7 +73,7 @@ class SuguanController extends Controller
             'prepared_by' => 'nullable|integer',
             'comments' => 'nullable|string',
         ]);
-    
+     
         $districtAcronyms = [
             'Caloocan North' => 'CN',
             'Camanava' => 'CAVA',
@@ -83,10 +84,10 @@ class SuguanController extends Controller
             'Metro Manila South' => 'MMS',
             'QUEZON CITY' => 'QC',
         ];
-    
+   
         // Find the key (name) for the district acronym provided in the request
         $districtName = array_search($request['edit_district'], $districtAcronyms);
-    
+       
         if ($districtName !== false) {
             // If found, set the district to its full name
             $request['district'] = $districtName;
@@ -95,10 +96,10 @@ class SuguanController extends Controller
             // For example, you can set a default value or throw an error
             $request['district'] = ''; // or any default value
         }
-    
+   
         // Update the suguan with the request data
         $suguan->update($request->except('edit_district'));
-    
+     // dd($request);
         return redirect()->route('suguan.index')->with('success', 'Suguan updated successfully.');
     }
     

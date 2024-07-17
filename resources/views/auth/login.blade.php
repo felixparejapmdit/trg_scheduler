@@ -1,25 +1,15 @@
 <x-guest-layout>
     <!-- Session Status -->
-    
-    <h2 class="text-center" style="color:#0a2d2e;font-size:30px;">TRG Scheduler</h2>
+    <x-auth-session-status class="mb-4" :status="session('status')" />
 
     <form method="POST" action="{{ route('login') }}">
         @csrf
 
-        <!-- Email Address -->
-        <!-- <div>
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="text" name="email" :value="old('email')" required autofocus autocomplete="email" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
-        </div> -->
-   
         <!-- Username -->
         <div>
-                <label for="username">{{ __('Username') }}</label>
-                <input id="username" class="block mt-1 w-full" type="text" name="username" :value="old('username')" required autofocus autocomplete="username">
-                @error('username')
-                    <span class="text-red-500 text-sm">{{ $message }}</span>
-                @enderror
+            <x-input-label for="username" :value="__('Username')" />
+            <x-text-input id="username" class="block mt-1 w-full" type="text" name="username" :value="old('username')" required autofocus autocomplete="username" />
+            <x-input-error :messages="$errors->get('username')" class="mt-2" />
         </div>
 
         <!-- Password -->
@@ -33,12 +23,19 @@
 
             <x-input-error :messages="$errors->get('password')" class="mt-2" />
         </div>
-        <div class="flex items-center justify-center mt-4">
 
-            <x-primary-button class="ms-3" style="width:200px;justify-content: center; background-color:#007bff;">
-                {{ __('Log in') }}
-            </x-primary-button>
-
+        <!-- Remember Me -->
+        <div class="block mt-4 hidden">
+            <label for="remember_me" class="inline-flex items-center">
+                <input id="remember_me" type="checkbox" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500" name="remember">
+                <span class="ms-2 text-sm text-gray-600">{{ __('Remember me') }}</span>
+            </label>
         </div>
+
+<div class="flex items-center justify-center mt-4">
+    <x-primary-button style="background-color: #007bff;">
+        {{ __('Log in') }}
+    </x-primary-button>
+</div>
     </form>
 </x-guest-layout>
