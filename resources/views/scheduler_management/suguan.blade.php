@@ -38,6 +38,7 @@
             <a href="{{ route('dashboard') }}" class="btn btn-secondary">Back</a>
                 
         <button class="btn btn-primary" data-toggle="modal" data-target="#addSuguanModal"><i class="fas fa-plus"></i> Suguan</button>
+        <button class="btn btn-primary hidden" data-toggle="modal" data-target="#importModal"><i class="fas fa-file-import"></i> Import</button>
             </div>
         </div>
     </x-slot>
@@ -48,21 +49,45 @@
                 <p>{{ $message }}</p>
             </div>
         @endif
-
-              <div class="row hidden">
-
+<!-- <div class="row">
     <div class="col-4 text-left">
         <button class="btn btn-primary" id="prev-week">
             <i class="fas fa-chevron-left"></i>
         </button>
-        <span id="current-week">Week {{ $currentWeek }}</span>
+        <span id="current-week">Week </span>
         <button class="btn btn-primary" id="next-week">
             <i class="fas fa-chevron-right"></i>
         </button>
     </div>
-</div>
+</div> -->
 
-<!-- 
+
+<!-- Import Modal -->
+<div class="modal fade" id="importModal" tabindex="-1" role="dialog" aria-labelledby="importModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="importModalLabel">Import Locale Congregations</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form action="{{ route('locale-congregations.import') }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="file">Upload Excel File</label>
+                        <input type="file" name="file" class="form-control" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Import</button>
+                </div>
+            </form>
+        </div>
+    </div>
+     </div>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const currentWeekSpan = document.getElementById('current-week');
@@ -70,10 +95,10 @@
         const nextWeekButton = document.getElementById('next-week');
 
         // Helper function to get the week number from a Date object
-        Date.prototype.getWeek = function(){
+        Date.prototype.getWeek = function() {
             var onejan = new Date(this.getFullYear(), 0, 1);
             return Math.ceil((((this - onejan) / 86400000) + onejan.getDay() + 1) / 7);
-        }
+        };
 
         let currentWeek = new Date().getWeek();
 
@@ -94,184 +119,184 @@
         updateWeek(currentWeek);
 
         function loadBroadcastSuguanForWeek(week) {
-    axios.get(`/api/broadcast-suguan/${week}`)
-   .then(response => {
-        const tableBody = document.querySelector('table tbody');
-        tableBody.innerHTML = '';
-        
-        if (response.data.length === 0) {
-            const noRecordRow = document.createElement('tr');
-            noRecordRow.innerHTML = `
-                <td colspan="6" class="text-center color-red">No Record Found</td>`;
-            tableBody.appendChild(noRecordRow);
-        } else {
-            response.data.forEach(entry => {
-                const date = new Date(entry.date);
-                const day = date.toLocaleDateString('en-US', { weekday: 'long' }); // Get the day of the week from the date
-                const time = date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }); // Get the time from the date in 12-hour format
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td>${entry.date}</td>
-                    <td>${day}</td>
-                    <td>${time}</td>
-                    <td>${entry.name}</td>
-                    <td>${entry.tobebroadcast}</td>
-                    <td>
-                        <button class="btn btn-secondary" data-toggle="modal" data-target="#editBroadcastSuguanModal${entry.id}"><i class="fas fa-edit"></i></button>
-                        <button class="btn btn-secondary" data-toggle="modal" data-target="#deleteBroadcastSuguanModal${entry.id}"><i class="fas fa-trash-alt"></i></button>
-                    </td>
-                `;
-                tableBody.appendChild(row);
-            });
+            axios.get(`/api/broadcast-suguan/${week}`)
+                .then(response => {
+                    const tableBody = document.querySelector('table tbody');
+                    tableBody.innerHTML = '';
+
+                    if (response.data.length === 0) {
+                        const noRecordRow = document.createElement('tr');
+                        noRecordRow.innerHTML = `
+                            <td colspan="6" class="text-center text-danger">No Record Found</td>`;
+                        tableBody.appendChild(noRecordRow);
+                    } else {
+                        response.data.forEach(entry => {
+                            const date = new Date(entry.date);
+                            const day = date.toLocaleDateString('en-US', { weekday: 'long' }); //Get the day of the week from the date
+                            const time = date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }); //Get the time from the date in 12-hour format
+                            const row = document.createElement('tr');
+                            row.innerHTML = `
+                                <td>${entry.date}</td>
+
+                                <td>${day}</td>
+                                <td>${time}</td>
+                                <td>${entry.name}</td>
+                                <td>${entry.tobebroadcast}</td>
+                                <td>
+                                    <button class="btn btn-secondary" data-toggle="modal" data-target="#editBroadcastSuguanModal${entry.id}"><i class="fas fa-edit"></i></button>
+                                    <button class="btn btn-secondary" data-toggle="modal" data-target="#deleteBroadcastSuguanModal${entry.id}"><i class="fas fa-trash-alt"></i></button>
+                                </td>
+                            `;
+                            tableBody.appendChild(row);
+                        });
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching broadcast suguan data:', error);
+                });
         }
-    })
-   .catch(error => {
-        console.error('Error fetching broadcast suguan data:', error);
     });
-}
-    });
-</script> -->
+</script>
 
-
-        {{ $suguan->links() }}
-         <table class="table table-bordered mt-3">
+{{ $suguan->links() }}
+<table class="table table-bordered mt-3">
+    <tr>
+        <th class="text-center">#</th>
+        <th>Name</th>
+        <th>Lokal</th>
+        <th>District</th>
+        <th>Suguan DateTime</th>
+        <th>Day</th>
+        <th>Gampanin</th>
+        <th style="display:none;">Prepared By</th>
+        <th style="display:none;">Comments</th>
+        <th class="text-center">Actions</th>
+    </tr>
+    @forelse ($suguan as $item)
+    @if($item)
         <tr>
-            <th class="text-center" >#</th>
-            <th>Name</th>
-            <th>Lokal</th>
-            <th>District</th>
-            <th>Suguan DateTime</th>
-            <th>Day</th>
-            <th>Gampanin</th>
-            <th style="display:none;">Prepared By</th>
-            <th style="display:none;">Comments</th>
-            <th class="text-center" >Actions</th>
+            <td class="text-center" style="width: 5%;">{{ $loop->iteration }}</td>
+            <td>{{ $item->name }}</td>
+            <td>{{ $item->lokal }}</td>
+            <td>{{ $item->district }}</td>
+            <td>{{ date('Y-m-d g:i A', strtotime($item->suguan_datetime)) }}</td>
+            <td>{{ date('l', strtotime($item->suguan_datetime)) }}</td>
+            <td>{{ $item->gampanin }}</td>
+            <td style="display:none;">{{ $item->prepared_by }}</td>
+            <td style="display:none;">{{ $item->comments }}</td>
+            <td class="text-center">
+                <button class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#editSuguanModal{{ $item->id }}"><i class="fas fa-edit"></i></button>
+                <button class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#deleteSuguanModal{{ $item->id }}"><i class="fas fa-trash-alt"></i></button>
+            </td>
         </tr>
-        @forelse ($suguan as $item)
-        @if($item)
-            <tr>
-                <td class="text-center" style="width: 5%;">{{ $loop->iteration }}</td>
-                <td>{{ $item->name }}</td>
-                <td>{{ $item->lokal }}</td>
-                <td>{{ $item->district }}</td>
-                <td>{{ date('Y-m-d g:i A', strtotime($item->suguan_datetime)) }}</td>
-                <td>{{ date('l', strtotime($item->suguan_datetime)) }}</td>
-                <td>{{ $item->gampanin }}</td>
-                <td style="display:none;">{{ $item->prepared_by }}</td>
-                <td style="display:none;">{{ $item->comments }}</td>
-                <td class="text-center" >
-                    <button class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#editSuguanModal{{ $item->id }}"><i class="fas fa-edit"></i></button>
-                    <button class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#deleteSuguanModal{{ $item->id }}"><i class="fas fa-trash-alt"></i></button>
-                </td>
-            </tr>
 
-            <!-- Edit Modal -->
-            <div class="modal fade" id="editSuguanModal{{ $item->id }}" tabindex="-1" role="dialog" aria-labelledby="editSuguanModalLabel{{ $item->id }}" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="editSuguanModalLabel{{ $item->id }}">Edit Suguan</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
+        <!-- Edit Modal -->
+        <div class="modal fade" id="editSuguanModal{{ $item->id }}" tabindex="-1" role="dialog" aria-labelledby="editSuguanModalLabel{{ $item->id }}" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editSuguanModalLabel{{ $item->id }}">Edit Suguan</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form action="{{ route('suguan.update', $item->id) }}" method="POST">
+                        @csrf
+                        @method('PUT')
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label for="name">Name</label>
+                                <input type="text" name="name" class="form-control" value="{{ $item->name }}" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="lokal">Lokal</label>
+                                <input type="text" name="lokal" class="form-control" value="{{ $item->lokal }}" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="edit_district">District</label>
+                                <select name="edit_district" class="form-control" required>
+                                    <option value="">Select District</option>
+                                    <option value="CN" {{ $item->district == 'CN' ? 'selected' : '' }}>Caloocan North</option>
+                                    <option value="CAVA" {{ $item->district == 'CAVA' ? 'selected' : '' }}>Camanava</option>
+                                    <option value="CEN" {{ $item->district == 'CEN' ? 'selected' : '' }}>CENTRAL</option>
+                                    <option value="MAK" {{ $item->district == 'MAK' ? 'selected' : '' }}>Makati</option>
+                                    <option value="MAY" {{ $item->district == 'MAY' ? 'selected' : '' }}>MAYNILA</option>
+                                    <option value="MME" {{ $item->district == 'MME' ? 'selected' : '' }}>Metro Manila East</option>
+                                    <option value="MMS" {{ $item->district == 'MMS' ? 'selected' : '' }}>Metro Manila South</option>
+                                    <option value="QC" {{ $item->district == 'QC' ? 'selected' : '' }}>QUEZON CITY</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="suguan_datetime">Suguan DateTime</label>
+                                <input type="datetime-local" name="suguan_datetime" class="form-control" value="{{ date('Y-m-d\TH:i', strtotime($item->suguan_datetime)) }}" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="gampanin">Gampanin</label>
+                                <select name="gampanin" class="form-control" required>
+                                    <option value="">Select Gampanin</option>
+                                    <option value="Kasama sa Tribuna" {{ $item->gampanin == 'Kasama sa Tribuna' ? 'selected' : '' }}>Kasama sa Tribuna</option>
+                                    <option value="Reserba SL" {{ $item->gampanin == 'Reserba SL' ? 'selected' : '' }}>Reserba SL</option>
+                                    <option value="Sugo SL" {{ $item->gampanin == 'Sugo SL' ? 'selected' : '' }}>Sugo SL</option>
+                                    <option value="Reserba 2" {{ $item->gampanin == 'Reserba 2' ? 'selected' : '' }}>Reserba 2</option>
+                                    <option value="Reserba 1" {{ $item->gampanin == 'Reserba 1' ? 'selected' : '' }}>Reserba 1</option>
+                                    <option value="Sugo 2" {{ $item->gampanin == 'Sugo 2' ? 'selected' : '' }}>Sugo 2</option>
+                                    <option value="Sugo 1" {{ $item->gampanin == 'Sugo 1' ? 'selected' : '' }}>Sugo 1</option>
+                                    <option value="Sugo" {{ $item->gampanin == 'Sugo' ? 'selected' : '' }}>Sugo</option>
+                                    <option value="Reserba" {{ $item->gampanin == 'Reserba' ? 'selected' : '' }}>Reserba</option>
+                                </select>
+                            </div>
+                            <div class="form-group" style="display:none;">
+                                <label for="prepared_by">Prepared By</label>
+                                <input type="number" name="prepared_by" class="form-control" value="{{ $item->prepared_by }}">
+                            </div>
+                            <div class="form-group" style="display:none;">
+                                <label for="comments">Comments</label>
+                                <textarea name="comments" class="form-control">{{ $item->comments }}</textarea>
+                            </div>
                         </div>
-                        <form action="{{ route('suguan.update', $item->id) }}" method="POST">
-    @csrf
-    @method('PUT')
-    <div class="modal-body">
-        <div class="form-group">
-            <label for="name">Name</label>
-            <input type="text" name="name" class="form-control" value="{{ $item->name }}" required>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Update Suguan</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
-        <div class="form-group">
-            <label for="lokal">Lokal</label>
-            <input type="text" name="lokal" class="form-control" value="{{ $item->lokal }}" required>
+
+        <!-- Delete Modal -->
+        <div class="modal fade" id="deleteSuguanModal{{ $item->id }}" tabindex="-1" role="dialog" aria-labelledby="deleteSuguanModalLabel{{ $item->id }}" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="deleteSuguanModalLabel{{ $item->id }}">Delete Suguan</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form action="{{ route('suguan.destroy', $item->id) }}" method="POST">
+                        @csrf
+                        @method('DELETE')
+                        <div class="modal-body">
+                            Are you sure you want to delete this Suguan?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-danger">Delete Suguan</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
-        <div class="form-group">
-            <label for="edit_district">District</label>
-            <select name="edit_district" class="form-control" required>
-                <option value="">Select District</option>
-                <option value="CN" {{ $item->district == 'CN' ? 'selected' : '' }}>Caloocan North</option>
-                <option value="CAVA" {{ $item->district == 'CAVA' ? 'selected' : '' }}>Camanava</option>
-                <option value="CEN" {{ $item->district == 'CEN' ? 'selected' : '' }}>CENTRAL</option>
-                <option value="MAK" {{ $item->district == 'MAK' ? 'selected' : '' }}>Makati</option>
-                <option value="MAY" {{ $item->district == 'MAY' ? 'selected' : '' }}>MAYNILA</option>
-                <option value="MME" {{ $item->district == 'MME' ? 'selected' : '' }}>Metro Manila East</option>
-                <option value="MMS" {{ $item->district == 'MMS' ? 'selected' : '' }}>Metro Manila South</option>
-                <option value="QC" {{ $item->district == 'QC' ? 'selected' : '' }}>QUEZON CITY</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label for="suguan_datetime">Suguan DateTime</label>
-            <input type="datetime-local" name="suguan_datetime" class="form-control" value="{{ date('Y-m-d\TH:i', strtotime($item->suguan_datetime)) }}" required>
-        </div>
-<div class="form-group">
-    <label for="gampanin">Gampanin</label>
-    <select name="gampanin" class="form-control" required>
-        <option value="">Select Gampanin</option>
-        <option value="Kasama sa Tribuna" {{ $item->gampanin == 'Kasama sa Tribuna' ? 'selected' : '' }}>Kasama sa Tribuna</option>
-        <option value="Reserba SL" {{ $item->gampanin == 'Reserba SL' ? 'selected' : '' }}>Reserba SL</option>
-        <option value="Sugo SL" {{ $item->gampanin == 'Sugo SL' ? 'selected' : '' }}>Sugo SL</option>
-        <option value="Reserba 2" {{ $item->gampanin == 'Reserba 2' ? 'selected' : '' }}>Reserba 2</option>
-        <option value="Reserba 1" {{ $item->gampanin == 'Reserba 1' ? 'selected' : '' }}>Reserba 1</option>
-        <option value="Sugo 2" {{ $item->gampanin == 'Sugo 2' ? 'selected' : '' }}>Sugo 2</option>
-        <option value="Sugo 1" {{ $item->gampanin == 'Sugo 1' ? 'selected' : '' }}>Sugo 1</option>
-        <option value="Sugo" {{ $item->gampanin == 'Sugo' ? 'selected' : '' }}>Sugo</option>
-        <option value="Reserba" {{ $item->gampanin == 'Reserba' ? 'selected' : '' }}>Reserba</option>
-    </select>
+    @endif
+    @empty
+        <tr>
+            <td colspan="9">No records found.</td>
+        </tr>
+    @endforelse
+</table>
+{{ $suguan->links() }}
 </div>
-        <div class="form-group" style="display:none;">
-            <label for="prepared_by">Prepared By</label>
-            <input type="number" name="prepared_by" class="form-control" value="{{ $item->prepared_by }}">
-        </div>
-        <div class="form-group" style="display:none;">
-            <label for="comments">Comments</label>
-            <textarea name="comments" class="form-control">{{ $item->comments }}</textarea>
-        </div>
-    </div>
-    <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-primary">Update Suguan</button>
-    </div>
-</form>
 
-                    </div>
-                </div>
-            </div>
-
-            <!-- Delete Modal -->
-            <div class="modal fade" id="deleteSuguanModal{{ $item->id }}" tabindex="-1" role="dialog" aria-labelledby="deleteSuguanModalLabel{{ $item->id }}" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="deleteSuguanModalLabel{{ $item->id }}">Delete Suguan</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <form action="{{ route('suguan.destroy', $item->id) }}" method="POST">
-                            @csrf
-                            @method('DELETE')
-                            <div class="modal-body">
-                                Are you sure you want to delete this Suguan?
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-danger">Delete Suguan</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-            @endif
-        @empty
-            <tr>
-                <td colspan="9">No records found.</td>
-            </tr>
-        @endforelse
-    </table>
-    {{ $suguan->links() }}
-    </div>
 
     <!-- Add Suguan Modal -->
     <div class="modal fade" id="addSuguanModal" tabindex="-1" role="dialog" aria-labelledby="addSuguanModalLabel" aria-hidden="true">
@@ -290,24 +315,53 @@
                             <label for="name">Name</label>
                             <input type="text" name="name" class="form-control">
                         </div>
-                        <div class="form-group">
-                            <label for="lokal">Lokal</label>
-                            <input type="text" name="lokal" class="form-control">
-                        </div>
-                        <div class="form-group">
+   
+
+               <div class="form-group">
     <label for="district">District</label>
-    <select name="district" class="form-control">
-    <option value="">Select District</option>
-    <option value="CN">Caloocan North</option>
-    <option value="CAVA">Camanava</option>
-    <option value="CEN">CENTRAL</option>
-    <option value="MAK">Makati</option>
-    <option value="MAY">MAYNILA</option>
-    <option value="MME">Metro Manila East</option>
-    <option value="MMS">Metro Manila South</option>
-    <option value="QC">QUEZON CITY</option>
-</select>
+    <select name="district" id="district" class="form-control">
+        <option value="">Select District</option>
+        @foreach($districts as $district)
+            <option value="{{ $district->id }}">{{ $district->name }}</option>
+        @endforeach
+    </select>
 </div>
+
+<div class="form-group">
+    <label for="lokal">Lokal</label>
+    <select name="lokal" id="lokal" class="form-control">
+        <option value="">Select Lokal</option>
+    </select>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function() {
+    $('#district').change(function() {
+        var districtId = $(this).val();
+        if (districtId) {
+            $.ajax({
+                url: 'suguan/get-lokals/' + districtId,
+                type: 'GET',
+                success: function(data) {
+                    $('#lokal').empty().append('<option value="">Select Lokal</option>');
+                    $.each(data, function(index, lokal) {
+                        $('#lokal').append('<option value="' + lokal.id + '">' + lokal.name + '</option>');
+                    });
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error fetching lokals:', error);
+                }
+            });
+        } else {
+            $('#lokal').empty().append('<option value="">Select Lokal</option>');
+        }
+    });
+});
+</script>
+
+
+
                         <div class="form-group">
                             <label for="suguan_datetime">Suguan DateTime</label>
                             <input type="datetime-local" name="suguan_datetime" class="form-control">

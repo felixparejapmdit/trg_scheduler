@@ -3,21 +3,26 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Suguan;
+use Carbon\Carbon;
+use App\Models\District; 
 
 class SuguanController extends Controller
 {
-    public function index()
+   public function index()
     {
-        $currentWeek = now()->week;
-        $startOfWeek = now()->startOfWeek();
-        $endOfWeek = now()->endOfWeek();
+       // $currentWeek = Carbon::now()->week;
+        $startOfWeek = Carbon::now()->startOfWeek();
+        $endOfWeek = Carbon::now()->endOfWeek();
     
         $suguan = Suguan::whereBetween('suguan_datetime', [$startOfWeek, $endOfWeek])
                         ->orderBy('suguan_datetime', 'asc')
                         ->paginate(15);
-    
-        return view('scheduler_management.suguan', compact('suguan', 'currentWeek'));
+       // Fetch districts from the districts table
+    $districts = District::all();
+
+        return view('scheduler_management.suguan', compact('suguan','districts'));
     }
+
 
     public function store(Request $request)
     {

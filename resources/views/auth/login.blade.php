@@ -32,10 +32,10 @@
             </label>
         </div>
 
-<div class="flex items-center justify-center mt-4">
-    <x-primary-button style="background-color: #007bff;">
-        {{ __('Log in') }}
-    </x-primary-button>
-</div>
-    </form>
+        <div class="flex items-center justify-center mt-4">
+            <x-primary-button style="background-color: #007bff;">
+                {{ __('Log in') }}
+            </x-primary-button>
+        </div>
+            </form>
 </x-guest-layout>

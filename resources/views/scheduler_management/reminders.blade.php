@@ -108,7 +108,7 @@
                                         <label for="week_number">Week Number</label>
                                         <input type="number" name="week_number" class="form-control" value="{{ $reminder->week_number }}">
                                     </div>
-                                    <div class="form-group">
+                                    <div class="form-group hidden">
                                         <label for="verse_of_the_week">Verse of the Week</label>
                                         <textarea name="verse_of_the_week" class="form-control">{{ $reminder->verse_of_the_week }}</textarea>
                                     </div>
@@ -200,7 +200,7 @@
                             <label for="week_number">Week Number</label>
                             <input type="number" name="week_number" class="form-control">
                         </div>
-                        <div class="form-group">
+                        <div class="form-group hidden">
                             <label for="verse_of_the_week">Verse of the Week</label>
                             <textarea name="verse_of_the_week" class="form-control"></textarea>
                         </div>

@@ -118,9 +118,9 @@
         flex-direction: column;
     }
     .reminders-column.reminder-list {
-    flex: 1;
-    overflow-y: auto;
-}
+        flex: 1;
+        overflow-y: auto;
+    }
 .reminders-column.reminder-list ul {
     list-style: square; /* or disc, or circle, depending on the bullet style you want */
     padding: 0;
@@ -341,6 +341,12 @@ $(document).ready(function() {
             <div class="weekend-section">
                 <div class="day-title">Weekend</div>
                 <ul>
+                          <li>
+                        <strong>Friday:</strong><br>
+                        @foreach($suguan_weekend['Friday'] as $suguan)
+                        <b>{{ implode('', array_map(function($word) { return substr($word, 0, 1); }, explode(' ', $suguan->name))) }}</b>, <i>{{ \Carbon\Carbon::parse($suguan->suguan_datetime)->format('gA') }}</i> {{ $suguan->lokal }} <br> 
+                        @endforeach
+                    </li>
                     <li>
                         <strong>Saturday:</strong><br>
                         @foreach($suguan_weekend['Saturday'] as $suguan)

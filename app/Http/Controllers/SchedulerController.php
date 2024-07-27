@@ -33,7 +33,7 @@ class SchedulerController extends Controller
         // Retrieve reminders for the current week
         $reminders = Reminder::whereBetween('reminder_datetime', [$startOfWeek,  $endOfWeek])->get();
     
-        // Retrieve events for the current week and with status 'active'
+        //Retrieve events for the current week and with status 'active'
         $events = Event::where('status', 'active')
                         ->whereBetween('event_datetime', [$startOfWeek, $endOfWeek])
                         ->get();
@@ -45,7 +45,7 @@ class SchedulerController extends Controller
     
         // Group Suguan by day of the week (Midweek and Weekend)
         $suguan_midweek = $this->groupSuguanByDay($suguan, ['Wednesday', 'Thursday']);
-        $suguan_weekend = $this->groupSuguanByDay($suguan, ['Saturday', 'Sunday']);
+        $suguan_weekend = $this->groupSuguanByDay($suguan, ['Friday', 'Saturday', 'Sunday']);
     
         // Retrieve the top 1 verse of the week
         $verseOfTheWeek = VerseOfTheWeek::where('weeknumber', $now->weekOfYear)->first();
