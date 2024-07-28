@@ -6,108 +6,82 @@ use App\Models\Suguan;
 use Carbon\Carbon;
 use App\Models\District; 
 
+use App\Models\LocaleCongregation;
+
 class SuguanController extends Controller
 {
-   public function index()
+    public function index()
     {
-       // $currentWeek = Carbon::now()->week;
         $startOfWeek = Carbon::now()->startOfWeek();
         $endOfWeek = Carbon::now()->endOfWeek();
     
-        $suguan = Suguan::whereBetween('suguan_datetime', [$startOfWeek, $endOfWeek])
+        $suguan = Suguan::with(['district', 'lokal'])
+                        ->whereBetween('suguan_datetime', [$startOfWeek, $endOfWeek])
                         ->orderBy('suguan_datetime', 'asc')
                         ->paginate(15);
-       // Fetch districts from the districts table
-    $districts = District::all();
-
-        return view('scheduler_management.suguan', compact('suguan','districts'));
+    
+        $districts = District::all();
+        $lokals = LocaleCongregation::all();
+    
+        return view('scheduler_management.suguan', compact('suguan', 'districts', 'lokals'));
     }
-
+    
 
     public function store(Request $request)
     {
         $request->validate([
             'name' => 'required|string',
-            'lokal' => 'required|string',
-            'district' => 'required|string',
+            'lokal_id' => 'required|integer',
+            'district_id' => 'required|integer',
             'suguan_datetime' => 'required|date',
             'gampanin' => 'required|string',
             'prepared_by' => 'nullable|integer',
             'comments' => 'nullable|string',
         ]);
     
-        $districtAcronyms = [
-            'Caloocan North' => 'CN',
-            'Camanava' => 'CAVA',
-            'CENTRAL' => 'CEN',
-            'Makati' => 'MAK',
-            'MAYNILA' => 'MAY',
-            'Metro Manila East' => 'MME',
-            'Metro Manila South' => 'MMS',
-            'QUEZON CITY' => 'QC',
-        ];
-    
-        $district = array_search($request['district'], $districtAcronyms);
-        if ($district) {
-            $request['district'] = $district;
-        } else {
-            // Handle the case when the district is not found in the array
-            // For example, you can set a default value or throw an error
-            $request['district'] = ''; // or any default value
-        }
-    
         try {
-            Suguan::create($request->all());
+            Suguan::create($request->only([
+                'name',
+                'lokal_id',
+                'district_id',
+                'suguan_datetime',
+                'gampanin',
+                'prepared_by',
+                'comments',
+            ]));
             return redirect()->route('suguan.index')->with('success', 'Suguan created successfully.');
         } catch (\Exception $e) {
             \Log::error($e->getMessage());
             return redirect()->back()->with('error', 'Failed to create Suguan.');
         }
     }
-
-    public function update(Request $request, Suguan $suguan)
-    {
-
     
-        $request->validate([
-            'name' => 'required|string',
-            'lokal' => 'required|string',
-            'edit_district' => 'required|string',
-            'suguan_datetime' => 'required|date',
-            'gampanin' => 'required|string',
-            'prepared_by' => 'nullable|integer',
-            'comments' => 'nullable|string',
-        ]);
-     
-        $districtAcronyms = [
-            'Caloocan North' => 'CN',
-            'Camanava' => 'CAVA',
-            'CENTRAL' => 'CEN',
-            'Makati' => 'MAK',
-            'MAYNILA' => 'MAY',
-            'Metro Manila East' => 'MME',
-            'Metro Manila South' => 'MMS',
-            'QUEZON CITY' => 'QC',
-        ];
-   
-        // Find the key (name) for the district acronym provided in the request
-        $districtName = array_search($request['edit_district'], $districtAcronyms);
-       
-        if ($districtName !== false) {
-            // If found, set the district to its full name
-            $request['district'] = $districtName;
-        } else {
-            // Handle the case when the district is not found in the array
-            // For example, you can set a default value or throw an error
-            $request['district'] = ''; // or any default value
-        }
-   
-        // Update the suguan with the request data
-        $suguan->update($request->except('edit_district'));
-     // dd($request);
-        return redirect()->route('suguan.index')->with('success', 'Suguan updated successfully.');
-    }
-    
+public function update(Request $request, Suguan $suguan)
+{
+    $request->validate([
+        'name' => 'required|string',
+        'lokal_id' => 'required|integer',  // Correcting from 'edit_lokal' to 'lokal_id'
+        'district_id' => 'required|integer',  // Correcting from 'edit_district' to 'district_id'
+        'suguan_datetime' => 'required|date',
+        'gampanin' => 'required|string',
+        'prepared_by' => 'nullable|integer',
+        'comments' => 'nullable|string',
+    ]);
+
+    // Update the suguan with the request data
+    $suguan->update($request->only([
+        'name',
+        'lokal_id',
+        'district_id',
+        'suguan_datetime',
+        'gampanin',
+        'prepared_by',
+        'comments',
+    ]));
+
+    return redirect()->route('suguan.index')->with('success', 'Suguan updated successfully.');
+}
+ 
 
     public function destroy(Suguan $suguan)
     {

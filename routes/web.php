@@ -94,6 +94,6 @@ Route::prefix('api')->group(function () {
 Route::post('/import-locale-congregations', [LocaleCongregationImportController::class, 'import'])->name('locale-congregations.import');
 
 // Add this route
-Route::get('/suguan/get-lokals/{districtId}', [LocaleCongregationImportController::class, 'getLokals'])->name('suguan.get-lokals');
+Route::get('/suguan/getLokals/{districtId}', [LocaleCongregationImportController::class, 'getLokals'])->name('suguan.getLokals');
 
 Auth::routes();

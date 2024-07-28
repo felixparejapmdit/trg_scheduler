@@ -15,4 +15,10 @@ class District extends Model
     {
         return $this->hasMany(LocaleCongregation::class);
     }
+
+    public function suguan()
+{
+    return $this->hasMany(Suguan::class);
+}
+
 }

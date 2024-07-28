@@ -21,4 +21,10 @@ class LocaleCongregation extends Model
     {
         return $this->belongsTo(District::class);
     }
+
+    public function suguan()
+{
+    return $this->hasMany(Suguan::class);
+}
+
 }

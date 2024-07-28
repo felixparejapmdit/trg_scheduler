@@ -2,6 +2,7 @@
 <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
    
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <x-app-layout>
     <style>
         body {
@@ -157,7 +158,6 @@
         }
     });
 </script>
-
 {{ $suguan->links() }}
 <table class="table table-bordered mt-3">
     <tr>
@@ -177,15 +177,15 @@
         <tr>
             <td class="text-center" style="width: 5%;">{{ $loop->iteration }}</td>
             <td>{{ $item->name }}</td>
-            <td>{{ $item->lokal }}</td>
-            <td>{{ $item->district }}</td>
+            <td>{{ $item->lokal->name }}</td>
+            <td>{{ $item->district->name }}</td>
             <td>{{ date('Y-m-d g:i A', strtotime($item->suguan_datetime)) }}</td>
             <td>{{ date('l', strtotime($item->suguan_datetime)) }}</td>
             <td>{{ $item->gampanin }}</td>
             <td style="display:none;">{{ $item->prepared_by }}</td>
             <td style="display:none;">{{ $item->comments }}</td>
             <td class="text-center">
-                <button class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#editSuguanModal{{ $item->id }}"><i class="fas fa-edit"></i></button>
+                <button class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#editSuguanModal{{ $item->id }}" data-district-id="{{ $item->district }}" data-lokal-id="{{ $item->lokal }}"><i class="fas fa-edit"></i></button>
                 <button class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#deleteSuguanModal{{ $item->id }}"><i class="fas fa-trash-alt"></i></button>
             </td>
         </tr>
@@ -208,24 +208,28 @@
                                 <label for="name">Name</label>
                                 <input type="text" name="name" class="form-control" value="{{ $item->name }}" required>
                             </div>
+
                             <div class="form-group">
-                                <label for="lokal">Lokal</label>
-                                <input type="text" name="lokal" class="form-control" value="{{ $item->lokal }}" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="edit_district">District</label>
-                                <select name="edit_district" class="form-control" required>
-                                    <option value="">Select District</option>
-                                    <option value="CN" {{ $item->district == 'CN' ? 'selected' : '' }}>Caloocan North</option>
-                                    <option value="CAVA" {{ $item->district == 'CAVA' ? 'selected' : '' }}>Camanava</option>
-                                    <option value="CEN" {{ $item->district == 'CEN' ? 'selected' : '' }}>CENTRAL</option>
-                                    <option value="MAK" {{ $item->district == 'MAK' ? 'selected' : '' }}>Makati</option>
-                                    <option value="MAY" {{ $item->district == 'MAY' ? 'selected' : '' }}>MAYNILA</option>
-                                    <option value="MME" {{ $item->district == 'MME' ? 'selected' : '' }}>Metro Manila East</option>
-                                    <option value="MMS" {{ $item->district == 'MMS' ? 'selected' : '' }}>Metro Manila South</option>
-                                    <option value="QC" {{ $item->district == 'QC' ? 'selected' : '' }}>QUEZON CITY</option>
-                                </select>
-                            </div>
+    <label for="edit_district{{ $item->id }}">District</label>
+    <select name="district_id" id="edit_district{{ $item->id }}" class="form-control edit-district">
+        <option value="">Select District</option>
+        @foreach($districts as $district)
+            <option value="{{ $district->id }}" {{ $item->district_id == $district->id ? 'selected' : '' }}>{{ $district->name }}</option>
+        @endforeach
+    </select>
+</div>
+
+<div class="form-group">
+    <label for="edit_lokal{{ $item->id }}">Lokal</label>
+    <select name="lokal_id" class="form-control edit-lokal" id="edit_lokal{{ $item->id }}" required>
+        <option value="">Select Lokal</option>
+        @foreach($lokals as $lokal)
+            <option value="{{ $lokal->id }}" {{ $item->lokal_id == $lokal->id ? 'selected' : '' }}>{{ $lokal->name }}</option>
+        @endforeach
+    </select>
+</div>
+
+
                             <div class="form-group">
                                 <label for="suguan_datetime">Suguan DateTime</label>
                                 <input type="datetime-local" name="suguan_datetime" class="form-control" value="{{ date('Y-m-d\TH:i', strtotime($item->suguan_datetime)) }}" required>
@@ -295,6 +299,51 @@
     @endforelse
 </table>
 {{ $suguan->links() }}
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function() {
+    // When an edit button is clicked
+    $(document).on('click', '[data-toggle="modal"][data-target^="#editSuguanModal"]', function(event) {
+        var button = $(event.currentTarget);
+        var districtId = button.data('district-id');
+        var lokalId = button.data('lokal-id');
+        var modalId = button.data('target');
+        
+        var $modal = $(modalId);
+        var $districtSelect = $modal.find('.edit-district');
+        var $lokalSelect = $modal.find('.edit-lokal');
+        console.log(districtSelect);
+        $districtSelect.val(districtId).trigger('change');
+
+        // Wait for the ajax call to complete before setting the lokal value
+        $districtSelect.on('change', function() {
+            setTimeout(function() {
+                $lokalSelect.val(lokalId);
+            }, 500);
+        });
+    });
+
+    // When the district dropdown changes
+    $('.edit-district').on('change', function() {
+        var districtId = $(this).val();
+        var $lokalSelect = $(this).closest('.modal').find('.edit-lokal');
+
+        $.ajax({
+            type: 'GET',
+                url: 'suguan/getLokals/' + districtId,
+            success: function(data) {
+                $lokalSelect.empty();
+                $lokalSelect.append('<option value="">Select Lokal</option>');
+                $.each(data, function(index, lokal) {
+                    $lokalSelect.append('<option value="' + lokal.id + '">' + lokal.name + '</option>');
+                });
+            }
+        });
+    });
+});
+</script>
+
 </div>
 
 
@@ -317,9 +366,9 @@
                         </div>
    
 
-               <div class="form-group">
+                        <div class="form-group">
     <label for="district">District</label>
-    <select name="district" id="district" class="form-control">
+    <select name="district_id" id="district" class="form-control">
         <option value="">Select District</option>
         @foreach($districts as $district)
             <option value="{{ $district->id }}">{{ $district->name }}</option>
@@ -329,25 +378,25 @@
 
 <div class="form-group">
     <label for="lokal">Lokal</label>
-    <select name="lokal" id="lokal" class="form-control">
+    <select name="lokal_id" id="lokal" class="form-control" required>
         <option value="">Select Lokal</option>
     </select>
 </div>
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 <script>
 $(document).ready(function() {
     $('#district').change(function() {
         var districtId = $(this).val();
         if (districtId) {
             $.ajax({
-                url: 'suguan/get-lokals/' + districtId,
+                url: 'suguan/getLokals/' + districtId,
                 type: 'GET',
                 success: function(data) {
                     $('#lokal').empty().append('<option value="">Select Lokal</option>');
                     $.each(data, function(index, lokal) {
-                        $('#lokal').append('<option value="' + lokal.id + '">' + lokal.name + '</option>');
-                    });
+    $('#lokal').append('<option value="' + lokal.id + '">' + lokal.name + '</option>');
+});
                 },
                 error: function(xhr, status, error) {
                     console.error('Error fetching lokals:', error);
@@ -367,19 +416,19 @@ $(document).ready(function() {
                             <input type="datetime-local" name="suguan_datetime" class="form-control">
                         </div>
                  <div class="form-group">
-    <label for="gampanin">Gampanin</label>
-    <select name="gampanin" class="form-control" required>
-        <option value="">Select Gampanin</option>
-        <option value="Kasama sa Tribuna" {{ $item->gampanin == 'Kasama sa Tribuna' ? 'selected' : '' }}>Kasama sa Tribuna</option>
-        <option value="Reserba SL" {{ $item->gampanin == 'Reserba SL' ? 'selected' : '' }}>Reserba SL</option>
-        <option value="Sugo SL" {{ $item->gampanin == 'Sugo SL' ? 'selected' : '' }}>Sugo SL</option>
-        <option value="Reserba 2" {{ $item->gampanin == 'Reserba 2' ? 'selected' : '' }}>Reserba 2</option>
-        <option value="Reserba 1" {{ $item->gampanin == 'Reserba 1' ? 'selected' : '' }}>Reserba 1</option>
-        <option value="Sugo 2" {{ $item->gampanin == 'Sugo 2' ? 'selected' : '' }}>Sugo 2</option>
-        <option value="Sugo 1" {{ $item->gampanin == 'Sugo 1' ? 'selected' : '' }}>Sugo 1</option>
-        <option value="Sugo" {{ $item->gampanin == 'Sugo' ? 'selected' : '' }}>Sugo</option>
-        <option value="Reserba" {{ $item->gampanin == 'Reserba' ? 'selected' : '' }}>Reserba</option>
-    </select>
+                 <label for="gampanin">Gampanin</label>
+        <select name="gampanin" class="form-control" required>
+            <option value="">Select Gampanin</option>
+            <option value="Kasama sa Tribuna">Kasama sa Tribuna</option>
+            <option value="Reserba SL">Reserba SL</option>
+            <option value="Sugo SL">Sugo SL</option>
+            <option value="Reserba 2">Reserba 2</option>
+            <option value="Reserba 1">Reserba 1</option>
+            <option value="Sugo 2">Sugo 2</option>
+            <option value="Sugo 1">Sugo 1</option>
+            <option value="Sugo">Sugo</option>
+            <option value="Reserba">Reserba</option>
+        </select>
 </div>
                         <div class="form-group" style="display:none;">
                             <label for="prepared_by">Prepared By</label>
@@ -399,7 +448,6 @@ $(document).ready(function() {
         </div>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </x-app-layout>

@@ -34,7 +34,8 @@ class LocaleCongregationImportController extends Controller
      public function getLokals($districtId)
     {
       
-        $lokals = LocaleCongregation::where('district_id', $districtId)->pluck('name', 'id');
+        // $lokals = LocaleCongregation::where('district_id', $districtId)->pluck('name', 'id');
+        $lokals = LocaleCongregation::where('district_id', $districtId)->select('id', 'name')->get();
         return response()->json($lokals);
     }
 }
