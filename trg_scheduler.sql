@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1deb1ubuntu0.1
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost:3306
--- Generation Time: Jul 27, 2024 at 09:23 AM
--- Server version: 8.0.35-0ubuntu0.23.04.1
--- PHP Version: 8.1.12-1ubuntu4.3
+-- Host: 127.0.0.1
+-- Generation Time: Jul 28, 2024 at 06:54 PM
+-- Server version: 10.4.28-MariaDB
+-- PHP Version: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -28,10 +28,10 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `broadcast_suguan` (
-  `id` bigint UNSIGNED NOT NULL,
+  `id` bigint(20) UNSIGNED NOT NULL,
   `date` datetime NOT NULL,
-  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `tobebroadcast` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `tobebroadcast` varchar(255) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -59,7 +59,7 @@ INSERT INTO `broadcast_suguan` (`id`, `date`, `name`, `tobebroadcast`, `created_
 --
 
 CREATE TABLE `districts` (
-  `id` int NOT NULL,
+  `id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -84,16 +84,16 @@ INSERT INTO `districts` (`id`, `name`) VALUES
 --
 
 CREATE TABLE `events` (
-  `id` bigint UNSIGNED NOT NULL,
-  `event_type` enum('Meeting','Birthday & Anniversary','Non-Office') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `event_type` enum('Meeting','Birthday & Anniversary','Non-Office') NOT NULL,
   `event_datetime` datetime NOT NULL,
-  `title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
-  `incharge` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
-  `prepared_by` int DEFAULT NULL,
-  `status` enum('active','completed','cancelled') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'active',
-  `priority` enum('low','medium','high') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'medium',
-  `recurring` enum('none','daily','weekly','monthly') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'none',
+  `title` varchar(255) NOT NULL,
+  `description` text DEFAULT NULL,
+  `incharge` text DEFAULT NULL,
+  `prepared_by` int(11) DEFAULT NULL,
+  `status` enum('active','completed','cancelled') NOT NULL DEFAULT 'active',
+  `priority` enum('low','medium','high') NOT NULL DEFAULT 'medium',
+  `recurring` enum('none','daily','weekly','monthly') NOT NULL DEFAULT 'none',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -117,13 +117,13 @@ INSERT INTO `events` (`id`, `event_type`, `event_datetime`, `title`, `descriptio
 --
 
 CREATE TABLE `failed_jobs` (
-  `id` bigint UNSIGNED NOT NULL,
-  `uuid` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `connection` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `queue` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `payload` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `exception` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `failed_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `uuid` varchar(255) NOT NULL,
+  `connection` text NOT NULL,
+  `queue` text NOT NULL,
+  `payload` longtext NOT NULL,
+  `exception` longtext NOT NULL,
+  `failed_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -133,9 +133,9 @@ CREATE TABLE `failed_jobs` (
 --
 
 CREATE TABLE `locale_congregations` (
-  `id` int NOT NULL,
+  `id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
-  `district_id` int NOT NULL,
+  `district_id` int(11) NOT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -395,9 +395,9 @@ INSERT INTO `locale_congregations` (`id`, `name`, `district_id`, `updated_at`, `
 --
 
 CREATE TABLE `migrations` (
-  `id` int UNSIGNED NOT NULL,
-  `migration` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `batch` int NOT NULL
+  `id` int(10) UNSIGNED NOT NULL,
+  `migration` varchar(255) NOT NULL,
+  `batch` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -424,8 +424,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 --
 
 CREATE TABLE `password_resets` (
-  `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `token` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `token` varchar(255) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -436,8 +436,8 @@ CREATE TABLE `password_resets` (
 --
 
 CREATE TABLE `password_reset_tokens` (
-  `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `token` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `token` varchar(255) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -448,12 +448,12 @@ CREATE TABLE `password_reset_tokens` (
 --
 
 CREATE TABLE `personal_access_tokens` (
-  `id` bigint UNSIGNED NOT NULL,
-  `tokenable_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `tokenable_id` bigint UNSIGNED NOT NULL,
-  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `token` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `abilities` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `tokenable_type` varchar(255) NOT NULL,
+  `tokenable_id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `token` varchar(64) NOT NULL,
+  `abilities` text DEFAULT NULL,
   `last_used_at` timestamp NULL DEFAULT NULL,
   `expires_at` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -467,15 +467,15 @@ CREATE TABLE `personal_access_tokens` (
 --
 
 CREATE TABLE `reminders` (
-  `id` bigint UNSIGNED NOT NULL,
+  `id` bigint(20) UNSIGNED NOT NULL,
   `reminder_datetime` datetime NOT NULL,
-  `reminder` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `week_number` int DEFAULT NULL,
-  `verse_of_the_week` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
-  `incharge` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `prepared_by` int DEFAULT NULL,
-  `status` enum('active','completed','cancelled') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'active',
-  `priority` enum('low','medium','high') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'medium',
+  `reminder` text NOT NULL,
+  `week_number` int(11) DEFAULT NULL,
+  `verse_of_the_week` text DEFAULT NULL,
+  `incharge` text NOT NULL,
+  `prepared_by` int(11) DEFAULT NULL,
+  `status` enum('active','completed','cancelled') NOT NULL DEFAULT 'active',
+  `priority` enum('low','medium','high') NOT NULL DEFAULT 'medium',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -487,14 +487,14 @@ CREATE TABLE `reminders` (
 --
 
 CREATE TABLE `suguan` (
-  `id` bigint UNSIGNED NOT NULL,
-  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `lokal` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `district` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `lokal_id` int(255) NOT NULL,
+  `district_id` int(255) NOT NULL,
   `suguan_datetime` datetime NOT NULL,
-  `gampanin` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `prepared_by` int DEFAULT NULL,
-  `comments` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  `gampanin` varchar(255) NOT NULL,
+  `prepared_by` int(11) DEFAULT NULL,
+  `comments` text DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -503,109 +503,9 @@ CREATE TABLE `suguan` (
 -- Dumping data for table `suguan`
 --
 
-INSERT INTO `suguan` (`id`, `name`, `lokal`, `district`, `suguan_datetime`, `gampanin`, `prepared_by`, `comments`, `created_at`, `updated_at`) VALUES
-(1, 'Felix M. Pareja', 'Maligaya', 'Caloocan North', '2024-06-26 18:00:00', 'Sugo 2', NULL, NULL, '2024-06-21 07:22:16', '2024-06-27 22:31:35'),
-(2, 'Roland Kim Amaro', 'Bagong Buhay', 'CENTRAL', '2024-06-26 06:00:00', 'Sugo 2', NULL, NULL, '2024-06-21 07:22:50', '2024-06-28 00:35:14'),
-(3, 'Ron de Guzman', 'Tandang Sora', 'CENTRAL', '2024-06-27 19:00:00', 'Sugo', NULL, NULL, '2024-06-21 07:29:05', '2024-06-21 07:29:05'),
-(4, 'JM Hizon', 'Deparo', 'Caloocan North', '2024-06-27 00:00:00', 'Sugo', NULL, NULL, '2024-06-21 11:57:20', '2024-06-21 11:57:20'),
-(5, 'Kyrt Jurada', 'Lawang Bato', 'Caloocan North', '2024-06-29 14:00:00', 'Sugo 2', NULL, NULL, '2024-06-21 13:13:48', '2024-06-21 13:24:28'),
-(6, 'Carl Mariano', 'Mt Heights', 'Caloocan North', '2024-06-29 00:00:00', 'Reserba', 1, 'asd', '2024-06-22 20:01:26', '2024-06-22 20:01:26'),
-(7, 'Teo Ramos', 'Caloocan', 'Camanava', '2024-06-30 10:00:00', 'Sugo 2', 1, 'asd', '2024-06-22 20:01:55', '2024-06-22 20:01:55'),
-(8, 'Zion Mills', 'Balintawak', 'Camanava', '2024-06-30 06:00:00', 'Sugo 2', 1, 'asd', '2024-06-22 20:02:21', '2024-06-22 20:02:21'),
-(9, 'test', 'test', 'Camanava', '2024-06-29 01:12:00', 'Sugo 2', NULL, NULL, '2024-06-23 09:12:54', '2024-06-23 09:12:54'),
-(10, 'Alvin David', 'Fairview Ext.', 'QUEZON CITY', '2024-06-26 14:17:00', 'Sugo 2', NULL, NULL, '2024-06-23 22:18:11', '2024-06-23 22:18:11'),
-(11, 'Felix Pareja', 'Maligaya', 'Caloocan North', '2024-07-10 19:30:00', 'Reserba', NULL, NULL, '2024-07-09 17:58:16', '2024-07-09 17:58:16'),
-(12, 'Felix Pareja', 'Tandang Sora', 'CENTRAL', '2024-07-18 19:00:00', 'Sugo 2', NULL, NULL, '2024-07-17 07:46:16', '2024-07-17 07:55:55'),
-(13, 'Felix Pareja', 'Bonifacio Drive', 'CENTRAL', '2024-07-20 06:00:00', 'Reserba', NULL, NULL, '2024-07-17 07:56:26', '2024-07-17 07:56:26'),
-(14, 'Ronald Kim Amaro', 'Pacita', 'CENTRAL', '2024-07-17 19:00:00', 'Sugo 2', NULL, NULL, '2024-07-17 10:00:52', '2024-07-18 04:05:18'),
-(15, 'Kyrt Jurada', 'Bagong Silang 9', 'Caloocan North', '2024-07-17 19:30:00', 'Reserba', NULL, NULL, '2024-07-17 10:01:17', '2024-07-17 10:01:17'),
-(16, 'Kyrt Jurada', 'Vistan', 'Caloocan North', '2024-07-20 10:00:00', 'Reserba', NULL, NULL, '2024-07-17 10:01:36', '2024-07-17 10:01:36'),
-(18, 'Marco Acuzar', 'Campsite', 'QUEZON CITY', '2024-07-20 18:00:00', 'Sugo 2', NULL, NULL, '2024-07-18 03:33:03', '2024-07-18 03:33:03'),
-(19, 'Kaizer Agdaca', 'Bayan-bayanan', 'Camanava', '2024-07-20 06:00:00', 'Sugo 2', NULL, NULL, '2024-07-18 03:34:53', '2024-07-18 03:34:53'),
-(20, 'Logen Camorro', 'Cupang', 'Metro Manila East', '2024-07-20 06:00:00', 'Sugo 2', NULL, NULL, '2024-07-18 03:37:13', '2024-07-18 03:37:13'),
-(21, 'Alex Cruz', 'Viztan', 'Caloocan North', '2024-07-20 18:00:00', 'Reserba', NULL, NULL, '2024-07-18 03:38:52', '2024-07-18 03:38:52'),
-(22, 'Roland Kim Amaro', 'NEU', 'CENTRAL', '2024-07-21 14:00:00', 'Sugo 2', NULL, NULL, '2024-07-18 03:42:58', '2024-07-18 03:42:58'),
-(23, 'Carlo Aspili', 'Bayan-bayanan', 'Metro Manila East', '2024-07-21 10:00:00', 'Sugo 2', NULL, NULL, '2024-07-18 03:44:18', '2024-07-18 03:44:18'),
-(24, 'Alvin David', 'Baesa-Sauyo ext.', 'QUEZON CITY', '2024-07-20 06:00:00', 'Reserba', NULL, NULL, '2024-07-18 03:44:47', '2024-07-18 03:45:19'),
-(25, 'Paul Anthony Louis Bautista', 'Baesa 2', 'QUEZON CITY', '2024-07-21 10:00:00', 'Reserba', NULL, NULL, '2024-07-18 03:48:36', '2024-07-18 03:48:36'),
-(26, 'Ronald de Guzman', 'NEU', 'CENTRAL', '2024-07-21 06:00:00', 'Sugo 1', NULL, NULL, '2024-07-18 03:49:19', '2024-07-18 03:49:19'),
-(27, 'Emman Doctor', 'Palmera', 'Caloocan North', '2024-07-20 10:00:00', 'Sugo', NULL, NULL, '2024-07-18 03:49:31', '2024-07-18 03:49:31'),
-(28, 'Benny Ceasar Ebreo', 'Mt. Heights', 'Caloocan North', '2024-07-21 10:00:00', 'Reserba 2', NULL, NULL, '2024-07-18 03:50:01', '2024-07-18 03:50:01'),
-(29, 'Danrel Galvez', 'Pugad Lawin', 'CENTRAL', '2024-07-21 06:00:00', 'Reserba', NULL, NULL, '2024-07-18 03:50:45', '2024-07-18 03:50:45'),
-(30, 'Randel Galvez', 'Zabarte', 'QUEZON CITY', '2024-07-21 10:00:00', 'Sugo 2', NULL, NULL, '2024-07-18 03:51:35', '2024-07-18 03:51:35'),
-(31, 'Jayson Doronio', 'Caballero ext.', 'CENTRAL', '2024-07-20 11:00:00', 'Sugo 1', NULL, NULL, '2024-07-18 03:51:47', '2024-07-18 03:51:47'),
-(32, 'Febert Eraño Guiang', 'Golden Acres', 'Metro Manila South', '2024-07-21 10:00:00', 'Reserba', NULL, NULL, '2024-07-18 03:53:23', '2024-07-18 03:53:23'),
-(33, 'John Michael Hizon', 'F. Manalo', 'Caloocan North', '2024-07-21 06:00:00', 'Reserba 1', NULL, NULL, '2024-07-18 03:59:00', '2024-07-18 03:59:00'),
-(34, 'Keith Carlo Mangubat', 'Campsite', 'QUEZON CITY', '2024-07-21 10:00:00', 'Reserba', NULL, NULL, '2024-07-18 04:05:30', '2024-07-18 04:05:30'),
-(35, 'Carl Lawrence Mariano', 'Bagong Silang 4 ext.', 'Caloocan North', '2024-07-21 10:00:00', 'Reserba 1', NULL, NULL, '2024-07-18 04:06:30', '2024-07-18 04:06:30'),
-(36, 'Rexon Duldulao', 'NEU', 'CENTRAL', '2024-07-20 06:00:00', 'Reserba', NULL, NULL, '2024-07-18 04:07:08', '2024-07-18 04:07:08'),
-(37, 'Zion Phoenix Mills', 'Caloocan', 'Camanava', '2024-07-21 10:00:00', 'Reserba 2', NULL, NULL, '2024-07-18 04:07:16', '2024-07-18 04:07:16'),
-(38, 'Jester Niko Nicolas', 'Batasan Hills1', 'QUEZON CITY', '2024-07-21 10:00:00', 'Reserba', NULL, NULL, '2024-07-18 04:09:01', '2024-07-18 04:09:01'),
-(39, 'Gloverick Parungao', 'Bagumbayan', 'Makati', '2024-07-21 06:00:00', 'Sugo', NULL, NULL, '2024-07-18 04:10:10', '2024-07-18 04:10:10'),
-(40, 'Teodorico Ramos Jr.', 'Lingunan', 'Camanava', '2024-07-21 06:00:00', 'Reserba 1', NULL, NULL, '2024-07-18 04:10:53', '2024-07-18 04:10:53'),
-(41, 'Nehemias Dungca', 'Sitio Laan ext.', 'CENTRAL', '2024-07-20 10:00:00', 'Sugo 1', NULL, NULL, '2024-07-18 04:11:08', '2024-07-18 04:11:08'),
-(42, 'Jorick Hernandez', 'kaunlaran 1', 'Camanava', '2024-07-20 06:00:00', 'Sugo', NULL, NULL, '2024-07-18 04:12:35', '2024-07-18 04:12:35'),
-(43, 'Kyrt Jurada', 'Vistan', 'Caloocan North', '2024-07-20 10:00:00', 'Reserba', NULL, NULL, '2024-07-18 04:14:10', '2024-07-18 04:14:10'),
-(46, 'Bryan Pusing', 'Zabarte-North Olympus', 'QUEZON CITY', '2024-07-20 06:00:00', 'Reserba', NULL, NULL, '2024-07-18 04:18:10', '2024-07-18 04:18:10'),
-(47, 'Medel Salise Jr.', 'Novaliches', 'QUEZON CITY', '2024-07-20 06:00:00', 'Reserba 2', NULL, NULL, '2024-07-18 04:19:41', '2024-07-18 04:20:11'),
-(48, 'Wilrenz Sumang', 'Almanza', 'Metro Manila South', '2024-07-20 14:00:00', 'Reserba', NULL, NULL, '2024-07-18 04:22:43', '2024-07-18 04:22:43'),
-(49, 'Allaen Vejerano', 'Empire ext', 'QUEZON CITY', '2024-07-20 10:00:00', 'Reserba', NULL, NULL, '2024-07-18 04:23:46', '2024-07-18 04:23:46'),
-(50, 'Jorick Hernandez', 'Lingunan', 'Camanava', '2024-07-25 16:00:00', 'Sugo', NULL, NULL, '2024-07-21 23:12:22', '2024-07-21 23:12:22'),
-(51, 'Gloverick Parungao', 'Central Signal', 'Makati', '2024-07-24 20:00:00', 'Sugo', NULL, NULL, '2024-07-21 23:16:12', '2024-07-21 23:16:12'),
-(53, 'Gloverick Parungao', 'Palanan', 'Makati', '2024-07-28 10:00:00', 'Sugo', NULL, NULL, '2024-07-22 00:28:25', '2024-07-22 00:28:25'),
-(54, 'Jorick Hernandez', 'Catmon', 'Camanava', '2024-07-26 20:00:00', 'Reserba', NULL, NULL, '2024-07-22 00:29:41', '2024-07-22 00:29:41'),
-(55, 'Felix Pareja', 'NEU', 'CENTRAL', '2024-07-25 19:00:00', 'Reserba', NULL, NULL, '2024-07-22 00:32:02', '2024-07-22 03:07:30'),
-(56, 'Felix Pareja', 'Templo NEGH', 'CENTRAL', '2024-07-28 10:00:00', 'Sugo 2', NULL, NULL, '2024-07-22 00:33:45', '2024-07-22 00:33:45'),
-(57, 'kyrt Jurada', 'BS 1', 'Caloocan North', '2024-07-25 16:00:00', 'Reserba', NULL, NULL, '2024-07-22 00:35:28', '2024-07-22 00:35:28'),
-(58, 'kyrt Jurada', 'BS 9', 'Caloocan North', '2024-07-28 10:00:00', 'Reserba', NULL, NULL, '2024-07-22 00:38:00', '2024-07-22 02:24:19'),
-(60, 'John Louise Canque', 'Centerville Ext.', 'CENTRAL', '2024-07-28 06:00:00', 'Sugo 2', NULL, NULL, '2024-07-22 01:22:45', '2024-07-22 01:22:45'),
-(61, 'Ronald T. de Guzman', 'Sagana', 'CENTRAL', '2024-07-25 06:00:00', 'Sugo 1', NULL, NULL, '2024-07-22 01:26:13', '2024-07-22 01:26:13'),
-(63, 'Ronald T. de Guzman', 'Green Condo', 'CENTRAL', '2024-07-28 06:00:00', 'Sugo 1', NULL, NULL, '2024-07-22 01:28:10', '2024-07-22 01:28:10'),
-(64, 'Logen Camorro', 'Pembo', 'Metro Manila East', '2024-07-25 17:00:00', 'Sugo 2', NULL, NULL, '2024-07-22 01:30:13', '2024-07-22 01:30:13'),
-(65, 'Logen Camorro', 'Sampaguita Village', 'Metro Manila East', '2024-07-26 18:00:00', 'Reserba', NULL, NULL, '2024-07-22 01:31:44', '2024-07-22 01:31:44'),
-(66, 'Benny Ceasar Ebrero', 'Camarin', 'Caloocan North', '2024-07-25 20:00:00', 'Sugo 2', NULL, NULL, '2024-07-22 01:33:19', '2024-07-22 01:33:19'),
-(67, 'Benny Ceasar Ebrero', 'Tierra Nova', 'Caloocan North', '2024-07-27 10:00:00', 'Sugo 2', NULL, NULL, '2024-07-22 01:34:19', '2024-07-22 01:34:19'),
-(68, 'Carl Lawrence Mariano', 'Lawang Bato', 'Caloocan North', '2024-07-25 18:30:00', 'Reserba', NULL, NULL, '2024-07-22 01:37:14', '2024-07-22 01:37:14'),
-(69, 'Carl Lawrence Mariano', 'Tala Estate', 'Caloocan North', '2024-07-28 10:00:00', 'Sugo 2', NULL, NULL, '2024-07-22 01:38:28', '2024-07-22 01:38:28'),
-(70, 'Emman Doctor', 'BS 4 ext.', 'Caloocan North', '2024-07-24 18:00:00', 'Sugo 2', NULL, NULL, '2024-07-22 01:41:13', '2024-07-22 01:41:13'),
-(71, 'Emman Doctor', 'Camarin', 'Caloocan North', '2024-07-27 10:00:00', 'Reserba', NULL, NULL, '2024-07-22 01:42:32', '2024-07-22 01:42:32'),
-(72, 'Medel Salise Jr.', 'Manggahan', 'QUEZON CITY', '2024-07-25 08:45:00', 'Sugo 2', NULL, NULL, '2024-07-22 01:45:16', '2024-07-22 01:45:16'),
-(73, 'Medel Salise Jr.', 'Novaliches', 'QUEZON CITY', '2024-07-26 14:00:00', 'Reserba', NULL, NULL, '2024-07-22 01:46:07', '2024-07-22 01:46:07'),
-(74, 'Teo Ramos', 'Letre', 'Camanava', '2024-07-25 19:45:00', 'Reserba', NULL, NULL, '2024-07-22 01:47:04', '2024-07-22 01:47:04'),
-(75, 'Teo Ramos', 'Caloocan', 'Camanava', '2024-07-28 10:00:00', 'Reserba', NULL, NULL, '2024-07-22 01:48:17', '2024-07-22 01:48:17'),
-(76, 'Kaizer Agdaca', 'Cupang', 'Metro Manila East', '2024-07-25 19:30:00', 'Sugo 2', NULL, NULL, '2024-07-22 01:50:19', '2024-07-22 01:50:19'),
-(77, 'Kaizer Agdaca', 'SSS-Village-Manseta ext', 'Metro Manila East', '2024-07-28 14:00:00', 'Sugo 2', NULL, NULL, '2024-07-22 01:52:15', '2024-07-22 01:52:15'),
-(78, 'Bryan Pusing', 'Zabarte-North Olympus', 'QUEZON CITY', '2024-07-24 19:45:00', 'Sugo 2', NULL, NULL, '2024-07-22 01:55:09', '2024-07-22 01:55:09'),
-(79, 'Alvin David', 'Cubao - Arayat ext.', 'QUEZON CITY', '2024-07-24 05:45:00', 'Sugo 2', NULL, NULL, '2024-07-22 01:59:03', '2024-07-22 01:59:03'),
-(80, 'Alvin David', 'Batasan Hills 1', 'QUEZON CITY', '2024-07-28 06:00:00', 'Reserba', NULL, NULL, '2024-07-22 01:59:50', '2024-07-22 01:59:50'),
-(81, 'Paul Bautista', 'Bagong Silanganan-asuscion ext.', 'QUEZON CITY', '2024-07-25 06:00:00', 'Sugo 2', NULL, NULL, '2024-07-22 02:02:23', '2024-07-22 02:02:23'),
-(82, 'Paul Bautista', 'Batasan hills 2', 'QUEZON CITY', '2024-07-28 10:00:00', 'Reserba', NULL, NULL, '2024-07-22 02:03:25', '2024-07-22 02:03:25'),
-(83, 'Jayson Doronio', 'kaingin ext', 'CENTRAL', '2024-07-24 19:00:00', 'Sugo 1', NULL, NULL, '2024-07-22 02:04:37', '2024-07-22 02:04:37'),
-(84, 'Nehemias Dungca', 'Pasong Tamo', 'CENTRAL', '2024-07-24 19:00:00', 'Sugo 1', NULL, NULL, '2024-07-22 02:05:46', '2024-07-22 02:05:46'),
-(85, 'keith Mangubat', 'Nagkaisang Nayon', 'QUEZON CITY', '2024-07-24 05:45:00', 'Reserba', NULL, NULL, '2024-07-22 02:06:50', '2024-07-22 02:06:50'),
-(86, 'keith Mangubat', 'Zabarte-North Olympus ext', 'QUEZON CITY', '2024-07-26 14:00:00', 'Sugo 2', NULL, NULL, '2024-07-22 02:08:37', '2024-07-22 02:08:37'),
-(87, 'Zion Mills', 'Caloocan', 'Camanava', '2024-07-25 05:45:00', 'Sugo 2', NULL, NULL, '2024-07-22 02:09:49', '2024-07-23 05:05:12'),
-(88, 'Zion Mills', 'Sangandaan', 'Camanava', '2024-07-28 10:00:00', 'Reserba', NULL, NULL, '2024-07-22 02:11:06', '2024-07-23 05:05:45'),
-(89, 'Jester Nicolas', 'Araneta', 'QUEZON CITY', '2024-07-25 05:45:00', 'Sugo 2', NULL, NULL, '2024-07-22 02:12:52', '2024-07-22 02:12:52'),
-(90, 'Jester Nicolas', 'Batasan Hills 1', 'QUEZON CITY', '2024-07-28 10:00:00', 'Reserba', NULL, NULL, '2024-07-22 02:13:46', '2024-07-22 02:13:46'),
-(91, 'Febert Guiang', 'C. Munti', 'Metro Manila South', '2024-07-28 10:00:00', 'Sugo 1', NULL, NULL, '2024-07-22 02:15:30', '2024-07-22 02:15:30'),
-(92, 'JM Hizon', 'Saranay', 'Caloocan North', '2024-07-25 05:30:00', 'Sugo', NULL, NULL, '2024-07-22 02:17:18', '2024-07-22 02:17:18'),
-(93, 'JM Hizon', 'BS 1', 'Caloocan North', '2024-07-28 06:00:00', 'Reserba', NULL, NULL, '2024-07-22 02:18:05', '2024-07-22 02:18:05'),
-(94, 'Michael Samir Shohdy', 'Cupang', 'Metro Manila East', '2024-07-25 05:45:00', 'Sugo 2', NULL, NULL, '2024-07-22 02:42:06', '2024-07-22 02:42:06'),
-(95, 'Michael Samir Shohdy', 'SSS-Village-Manseta ext', 'Metro Manila East', '2024-07-28 10:00:00', 'Sugo 2', NULL, NULL, '2024-07-22 02:43:04', '2024-07-22 02:43:04'),
-(96, 'Wilrenz Sumang', 'Camella Homes', 'Metro Manila South', '2024-07-24 20:00:00', 'Reserba', NULL, NULL, '2024-07-22 02:44:13', '2024-07-22 02:44:13'),
-(97, 'Wilrenz Sumang', 'Alabang', 'Metro Manila South', '2024-07-28 10:00:00', 'Sugo 2', NULL, NULL, '2024-07-22 02:45:00', '2024-07-22 02:45:00'),
-(98, 'Marco Acuzar', 'West ave ext. San Francisco', 'QUEZON CITY', '2024-07-24 05:45:00', 'Reserba 1', NULL, NULL, '2024-07-22 05:00:43', '2024-07-22 05:00:43'),
-(99, 'Marco Acuzar', 'Galas', 'QUEZON CITY', '2024-07-26 19:00:00', 'Sugo 1', NULL, NULL, '2024-07-22 05:02:05', '2024-07-22 05:02:05'),
-(100, 'Alex Cruz', 'Vistan', 'Caloocan North', '2024-07-28 14:00:00', 'Reserba', NULL, NULL, '2024-07-22 05:21:26', '2024-07-22 05:21:26'),
-(101, 'Kim Amaro', 'Visayas Ave', 'CENTRAL', '2024-07-24 18:45:00', 'Sugo 2', NULL, NULL, '2024-07-22 05:25:28', '2024-07-22 05:25:28'),
-(103, 'Gene Fulminar', 'Pacita', 'CENTRAL', '2024-07-28 10:00:00', 'Sugo 2', NULL, NULL, '2024-07-22 05:27:47', '2024-07-22 05:27:47'),
-(104, 'Kim Amaro', 'Pansol ext.', 'CENTRAL', '2024-07-26 19:00:00', 'Reserba', NULL, NULL, '2024-07-22 05:30:51', '2024-07-22 05:30:51'),
-(105, 'Danrel Galvez', 'Caballero', 'CENTRAL', '2024-07-26 14:00:00', 'Sugo 1', NULL, NULL, '2024-07-22 05:32:06', '2024-07-22 05:32:06'),
-(106, 'Danrel Galvez', 'Luzon ave', 'CENTRAL', '2024-07-24 19:00:00', 'Sugo SL', NULL, NULL, '2024-07-22 05:33:04', '2024-07-22 05:33:04'),
-(107, 'Carlo Aspili', 'Cupang', 'Metro Manila East', '2024-07-24 19:30:00', 'Sugo 2', NULL, NULL, '2024-07-22 06:18:44', '2024-07-22 06:18:44'),
-(108, 'Carlo Aspili', 'SSS-Village', 'Metro Manila East', '2024-07-25 17:00:00', 'Sugo 2', NULL, NULL, '2024-07-22 06:19:48', '2024-07-22 06:19:48'),
-(109, 'Carlo Aspili', 'SSS-Village-Manseta ext', 'Metro Manila East', '2024-07-27 18:20:00', 'Sugo 2', NULL, NULL, '2024-07-22 06:20:58', '2024-07-22 06:20:58');
+INSERT INTO `suguan` (`id`, `name`, `lokal_id`, `district_id`, `suguan_datetime`, `gampanin`, `prepared_by`, `comments`, `created_at`, `updated_at`) VALUES
+(2, 'Felix Pareja', 56, 3, '2024-07-25 19:00:00', 'Sugo 2', NULL, NULL, '2024-07-28 07:52:16', '2024-07-28 08:38:02'),
+(3, 'Roland Kim Amaro', 57, 3, '2024-07-25 19:00:00', 'Sugo 2', NULL, NULL, '2024-07-28 08:42:17', '2024-07-28 08:42:17');
 
 -- --------------------------------------------------------
 
@@ -614,13 +514,13 @@ INSERT INTO `suguan` (`id`, `name`, `lokal`, `district`, `suguan_datetime`, `gam
 --
 
 CREATE TABLE `users` (
-  `id` bigint UNSIGNED NOT NULL,
-  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `username` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `username` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
   `email_verified_at` timestamp NULL DEFAULT NULL,
-  `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `remember_token` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `password` varchar(255) NOT NULL,
+  `remember_token` varchar(100) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -640,11 +540,11 @@ INSERT INTO `users` (`id`, `name`, `username`, `email`, `email_verified_at`, `pa
 --
 
 CREATE TABLE `verseoftheweek` (
-  `id` bigint UNSIGNED NOT NULL,
+  `id` bigint(20) UNSIGNED NOT NULL,
   `date` date NOT NULL,
-  `weeknumber` int NOT NULL,
-  `verse` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `content` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `weeknumber` int(11) NOT NULL,
+  `verse` varchar(255) NOT NULL,
+  `content` text NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -755,61 +655,61 @@ ALTER TABLE `verseoftheweek`
 -- AUTO_INCREMENT for table `broadcast_suguan`
 --
 ALTER TABLE `broadcast_suguan`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `districts`
 --
 ALTER TABLE `districts`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `events`
 --
 ALTER TABLE `events`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT for table `failed_jobs`
 --
 ALTER TABLE `failed_jobs`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `locale_congregations`
 --
 ALTER TABLE `locale_congregations`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=243;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=243;
 
 --
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `reminders`
 --
 ALTER TABLE `reminders`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `suguan`
 --
 ALTER TABLE `suguan`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=110;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `verseoftheweek`
 --
 ALTER TABLE `verseoftheweek`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
