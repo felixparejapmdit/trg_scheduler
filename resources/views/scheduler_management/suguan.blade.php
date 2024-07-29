@@ -463,7 +463,8 @@ $(document).ready(function() {
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         // API URL
-        const apiUrl = 'http://172.18.162.82/api/manggagawas';
+        //const apiUrl = 'http://172.18.162.82/api/manggagawas';
+        const apiUrl = 'http://192.168.1.87:8082/api/manggagawas';
 
         // Fetch data from the API
         fetch(apiUrl)
@@ -476,7 +477,7 @@ $(document).ready(function() {
                 data.forEach(item => {
                     const fullName = `${item.firstname} ${item.secondname ? item.secondname + ' ' : ''}${item.lastname}`;
                     const option = document.createElement('option');
-                    option.value = item.id;
+                    option.value = fullName;
                     option.textContent = fullName;
                     nameDropdown.appendChild(option);
                 });
