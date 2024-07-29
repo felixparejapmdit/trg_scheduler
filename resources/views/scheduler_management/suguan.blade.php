@@ -206,9 +206,11 @@
                         <div class="modal-body">
                             <div class="form-group">
                                 <label for="name">Name</label>
-                                <input type="text" name="name" class="form-control" value="{{ $item->name }}" required>
+                                <input disabled type="text" name="name" class="form-control" value="{{ $item->name }}" required>
                             </div>
 
+
+                            
                             <div class="form-group">
     <label for="edit_district{{ $item->id }}">District</label>
     <select name="district_id" id="edit_district{{ $item->id }}" class="form-control edit-district">
@@ -360,11 +362,19 @@ $(document).ready(function() {
                 <form action="{{ route('suguan.store') }}" method="POST">
                     @csrf
                     <div class="modal-body">
-                        <div class="form-group">
+                        <!-- <div class="form-group">
                             <label for="name">Name</label>
                             <input type="text" name="name" class="form-control">
-                        </div>
+                        </div> -->
    
+<div class="form-group">
+    <label for="name">Name</label>
+    <select name="name" id="name" class="form-control">
+        <option value="">Select Name</option>
+    </select>
+</div>
+
+
 
                         <div class="form-group">
     <label for="district">District</label>
@@ -447,6 +457,36 @@ $(document).ready(function() {
             </div>
         </div>
     </div>
+
+
+    
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // API URL
+        const apiUrl = 'http://172.18.162.82/api/manggagawas';
+
+        // Fetch data from the API
+        fetch(apiUrl)
+            .then(response => response.json())
+            .then(data => {
+                // Get the dropdown element
+                const nameDropdown = document.getElementById('name');
+
+                // Populate the dropdown with data
+                data.forEach(item => {
+                    const fullName = `${item.firstname} ${item.secondname ? item.secondname + ' ' : ''}${item.lastname}`;
+                    const option = document.createElement('option');
+                    option.value = item.id;
+                    option.textContent = fullName;
+                    nameDropdown.appendChild(option);
+                });
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
+            });
+    });
+</script>
+
 
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
