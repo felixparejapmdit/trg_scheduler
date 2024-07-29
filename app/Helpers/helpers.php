@@ -18,3 +18,13 @@ if (! function_exists('getAcronym')) {
         return $districts[$district]?? $district;
     }
 }
+
+if (!function_exists('formatName')) {
+    function formatName($name) {
+        $parts = explode(' ', $name);
+        $firstName = array_shift($parts);
+        $lastNameInitial = count($parts) > 0 ? substr(array_pop($parts), 0, 1) . '.' : '';
+
+        return $firstName . ' ' . $lastNameInitial;
+    }
+}

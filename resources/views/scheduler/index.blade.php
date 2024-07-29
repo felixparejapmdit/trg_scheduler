@@ -326,42 +326,49 @@ $(document).ready(function() {
             <li>
                 <strong>Wednesday:</strong><br>
                 @foreach($suguan_midweek['Wednesday'] as $suguan)
-                <b>{{ implode('', array_map(function($word) { return substr($word, 0, 1); }, explode(' ', $suguan->name))) }}</b>, <i style="color: #226aa0;font-weight:bold;">{{ \Carbon\Carbon::parse($suguan->suguan_datetime)->format('gA') }}</i> {{ $suguan->lokal->name }} <br> 
+                <b>{{ formatName($suguan->name) }}</b>, <i style="color: #226aa0;font-weight:bold;">{{ \Carbon\Carbon::parse($suguan->suguan_datetime)->format('g:iA') }}</i> {{ $suguan->lokal->name }} <br> 
                 @endforeach
             </li>
             <li>
                 <strong>Thursday:</strong><br>
                 @foreach($suguan_midweek['Thursday'] as $suguan)
-                <b>{{ implode('', array_map(function($word) { return substr($word, 0, 1); }, explode(' ', $suguan->name))) }}</b>, <i style="color: #226aa0;font-weight:bold;">{{ \Carbon\Carbon::parse($suguan->suguan_datetime)->format('gA') }}</i> {{ $suguan->lokal->name }} <br> 
+                <b>{{ formatName($suguan->name) }}</b>, <i style="color: #226aa0;font-weight:bold;">{{ \Carbon\Carbon::parse($suguan->suguan_datetime)->format('g:iA') }}</i> {{ $suguan->lokal->name }} <br> 
                 @endforeach
             </li>
         </ul>
     </div>
     <div class="weekend-section">
         <div class="day-title">Weekend</div>
-        <ul>
-            <li>
-                <strong>Friday:</strong><br>
-                @foreach($suguan_weekend['Friday'] as $suguan)
-                <b>{{ implode('', array_map(function($word) { return substr($word, 0, 1); }, explode(' ', $suguan->name))) }}</b>, <i style="color: #226aa0;font-weight:bold;">{{ \Carbon\Carbon::parse($suguan->suguan_datetime)->format('gA') }}</i> {{ $suguan->lokal->name }} <br> 
-                @endforeach
-            </li>
-            <li>
-                <strong>Saturday:</strong><br>
-                @foreach($suguan_weekend['Saturday'] as $suguan)
-                <b>{{ implode('', array_map(function($word) { return substr($word, 0, 1); }, explode(' ', $suguan->name))) }}</b>, <i style="color: #226aa0;font-weight:bold;">{{ \Carbon\Carbon::parse($suguan->suguan_datetime)->format('gA') }}</i> {{ $suguan->lokal->name }} <br> 
-                @endforeach
-            </li>
-            <li>
-                <strong>Sunday:</strong><br>
-                @foreach($suguan_weekend['Sunday'] as $suguan)
-                <b>{{ implode('', array_map(function($word) { return substr($word, 0, 1); }, explode(' ', $suguan->name))) }}</b>, <i style="color: #226aa0;font-weight:bold;">{{ \Carbon\Carbon::parse($suguan->suguan_datetime)->format('gA') }}</i> {{ $suguan->lokal->name }} <br> 
-                @endforeach
-            </li>
-        </ul>
+<ul>
+    @if(!$suguan_weekend['Friday']->isEmpty())
+    <li>
+        <strong>Friday:</strong><br>
+        @foreach($suguan_weekend['Friday'] as $suguan)
+        <b>{{ formatName($suguan->name) }}</b>, <i style="color: #226aa0;font-weight:bold;">{{ \Carbon\Carbon::parse($suguan->suguan_datetime)->format('g:iA') }}</i> {{ $suguan->lokal->name }} <br> 
+        @endforeach
+    </li>
+    @endif
+
+    @if(!$suguan_weekend['Saturday']->isEmpty())
+    <li>
+        <strong>Saturday:</strong><br>
+        @foreach($suguan_weekend['Saturday'] as $suguan)
+        <b>{{ formatName($suguan->name) }}</b>, <i style="color: #226aa0;font-weight:bold;">{{ \Carbon\Carbon::parse($suguan->suguan_datetime)->format('g:iA') }}</i> {{ $suguan->lokal->name }} <br> 
+        @endforeach
+    </li>
+    @endif
+
+    @if(!$suguan_weekend['Sunday']->isEmpty())
+    <li>
+        <strong>Sunday:</strong><br>
+        @foreach($suguan_weekend['Sunday'] as $suguan)
+        <b>{{ formatName($suguan->name) }}</b>, <i style="color: #226aa0;font-weight:bold;">{{ \Carbon\Carbon::parse($suguan->suguan_datetime)->format('g:iA') }}</i> {{ $suguan->lokal->name }} <br> 
+        @endforeach
+    </li>
+    @endif
+</ul>
     </div>
 </div>
-
 
    
 <!-- Back to Dashboard Icon -->

@@ -193,7 +193,6 @@ class ComposerStaticInitc4b3bafcf3e4693ac4db51205309d4f3
         ),
         'A' => 
         array (
-            'App\\Http\\View\\Composers\\' => 24,
             'App\\' => 4,
         ),
     );
@@ -590,10 +589,6 @@ class ComposerStaticInitc4b3bafcf3e4693ac4db51205309d4f3
         array (
             0 => __DIR__ . '/..' . '/barryvdh/laravel-debugbar/src',
         ),
-        'App\\Http\\View\\Composers\\' => 
-        array (
-            0 => __DIR__ . '/../..' . '/app/Http/View/Composers',
-        ),
         'App\\' => 
         array (
             0 => __DIR__ . '/../..' . '/app',
@@ -615,6 +610,7 @@ class ComposerStaticInitc4b3bafcf3e4693ac4db51205309d4f3
         'App\\Console\\Commands\\ExtractPdfText' => __DIR__ . '/../..' . '/app/Console/Commands/ExtractPdfText.php',
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',
+        'App\\Exports\\BroadcastSuguanExport' => __DIR__ . '/../..' . '/app/Exports/BroadcastSuguanExport.php',
         'App\\Helpers\\AccessRightsHelper' => __DIR__ . '/../..' . '/app/Helpers/AccessRightsHelper.php',
         'App\\Helpers\\ActivityLogHelper' => __DIR__ . '/../..' . '/app/Helpers/ActivityLogHelper.php',
         'App\\Http\\Controllers\\Auth\\AuthenticatedSessionController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/AuthenticatedSessionController.php',
@@ -622,20 +618,17 @@ class ComposerStaticInitc4b3bafcf3e4693ac4db51205309d4f3
         'App\\Http\\Controllers\\Auth\\ConfirmablePasswordController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/ConfirmablePasswordController.php',
         'App\\Http\\Controllers\\Auth\\EmailVerificationNotificationController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/EmailVerificationNotificationController.php',
         'App\\Http\\Controllers\\Auth\\EmailVerificationPromptController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/EmailVerificationPromptController.php',
-        'App\\Http\\Controllers\\Auth\\ForgotPasswordController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/ForgotPasswordController.php',
         'App\\Http\\Controllers\\Auth\\LoginController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/LoginController.php',
         'App\\Http\\Controllers\\Auth\\NewPasswordController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/NewPasswordController.php',
         'App\\Http\\Controllers\\Auth\\PasswordController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/PasswordController.php',
         'App\\Http\\Controllers\\Auth\\PasswordResetLinkController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/PasswordResetLinkController.php',
-        'App\\Http\\Controllers\\Auth\\RegisterController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/RegisterController.php',
         'App\\Http\\Controllers\\Auth\\RegisteredUserController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/RegisteredUserController.php',
-        'App\\Http\\Controllers\\Auth\\ResetPasswordController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/ResetPasswordController.php',
-        'App\\Http\\Controllers\\Auth\\VerificationController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/VerificationController.php',
         'App\\Http\\Controllers\\Auth\\VerifyEmailController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/VerifyEmailController.php',
         'App\\Http\\Controllers\\BroadcastSuguanController' => __DIR__ . '/../..' . '/app/Http/Controllers/BroadcastSuguanController.php',
         'App\\Http\\Controllers\\Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Controller.php',
         'App\\Http\\Controllers\\EventController' => __DIR__ . '/../..' . '/app/Http/Controllers/EventController.php',
         'App\\Http\\Controllers\\HomeController' => __DIR__ . '/../..' . '/app/Http/Controllers/HomeController.php',
+        'App\\Http\\Controllers\\LocaleCongregationImportController' => __DIR__ . '/../..' . '/app/Http/Controllers/LocaleCongregationImportController.php',
         'App\\Http\\Controllers\\ProfileController' => __DIR__ . '/../..' . '/app/Http/Controllers/ProfileController.php',
         'App\\Http\\Controllers\\ReminderController' => __DIR__ . '/../..' . '/app/Http/Controllers/ReminderController.php',
         'App\\Http\\Controllers\\SchedulerController' => __DIR__ . '/../..' . '/app/Http/Controllers/SchedulerController.php',
@@ -653,8 +646,13 @@ class ComposerStaticInitc4b3bafcf3e4693ac4db51205309d4f3
         'App\\Http\\Middleware\\VerifyCsrfToken' => __DIR__ . '/../..' . '/app/Http/Middleware/VerifyCsrfToken.php',
         'App\\Http\\Requests\\Auth\\LoginRequest' => __DIR__ . '/../..' . '/app/Http/Requests/Auth/LoginRequest.php',
         'App\\Http\\Requests\\ProfileUpdateRequest' => __DIR__ . '/../..' . '/app/Http/Requests/ProfileUpdateRequest.php',
+        'App\\Http\\View\\Composers\\TitleComposer' => __DIR__ . '/../..' . '/app/Http/View/Composers/TitleComposer.php',
+        'App\\Imports\\BroadcastSuguanImport' => __DIR__ . '/../..' . '/app/Imports/BroadcastSuguanImport.php',
+        'App\\Imports\\LocaleCongregationsImport' => __DIR__ . '/../..' . '/app/Imports/LocaleCongregationsImport.php',
         'App\\Models\\BroadcastSuguan' => __DIR__ . '/../..' . '/app/Models/BroadcastSuguan.php',
+        'App\\Models\\District' => __DIR__ . '/../..' . '/app/Models/District.php',
         'App\\Models\\Event' => __DIR__ . '/../..' . '/app/Models/Event.php',
+        'App\\Models\\LocaleCongregation' => __DIR__ . '/../..' . '/app/Models/LocaleCongregation.php',
         'App\\Models\\Reminder' => __DIR__ . '/../..' . '/app/Models/Reminder.php',
         'App\\Models\\Suguan' => __DIR__ . '/../..' . '/app/Models/Suguan.php',
         'App\\Models\\User' => __DIR__ . '/../..' . '/app/Models/User.php',
