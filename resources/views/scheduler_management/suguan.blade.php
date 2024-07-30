@@ -463,8 +463,8 @@ $(document).ready(function() {
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         // API URL
-        //const apiUrl = 'http://172.18.162.82/api/manggagawas';
-        const apiUrl = 'http://192.168.1.87:8082/api/manggagawas';
+        const apiUrl = 'http://172.18.162.82/api/manggagawas';
+        //const apiUrl = 'http://192.168.1.87:8082/api/manggagawas';
 
         // Fetch data from the API
         fetch(apiUrl)
