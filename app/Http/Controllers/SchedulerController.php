@@ -50,7 +50,6 @@ class SchedulerController extends Controller
         // Retrieve the top 1 verse of the week
         //$verseOfTheWeek = VerseOfTheWeek::where('weeknumber', $now->weekOfYear)->first();
 
-
         // Retrieve the top 1 verse of the week for the current week
         $verseOfTheWeek = VerseOfTheWeek::where('weeknumber', $now->weekOfYear)->first();
 
@@ -60,9 +59,8 @@ class SchedulerController extends Controller
                 ->inRandomOrder()
                 ->first();
         }
-
-
-          // Retrieve Broadcast Suguan for the current week
+        
+        // Retrieve Broadcast Suguan for the current week
         $broadcastSuguan = BroadcastSuguan::whereBetween('date', [$startOfWeek, $endOfWeek])
         ->orderBy('date', 'asc')
         ->get();

@@ -238,33 +238,33 @@
         </ul>
     </div>
 
-<div class="events-section">
-    <h3>Birthdays and Anniversaries</h3>
-    <ul>
-        @if(!($events->where('event_type', 'Birthday & Anniversary')->count() > 0) && !$upcomingEvents->count())
-            <li><center><i style="color:#D5DBDB;">No entries for Birthdays and Anniversaries.</i></center></li>
-        @else
-            @foreach($events as $event)
-                @if($event->event_type == 'Birthday & Anniversary')
-                    <li>
-                        {{ \Carbon\Carbon::parse($event->event_datetime)->format('m-d') }}  - {{ $event->title }}<br>
-                    </li>
-                @endif
-            @endforeach
+        <div class="events-section">
+            <h3>Birthdays and Anniversaries</h3>
+            <ul>
+                @if(!($events->where('event_type', 'Birthday & Anniversary')->count() > 0) && !$upcomingEvents->count())
+                    <li><center><i style="color:#D5DBDB;">No entries for Birthdays and Anniversaries.</i></center></li>
+                @else
+                    @foreach($events as $event)
+                        @if($event->event_type == 'Birthday & Anniversary')
+                            <li>
+                                {{ \Carbon\Carbon::parse($event->event_datetime)->format('m-d') }}  - {{ $event->title }}<br>
+                            </li>
+                        @endif
+                    @endforeach
 
-            @foreach($upcomingEvents as $event)
-                <li>
-                    @if(!empty($event['date_of_birth']))
-                        {{ \Carbon\Carbon::parse($event['date_of_birth'])->format('m-d') }}  - {{ formatName($event['firstname'] . ' ' . $event['middlename'] . ' ' . $event['lastname']) }} (Birthday)
-                    @endif
-                    @if(!empty($event['wedding_anniversary']))
-                        {{ \Carbon\Carbon::parse($event['wedding_anniversary'])->format('m-d') }}  - {{ formatName($event['firstname'] . ' ' . $event['middlename'] . ' ' . $event['lastname']) }} (Wedding Anniversary)
-                    @endif
-                </li>
-            @endforeach
-        @endif
-    </ul>
-</div>
+                    @foreach($upcomingEvents as $event)
+                        <li>
+                            @if(!empty($event['date_of_birth']))
+                                {{ \Carbon\Carbon::parse($event['date_of_birth'])->format('m-d') }}  - {{ formatName($event['firstname'] . ' ' . $event['middlename'] . ' ' . $event['lastname']) }} (Birthday)
+                            @endif
+                            @if(!empty($event['wedding_anniversary']))
+                                {{ \Carbon\Carbon::parse($event['wedding_anniversary'])->format('m-d') }}  - {{ formatName($event['firstname'] . ' ' . $event['middlename'] . ' ' . $event['lastname']) }} (Wedding Anniversary)
+                            @endif
+                        </li>
+                    @endforeach
+                @endif
+            </ul>
+        </div>
 
     <div class="events-section">
         <h3>Non-Office</h3>
