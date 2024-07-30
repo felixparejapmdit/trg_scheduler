@@ -48,14 +48,30 @@ class SchedulerController extends Controller
         $suguan_weekend = $this->groupSuguanByDay($suguan, ['Friday', 'Saturday', 'Sunday']);
     
         // Retrieve the top 1 verse of the week
+        //$verseOfTheWeek = VerseOfTheWeek::where('weeknumber', $now->weekOfYear)->first();
+
+
+        // Retrieve the top 1 verse of the week for the current week
         $verseOfTheWeek = VerseOfTheWeek::where('weeknumber', $now->weekOfYear)->first();
+
+        // If no verse is found for the current week, select a random verse from previous weeks
+        if (!$verseOfTheWeek) {
+            $verseOfTheWeek = VerseOfTheWeek::where('weeknumber', '<', $now->weekOfYear)
+                ->inRandomOrder()
+                ->first();
+        }
+
 
           // Retrieve Broadcast Suguan for the current week
         $broadcastSuguan = BroadcastSuguan::whereBetween('date', [$startOfWeek, $endOfWeek])
         ->orderBy('date', 'asc')
         ->get();
     
-        return view('scheduler.index', compact('reminders', 'events', 'suguan_midweek', 'suguan_weekend', 'verseOfTheWeek', 'broadcastSuguan'));
+         // Retrieve upcoming birthdays and anniversaries
+        $upcomingEvents = json_decode(file_get_contents('http://172.18.125.134:8082/api/upcoming-events'), true);
+
+
+        return view('scheduler.index', compact('reminders', 'events', 'suguan_midweek', 'suguan_weekend', 'verseOfTheWeek', 'broadcastSuguan', 'upcomingEvents'));
     }
     
     

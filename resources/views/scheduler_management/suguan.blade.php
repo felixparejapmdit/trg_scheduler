@@ -458,8 +458,6 @@ $(document).ready(function() {
         </div>
     </div>
 
-
-    
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         // API URL

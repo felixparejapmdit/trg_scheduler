@@ -131,7 +131,7 @@
         display: flex;
         flex-direction: column;
         justify-content: flex-start;
-        margin-bottom: 12px;
+        margin-bottom: 50px;
     }
     .reminders-column .verse-of-the-week h3 {
         margin-top: 0;
@@ -198,6 +198,8 @@
             <p>No verse available for this week.</p>
         @endif
     </div>
+
+
     <h2>Reminders</h2>
 <ul class="reminder-list">
     @foreach($reminders as $reminder)
@@ -235,21 +237,35 @@
             @endif
         </ul>
     </div>
-    <div class="events-section">
-        <h3>Birthdays and Anniversaries</h3>
-        <ul>
+
+<div class="events-section">
+    <h3>Birthdays and Anniversaries</h3>
+    <ul>
+        @if(!($events->where('event_type', 'Birthday & Anniversary')->count() > 0) && !$upcomingEvents->count())
+            <li><center><i style="color:#D5DBDB;">No entries for Birthdays and Anniversaries.</i></center></li>
+        @else
             @foreach($events as $event)
-            @if($event->event_type == 'Birthday & Anniversary')
-    <li>
-        {{ \Carbon\Carbon::parse($event->event_datetime)->format('m-d') }}  - {{ $event->title }}<br>
-    </li>
-@endif
+                @if($event->event_type == 'Birthday & Anniversary')
+                    <li>
+                        {{ \Carbon\Carbon::parse($event->event_datetime)->format('m-d') }}  - {{ $event->title }}<br>
+                    </li>
+                @endif
             @endforeach
-            @if(!($events->where('event_type', 'Birthday & Anniversary')->count() > 0))
-                <li><center><i style="color:#D5DBDB;">No entries for Birthdays and Anniversaries.</i></center></li>
-            @endif
-        </ul>
-    </div>
+
+            @foreach($upcomingEvents as $event)
+                <li>
+                    @if(!empty($event['date_of_birth']))
+                        {{ \Carbon\Carbon::parse($event['date_of_birth'])->format('m-d') }}  - {{ formatName($event['firstname'] . ' ' . $event['middlename'] . ' ' . $event['lastname']) }} (Birthday)
+                    @endif
+                    @if(!empty($event['wedding_anniversary']))
+                        {{ \Carbon\Carbon::parse($event['wedding_anniversary'])->format('m-d') }}  - {{ formatName($event['firstname'] . ' ' . $event['middlename'] . ' ' . $event['lastname']) }} (Wedding Anniversary)
+                    @endif
+                </li>
+            @endforeach
+        @endif
+    </ul>
+</div>
+
     <div class="events-section">
         <h3>Non-Office</h3>
         <ul>
