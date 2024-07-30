@@ -241,6 +241,7 @@
         <div class="events-section">
             <h3>Birthdays and Anniversaries</h3>
             <ul>
+                
                 @if(!($events->where('event_type', 'Birthday & Anniversary')->count() > 0) && !$upcomingEvents->count())
                     <li><center><i style="color:#D5DBDB;">No entries for Birthdays and Anniversaries.</i></center></li>
                 @else

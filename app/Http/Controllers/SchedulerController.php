@@ -66,9 +66,10 @@ class SchedulerController extends Controller
         ->get();
     
          // Retrieve upcoming birthdays and anniversaries
-        $upcomingEvents = json_decode(file_get_contents('http://172.18.125.134:8082/api/upcoming-events'), true);
-
-
+        //$upcomingEvents = json_decode(file_get_contents('http://172.18.125.134:8082/api/upcoming-events'), true);
+       // $upcomingEvents = json_decode(file_get_contents('http://192.168.1.87:8082/api/upcoming-events'), true);
+        $upcomingEvents = collect(json_decode(file_get_contents('http://192.168.1.87:8082/api/upcoming-events'), true));
+        //@if(!($events->where('event_type', 'Birthday & Anniversary')->count() > 0) && !$upcomingEvents->count()) 
         return view('scheduler.index', compact('reminders', 'events', 'suguan_midweek', 'suguan_weekend', 'verseOfTheWeek', 'broadcastSuguan', 'upcomingEvents'));
     }
     
