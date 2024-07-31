@@ -37,7 +37,6 @@ class SchedulerController extends Controller
         $events = Event::where('status', 'active')
                         ->whereBetween('event_datetime', [$startOfWeek, $endOfWeek])
                         ->get();
-    
         // Retrieve suguan entries for the current week, ordered by suguan_datetime ascending
         $suguan = Suguan::whereBetween('suguan_datetime', [$startOfWeek, $endOfWeek])
                         ->orderBy('suguan_datetime', 'asc')
@@ -66,11 +65,26 @@ class SchedulerController extends Controller
         ->get();
     
          // Retrieve upcoming birthdays and anniversaries
+         $upcomingEvents = json_decode(file_get_contents('http://172.18.162.82/api/upcoming-events'), true);
         //$upcomingEvents = json_decode(file_get_contents('http://172.18.125.134:8082/api/upcoming-events'), true);
        // $upcomingEvents = json_decode(file_get_contents('http://192.168.1.87:8082/api/upcoming-events'), true);
-        $upcomingEvents = collect(json_decode(file_get_contents('http://192.168.1.87:8082/api/upcoming-events'), true));
+        //$upcomingEvents = collect(json_decode(file_get_contents('http://192.168.1.87:8082/api/upcoming-events'), true));
         //@if(!($events->where('event_type', 'Birthday & Anniversary')->count() > 0) && !$upcomingEvents->count()) 
-        return view('scheduler.index', compact('reminders', 'events', 'suguan_midweek', 'suguan_weekend', 'verseOfTheWeek', 'broadcastSuguan', 'upcomingEvents'));
+
+        $year = now()->year;
+        $month = now()->month;
+        // Get the first day of the month
+        $startOfMonth = Carbon::parse($year . '-' . $month . '-01');
+
+        // Get the last day of the month at 23:59:59
+        $endOfMonth = $startOfMonth->copy()->endOfMonth()->endOfDay();
+            //Retrieve events for the current week and with status 'active'
+        $birthdayAnniv = Event::where('status', 'active')
+                        ->whereBetween('event_datetime', [$startOfMonth, $endOfMonth])
+                        ->get();
+
+
+        return view('scheduler.index', compact('reminders', 'events', 'birthdayAnniv', 'suguan_midweek', 'suguan_weekend', 'verseOfTheWeek', 'broadcastSuguan', 'upcomingEvents'));
     }
     
     

@@ -245,7 +245,7 @@
                 @if(!($events->where('event_type', 'Birthday & Anniversary')->count() > 0) && !$upcomingEvents->count())
                     <li><center><i style="color:#D5DBDB;">No entries for Birthdays and Anniversaries.</i></center></li>
                 @else
-                    @foreach($events as $event)
+                    @foreach($birthdayAnniv as $event)
                         @if($event->event_type == 'Birthday & Anniversary')
                             <li>
                                 {{ \Carbon\Carbon::parse($event->event_datetime)->format('m-d') }}  - {{ $event->title }}<br>
