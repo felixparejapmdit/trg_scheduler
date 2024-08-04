@@ -65,7 +65,8 @@ class SchedulerController extends Controller
         ->get();
     
          // Retrieve upcoming birthdays and anniversaries
-         $upcomingEvents = json_decode(file_get_contents('http://172.18.162.82/api/upcoming-events'), true);
+         //$upcomingEvents = json_decode(file_get_contents('http://172.18.162.82/api/upcoming-events'), true);
+
         //$upcomingEvents = json_decode(file_get_contents('http://172.18.125.134:8082/api/upcoming-events'), true);
        // $upcomingEvents = json_decode(file_get_contents('http://192.168.1.87:8082/api/upcoming-events'), true);
         //$upcomingEvents = collect(json_decode(file_get_contents('http://192.168.1.87:8082/api/upcoming-events'), true));
@@ -83,8 +84,39 @@ class SchedulerController extends Controller
                         ->whereBetween('event_datetime', [$startOfMonth, $endOfMonth])
                         ->get();
 
+$upcomingBirthdays = json_decode(file_get_contents('http://172.18.162.82/api/upcoming-events/date_of_birth'), true);
+$upcomingWeddingAnniversaries = json_decode(file_get_contents('http://172.18.162.82/api/upcoming-events/wedding_anniversary'), true);
 
-        return view('scheduler.index', compact('reminders', 'events', 'birthdayAnniv', 'suguan_midweek', 'suguan_weekend', 'verseOfTheWeek', 'broadcastSuguan', 'upcomingEvents'));
+// Add ocationtype to each event
+foreach ($upcomingBirthdays as &$birthday) {
+    $birthday['ocationtype'] = 'birthdays';
+    $birthday['date'] = $birthday['date_of_birth'];
+}
+foreach ($upcomingWeddingAnniversaries as &$anniversary) {
+    $anniversary['ocationtype'] = 'anniversaries';
+    $anniversary['date'] = $anniversary['wedding_anniversary'];
+}
+
+// Merge the two arrays into one
+$upcomingEvents = array_merge($upcomingBirthdays, $upcomingWeddingAnniversaries);
+
+// Order the merged array by date
+usort($upcomingEvents, function($a, $b) {
+    $dateA = strtotime($a['date']);
+    $dateB = strtotime($b['date']);
+    $currentDate = strtotime(date('Y-m-d'));
+
+    if ($dateA < $currentDate) {
+        $dateA = strtotime(date('Y') . '-' . date('m-d', $dateA));
+    }
+    if ($dateB < $currentDate) {
+        $dateB = strtotime(date('Y') . '-' . date('m-d', $dateB));
+    }
+
+    return $dateA - $dateB;
+});
+
+return view('scheduler.index', compact('reminders', 'events', 'birthdayAnniv', 'suguan_midweek', 'suguan_weekend', 'verseOfTheWeek', 'broadcastSuguan', 'upcomingEvents'));
     }
     
     

@@ -253,16 +253,15 @@
                         @endif
                     @endforeach
 
-                    @foreach($upcomingEvents as $event)
-                        <li>
-                            @if(!empty($event['date_of_birth']))
-                                {{ \Carbon\Carbon::parse($event['date_of_birth'])->format('m-d') }}  - {{ formatName($event['firstname'] . ' ' . $event['middlename'] . ' ' . $event['lastname']) }} (Birthday)
-                            @endif
-                            @if(!empty($event['wedding_anniversary']))
-                                {{ \Carbon\Carbon::parse($event['wedding_anniversary'])->format('m-d') }}  - {{ formatName($event['firstname'] . ' ' . $event['middlename'] . ' ' . $event['lastname']) }} (Wedding Anniversary)
-                            @endif
-                        </li>
-                    @endforeach
+            @foreach($upcomingEvents as $event)
+    <li>
+        @if($event['ocationtype'] == 'birthdays')
+            {{ \Carbon\Carbon::parse($event['date_of_birth'])->format('m-d') }}  - {{ formatName($event['firstname'] . ' ' . $event['middlename'] . ' ' . $event['lastname']) }} (Birthday)
+        @elseif($event['ocationtype'] == 'anniversaries')
+            {{ \Carbon\Carbon::parse($event['wedding_anniversary'])->format('m-d') }}  - {{ formatName($event['firstname'] . ' ' . $event['middlename'] . ' ' . $event['lastname']) }} (Wedding Anniversary)
+        @endif
+    </li>
+@endforeach
                 @endif
             </ul>
         </div>
