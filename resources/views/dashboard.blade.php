@@ -22,7 +22,7 @@
                             <i class="fas fa-bell fa-2x mb-2 text-white"></i>
                         </div>
                         <div class="info">
-                            <h3 class="text-2xl font-bold">Reminders</h3>
+                            <h3 class="text-2xl font-bold">Meetings</h3>
                         </div>
                     </a>
                     <a href="{{ route('events.index') }}" class="widget" style="background-color: #1b254c; color: white;">

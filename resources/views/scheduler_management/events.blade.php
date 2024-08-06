@@ -97,7 +97,7 @@
                                     <div class="form-group">
                                         <label for="event_type">Event Type</label>
                                         <select name="event_type" class="form-control" required>
-                                            <option value="Meeting" {{ $event->event_type == 'Meeting' ? 'selected' : '' }}>Meeting</option>
+                                            <option value="Meeting" {{ $event->event_type == 'Meeting' ? 'selected' : '' }}>Activities</option>
                                             <option value="Birthday & Anniversary" {{ $event->event_type == 'Birthday & Anniversary' ? 'selected' : '' }}>Birthday & Anniversary</option>
                                             <option value="Non-Office" {{ $event->event_type == 'Non-Office' ? 'selected' : '' }}>Non-Office</option>
                                         </select>
@@ -202,7 +202,7 @@
                     <div class="form-group">
                         <label for="event_type">Event Type</label>
                         <select name="event_type" class="form-control" id="event_type">
-                            <option value="Meeting">Meeting</option>
+                            <option value="Activities">Activities</option>
                             <option value="Birthday & Anniversary">Birthday & Anniversary</option>
                             <option value="Non-Office">Non-Office</option>
                         </select>

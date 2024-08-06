@@ -77,7 +77,7 @@
         border-radius: 8px;
         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         transition: transform 0.3s ease, box-shadow 0.3s ease;
-        font-size: 1vw;
+        font-size: 0.91vw;
     }
     .column ul li:hover {
         transform: translateY(-5px);
@@ -131,7 +131,7 @@
         display: flex;
         flex-direction: column;
         justify-content: flex-start;
-        margin-bottom: 50px;
+        margin-bottom: 150px;
     }
     .reminders-column .verse-of-the-week h3 {
         margin-top: 0;
@@ -176,6 +176,7 @@
             break-inside: avoid;
         }
     }
+
 </style>
 
 </head>
@@ -184,8 +185,6 @@
     <div class="container mt-0">
     
 <div class="column reminders-column">
-    
-
     <div class="verse-of-the-week">
     <h2>Verse of the Week</h2>
         @if ($verseOfTheWeek)
@@ -198,16 +197,22 @@
             <p>No verse available for this week.</p>
         @endif
     </div>
+<div class="mt-8">
+    <h2>Meeting with Ka. Ron</h2>
+    <ul class="reminder-list">
+        @forelse($reminders as $reminder)
+            <li>
+                <span style="font-size: 22px;">&#8227;</span> 
+                <strong>{{ $reminder->reminder_datetime->format('M j, g:i A') }}</strong> - 
+                ({{ $reminder->attendees }}) - 
+                <span style="font-style: italic; color: #134B70;">{{ $reminder->venue }}</span>
+            </li>
+        @empty
+            <li><center><i style="color:#D5DBDB;">No entries for Meetings.</i></center></li>
+        @endforelse
+    </ul>
+</div>
 
-
-    <h2>Reminders</h2>
-<ul class="reminder-list">
-    @foreach($reminders as $reminder)
-        <li>
-            <span style="font-size: 22px;">&#8227;</span> {{ $reminder->reminder }}<br>
-        </li>
-    @endforeach
-</ul>
 
 <!-- <h2>Broadcast Suguan</h2>
 <ul class="broadcast-list">
@@ -219,10 +224,10 @@
 </ul> -->
 </div>
 
-<div class="column">
+<div class="column events-column">
     <h2>Events</h2>
     <div class="events-section">
-        <h3>Meeting</h3>
+        <h3>Activities</h3>
         <ul>
             @foreach($events as $event)
             @if($event->event_type == 'Meeting')
@@ -233,41 +238,47 @@
             @endif
             @endforeach
             @if(!($events->where('event_type', 'Meeting')->count() > 0))
-                <li><center><i style="color:#D5DBDB;">No entries for Meeting.</i></center></li>
+                <li><center><i style="color:#D5DBDB;">No entries for Activities.</i></center></li>
             @endif
         </ul>
     </div>
 
-        <div class="events-section">
-            <h3>Birthdays and Anniversaries</h3>
-            <ul>
-                
-                @if(!($events->where('event_type', 'Birthday & Anniversary')->count() > 0) && !$upcomingEvents->count())
-                    <li><center><i style="color:#D5DBDB;">No entries for Birthdays and Anniversaries.</i></center></li>
-                @else
-                    @foreach($birthdayAnniv as $event)
-                        @if($event->event_type == 'Birthday & Anniversary')
-                            <li>
-                                {{ \Carbon\Carbon::parse($event->event_datetime)->format('m-d') }}  - {{ $event->title }}<br>
-                            </li>
-                        @endif
-                    @endforeach
+    
+    
+<div class="events-section">
+    <h3>Birthdays and Anniversaries</h3>
+    <ul>
+        @if(!($events->where('event_type', 'Birthday & Anniversary')->count() > 0) && !count($upcomingEvents))
+            <li><center><i style="color:#D5DBDB;">No entries for Birthdays and Anniversaries.</i></center></li>
+        @else
+            @foreach($birthdayAnniv as $event)
+                @if($event->event_type == 'Birthday & Anniversary')
+                    <li>
+                        {{ \Carbon\Carbon::parse($event->event_datetime)->format('m-d') }}  - {{ $event->title }}<br>
+                    </li>
+                @endif
+            @endforeach
 
             @foreach($upcomingEvents as $event)
     <li>
         @if($event['ocationtype'] == 'birthdays')
-            {{ \Carbon\Carbon::parse($event['date_of_birth'])->format('m-d') }}  - {{ formatName($event['firstname'] . ' ' . $event['middlename'] . ' ' . $event['lastname']) }} (Birthday)
+            {{ \Carbon\Carbon::parse($event['date_of_birth'])->format('m-d') }}  - {{ formatName($event['firstname'] . ' ' . $event['middlename'] . ' ' . $event['lastname']) }} (Birthday) 
+              @if((\Carbon\Carbon::parse($event['date_of_birth'])->age) + 1 < 18)
+                            N/A
+                        @else
+                            {{ (\Carbon\Carbon::parse($event['date_of_birth'])->age) + 1 }} y/o
+                        @endif
         @elseif($event['ocationtype'] == 'anniversaries')
             {{ \Carbon\Carbon::parse($event['wedding_anniversary'])->format('m-d') }}  - {{ formatName($event['firstname'] . ' ' . $event['middlename'] . ' ' . $event['lastname']) }} (Wedding Anniversary)
         @endif
     </li>
 @endforeach
-                @endif
-            </ul>
-        </div>
 
+        @endif
+    </ul>
+</div>
     <div class="events-section">
-        <h3>Non-Office</h3>
+        <h3>Meetings</h3>
         <ul>
             @foreach($events as $event)
                 @if($event->event_type == 'Non-Office')
@@ -278,15 +289,10 @@
                 @endif
             @endforeach
             @if(!($events->where('event_type', 'Non-Office')->count() > 0))
-                <li><center><i style="color:#D5DBDB;">No entries for Non-Office.</i></center></li>
+                <li><center><i style="color:#D5DBDB;">No entries for Meetings.</i></center></li>
             @endif
         </ul>
     </div>
-    
-    
-
-
-
 </div>
 
 
@@ -338,7 +344,7 @@ $(document).ready(function() {
     <h2>WS Suguan</h2>
     <div class="day-section mr-2">
         <div class="day-title">Midweek</div>
-        <ul>
+        <ul class="suguan-list">
             <li>
                 <strong>Wednesday:</strong><br>
                 @foreach($suguan_midweek['Wednesday'] as $suguan)
@@ -355,7 +361,7 @@ $(document).ready(function() {
     </div>
     <div class="weekend-section">
         <div class="day-title">Weekend</div>
-<ul>
+<ul class="suguan-list">
     @if(!$suguan_weekend['Friday']->isEmpty())
     <li>
         <strong>Friday:</strong><br>
@@ -385,6 +391,7 @@ $(document).ready(function() {
 </ul>
     </div>
 </div>
+
 
    
 <!-- Back to Dashboard Icon -->

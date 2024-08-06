@@ -34,12 +34,12 @@
     <x-slot name="header">
         <div class="flex justify-between items-center my-8">
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                {{ __('Reminders Management') }}
+                {{ __('Meeting Management') }}
             </h2>
             <div>
             <a href="{{ route('dashboard') }}" class="btn btn-secondary">Back</a>
                 
-        <button class="btn btn-primary" data-toggle="modal" data-target="#addReminderModal"><i class="fas fa-plus"></i> Reminder</button>
+        <button class="btn btn-primary" data-toggle="modal" data-target="#addReminderModal"><i class="fas fa-plus"></i> Meeting</button>
             </div>
         </div>
     </x-slot>
@@ -55,28 +55,34 @@
         <table class="table table-bordered mt-3">
             <tr>
                 <th class="text-center">#</th>
-                <th style="width:20%;">DateTime</th>
-                <th style="width:35%;">Reminder</th>
+                <th style="width:15%;">Date</th>
+                <th style="width:10%;">Time</th>
+                <th style="width:20%;">Meeting</th>
+                <th style="width:35%;">Attendees</th>
+                <th style="width:20%;">Venue</th>
                 <th style="display:none;">Week Number</th>
                 <th style="display:none;">Verse of the Week</th>
-                <th style="width:20%;">Incharge</th>
+                <th style="width:20%;display:none;">Incharge</th>
                 <th style="display:none;">Prepared By</th>
                 <th style="display:none;">Status</th>
                 <th style="display:none;">Priority</th>
-                <th style="width:10%;" class="text-center">Actions</th>
+                <th style="width:15%;" class="text-center">Actions</th>
             </tr>
             @foreach ($reminders as $reminder)
                 <tr class="priority-{{ $reminder->priority }}">
                     <td class="text-center" style="width: 5%;">{{ $loop->iteration }}</td>
-                    <td>{{ $reminder->reminder_datetime->format('Y-m-d g:i A') }}</td>
+                    <td>{{ $reminder->reminder_datetime->format('Y-m-d') }}</td>
+                    <td>{{ $reminder->reminder_datetime->format('g:i A') }}</td>
                     <td>{{ $reminder->reminder }}</td>
+                    <td>{{ $reminder->attendees }}</td>
+                    <td>{{ $reminder->venue }}</td>
                     <td style="display:none;">{{ $reminder->week_number }}</td>
                     <td style="display:none;">{{ $reminder->verse_of_the_week }}</td>
-                    <td>{{ $reminder->incharge }}</td>
+                    <td style="display:none;">{{ $reminder->incharge }}</td>
                     <td style="display:none;">{{ $reminder->prepared_by }}</td>
                     <td style="display:none;">{{ $reminder->status }}</td>
                     <td style="display:none;">{{ ucfirst($reminder->priority) }}</td>
-                    <td style="width:10%;" class="text-center">
+                    <td style="width:15%;" class="text-center">
                         <button class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#editReminderModal{{ $reminder->id }}"><i class="fas fa-edit"></i></button>
                         <button class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#deleteReminderModal{{ $reminder->id }}"><i class="fas fa-trash-alt"></i></button>
                     </td>
@@ -87,7 +93,7 @@
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title" id="editReminderModalLabel{{ $reminder->id }}">Edit Reminder</h5>
+                                <h5 class="modal-title" id="editReminderModalLabel{{ $reminder->id }}">Edit Meeting</h5>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
@@ -97,40 +103,48 @@
                                 @method('PUT')
                                 <div class="modal-body">
                                     <div class="form-group">
-                                        <label for="reminder_datetime">Reminder DateTime</label>
-                                        <input type="datetime-local" name="reminder_datetime" class="form-control" value="{{ $reminder->reminder_datetime->format('Y-m-d\TH:i') }}">
+                                        <label for="edit_reminder_datetime">Reminder DateTime</label>
+                                        <input type="datetime-local" name="edit_reminder_datetime" class="form-control" value="{{ $reminder->reminder_datetime->format('Y-m-d\TH:i') }}">
                                     </div>
                                     <div class="form-group">
-                                        <label for="reminder">Reminder</label>
-                                        <textarea name="reminder" class="form-control">{{ $reminder->reminder }}</textarea>
+                                        <label for="edit_reminder">Meeting</label>
+                                        <input type="text" name="edit_reminder" value="{{ $reminder->reminder }}" class="form-control"></input>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="edit_attendees">Attendees</label>
+                                        <textarea name="edit_attendees" class="form-control">{{ $reminder->attendees }}</textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="edit_venue">Venue</label>
+                                        <input type="text" name="edit_venue" value="{{ $reminder->venue }}" class="form-control"></input>
                                     </div>
                                     <div class="form-group" style="display:none;">
-                                        <label for="week_number">Week Number</label>
-                                        <input type="number" name="week_number" class="form-control" value="{{ $reminder->week_number }}">
+                                        <label for="edit_week_number">Week Number</label>
+                                        <input type="number" name="edit_week_number" class="form-control" value="{{ $reminder->week_number }}">
                                     </div>
                                     <div class="form-group hidden">
-                                        <label for="verse_of_the_week">Verse of the Week</label>
-                                        <textarea name="verse_of_the_week" class="form-control">{{ $reminder->verse_of_the_week }}</textarea>
+                                        <label for="edit_verse_of_the_week">Verse of the Week</label>
+                                        <textarea name="edit_verse_of_the_week" class="form-control">{{ $reminder->verse_of_the_week }}</textarea>
                                     </div>
                                     <div class="form-group">
-                                        <label for="incharge">Incharge</label>
-                                        <input type="text" name="incharge" class="form-control" value="{{ $reminder->incharge }}">
+                                        <label for="edit_incharge">Incharge</label>
+                                        <input type="text" name="edit_incharge" class="form-control" value="{{ $reminder->incharge }}">
                                     </div>
                                     <div class="form-group" style="display:none;">
-                                        <label for="prepared_by">Prepared By</label>
-                                        <input type="number" name="prepared_by" class="form-control" value="{{ $reminder->prepared_by }}">
+                                        <label for="edit_prepared_by">Prepared By</label>
+                                        <input type="number" name="edit_prepared_by" class="form-control" value="{{ $reminder->prepared_by }}">
                                     </div>
                                     <div class="form-group" style="display:none;">
-                                        <label for="status">Status</label>
-                                        <select name="status" class="form-control">
+                                        <label for="edit_status">Status</label>
+                                        <select name="edit_status" class="form-control">
                                             <option value="active" {{ $reminder->status == 'active' ? 'selected' : '' }}>Active</option>
                                             <option value="completed" {{ $reminder->status == 'completed' ? 'selected' : '' }}>Completed</option>
                                             <option value="cancelled" {{ $reminder->status == 'cancelled' ? 'selected' : '' }}>Cancelled</option>
                                         </select>
                                     </div>
                                     <div class="form-group" style="display:none;">
-                                        <label for="priority">Priority</label>
-                                        <select name="priority" class="form-control">
+                                        <label for="edit_priority">Priority</label>
+                                        <select name="edit_priority" class="form-control">
                                             <option value="low" {{ $reminder->priority == 'low' ? 'selected' : '' }}>Low</option>
                                             <option value="medium" {{ $reminder->priority == 'medium' ? 'selected' : '' }}>Medium</option>
                                             <option value="high" {{ $reminder->priority == 'high' ? 'selected' : '' }}>High</option>
@@ -180,7 +194,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="addReminderModalLabel">Add Reminder</h5>
+                    <h5 class="modal-title" id="addReminderModalLabel">Add Meeting</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -189,14 +203,24 @@
                     @csrf
                     <div class="modal-body">
                         <div class="form-group">
-                            <label for="reminder_datetime">Reminder DateTime</label>
+                            <label for="reminder_datetime">Meeting DateTime</label>
                             <input type="datetime-local" name="reminder_datetime" class="form-control">
                         </div>
                         <div class="form-group">
-                            <label for="reminder">Reminder</label>
-                            <textarea name="reminder" class="form-control"></textarea>
+                            <label for="reminder">Meeting</label>
+                            <input name="reminder" class="form-control"></input>
                         </div>
-                        <div class="form-group" style="display:none;">
+                        
+                         <div class="form-group">
+                            <label for="attendees">Attendees</label>
+                            <textarea name="attendees" class="form-control"></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="venue">Venue</label>
+                            <input name="venue" class="form-control"></input>
+                        </div>
+                        <div class="form-group hidden">
                             <label for="week_number">Week Number</label>
                             <input type="number" name="week_number" class="form-control">
                         </div>
