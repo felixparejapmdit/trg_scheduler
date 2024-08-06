@@ -29,7 +29,9 @@ COPY . /var/www
 COPY --chown=www-data:www-data . /var/www
 
 # Ensure the storage and cache directories are writable
-RUN chown -R www-data:www-data /var/www/trg_scheduler_cloned/storage /var/www/trg_scheduler_cloned/bootstrap/cache
+RUN mkdir -p /var/www/trg_scheduler_cloned/storage \
+    && mkdir -p /var/www/trg_scheduler_cloned/bootstrap/cache \
+    && chown -R www-data:www-data /var/www/trg_scheduler_cloned/storage /var/www/trg_scheduler_cloned/bootstrap/cache
 
 # Change current user to www-data
 USER www-data
