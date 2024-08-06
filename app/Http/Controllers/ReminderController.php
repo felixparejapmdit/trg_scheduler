@@ -18,12 +18,12 @@ class ReminderController extends Controller
        
         $request->validate([
             'reminder_datetime' => 'required|date',
-            'reminder' => 'required|string',
+            'reminder' => 'nullable|string',
             'attendees' => 'required|string',
-            'venue' => 'required|string',
+            'venue' => 'nullable|string',
             'week_number' => 'nullable|integer',
             'verse_of_the_week' => 'nullable|string',
-            'incharge' => 'required|string',
+            'incharge' => 'nullable|string',
             'prepared_by' => 'nullable|integer',
             'status' => 'required|in:active,completed,cancelled',
             'priority' => 'required|in:low,medium,high',
@@ -38,12 +38,12 @@ class ReminderController extends Controller
 {
     $request->validate([
         'edit_reminder_datetime' => 'required|date',
-        'edit_reminder' => 'required|string',
+        'edit_reminder' => 'nullable|string',
         'edit_attendees' => 'required|string',
-        'edit_venue' => 'required|string',
+        'edit_venue' => 'nullable|string',
         'edit_week_number' => 'nullable|integer',
         'edit_verse_of_the_week' => 'nullable|string',
-        'edit_incharge' => 'required|string',
+        'edit_incharge' => 'nullable|string',
         'edit_prepared_by' => 'nullable|integer',
         'edit_status' => 'required|in:active,completed,cancelled',
         'edit_priority' => 'required|in:low,medium,high',

@@ -112,7 +112,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="edit_attendees">Attendees</label>
-                                        <textarea name="edit_attendees" class="form-control">{{ $reminder->attendees }}</textarea>
+                                        <textarea name="edit_attendees" class="form-control" required>{{ $reminder->attendees }}</textarea>
                                     </div>
                                     <div class="form-group">
                                         <label for="edit_venue">Venue</label>
@@ -213,7 +213,7 @@
                         
                          <div class="form-group">
                             <label for="attendees">Attendees</label>
-                            <textarea name="attendees" class="form-control"></textarea>
+                            <textarea name="attendees" class="form-control" required></textarea>
                         </div>
 
                         <div class="form-group">
