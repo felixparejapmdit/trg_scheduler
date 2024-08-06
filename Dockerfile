@@ -28,7 +28,10 @@ COPY . /var/www
 # Copy existing application directory permissions
 COPY --chown=www-data:www-data . /var/www
 
-# Change current user to www
+# Ensure the storage and cache directories are writable
+RUN chown -R www-data:www-data /var/www/trg_scheduler_cloned/storage /var/www/trg_scheduler_cloned/bootstrap/cache
+
+# Change current user to www-data
 USER www-data
 
 # Expose port 9000 and start php-fpm server
