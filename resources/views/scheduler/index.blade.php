@@ -194,7 +194,7 @@
                 </li>
             </ul>
         @else
-            <p>No verse available for this week.</p>
+            <p>No verse available for this week1.</p>
         @endif
     </div>
 <div class="mt-8">
