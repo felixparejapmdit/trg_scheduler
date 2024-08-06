@@ -5,7 +5,7 @@ services:
         build:
             context: .
             dockerfile: Dockerfile
-        image: trg_scheduler_app
+        image: trg_scheduler_cloned
         container_name: trg_scheduler_app
         restart: unless-stopped
         working_dir: /var/www
