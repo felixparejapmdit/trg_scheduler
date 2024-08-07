@@ -34,8 +34,8 @@ services:
         environment:
             MYSQL_ROOT_PASSWORD: root
             MYSQL_DATABASE: trg_scheduler
-            MYSQL_USER: root
-            MYSQL_PASSWORD:
+            MYSQL_USER: trg
+            MYSQL_PASSWORD: M@sunur1n12345
         volumes:
             - db_data:/var/lib/mysql
         networks:
