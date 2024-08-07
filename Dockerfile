@@ -23,14 +23,12 @@ RUN apt-get update && apt-get install -y \
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 # Copy existing application directory contents
-COPY . /var/www/trg_scheduler
+COPY . /var/www
 
-# Ensure the storage and cache directories are writable
-RUN mkdir -p /var/www/trg_scheduler/storage/logs \
-    && mkdir -p /var/www/trg_scheduler/bootstrap/cache \
-    && chown -R www-data:www-data /var/www/trg_scheduler/storage /var/www/trg_scheduler/bootstrap/cache
+# Copy existing application directory permissions
+RUN chown -R www-data:www-data /var/www/trg_scheduler/storage /var/www/trg_scheduler/bootstrap/cache
 
-# Change current user to www-data
+# Change current user to www
 USER www-data
 
 # Expose port 9000 and start php-fpm server

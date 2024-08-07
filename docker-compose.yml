@@ -6,7 +6,7 @@ services:
             context: .
             dockerfile: Dockerfile
         image: trg_scheduler
-        container_name: trg_scheduler_app
+        container_name: trg_scheduler
         restart: unless-stopped
         working_dir: /var/www/trg_scheduler
         volumes:
