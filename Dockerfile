@@ -23,12 +23,12 @@ RUN apt-get update && apt-get install -y \
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 # Copy existing application directory contents
-COPY . /var/www/trg_scheduler_cloned
+COPY . /var/www/trg_scheduler
 
 # Ensure the storage and cache directories are writable
-RUN mkdir -p /var/www/trg_scheduler_cloned/storage/logs \
-    && mkdir -p /var/www/trg_scheduler_cloned/bootstrap/cache \
-    && chown -R www-data:www-data /var/www/trg_scheduler_cloned/storage /var/www/trg_scheduler_cloned/bootstrap/cache
+RUN mkdir -p /var/www/trg_scheduler/storage/logs \
+    && mkdir -p /var/www/trg_scheduler/bootstrap/cache \
+    && chown -R www-data:www-data /var/www/trg_scheduler/storage /var/www/trg_scheduler/bootstrap/cache
 
 # Change current user to www-data
 USER www-data
