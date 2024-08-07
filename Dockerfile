@@ -25,6 +25,10 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 # Copy existing application directory contents
 COPY . /var/www
 
+
+RUN mkdir -p /var/www/trg_scheduler/storage /var/www/trg_scheduler/bootstrap/cache
+RUN chown -R www-data:www-data /var/www/trg_scheduler/storage /var/www/trg_scheduler/bootstrap/cache
+
 # Copy existing application directory permissions
 RUN chown -R www-data:www-data /var/www/trg_scheduler/storage /var/www/trg_scheduler/bootstrap/cache
 
