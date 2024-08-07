@@ -96,4 +96,15 @@ Route::post('/import-locale-congregations', [LocaleCongregationImportController:
 // Add this route
 Route::get('/suguan/getLokals/{districtId}', [LocaleCongregationImportController::class, 'getLokals'])->name('suguan.getLokals');
 
+
+Route::get('/test', function () {
+    try {
+        $db = DB::connection()->getPdo();
+        return 'Connected to database!';
+    } catch (\Exception $e) {
+        return 'Error connecting to database: ' . $e->getMessage();
+    }
+});
+
+
 Auth::routes();
