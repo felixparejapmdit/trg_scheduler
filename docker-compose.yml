@@ -20,7 +20,7 @@ services:
         container_name: trg_scheduler_webserver
         restart: unless-stopped
         ports:
-            - "81:80"
+            - "80:80"
         volumes:
             - .:/var/www/trg_scheduler
             - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
