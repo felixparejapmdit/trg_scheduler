@@ -25,11 +25,15 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 # Copy existing application directory contents
 COPY . /var/www
 
+# Install dependencies with Composer
+RUN composer install
 
+# Run any necessary commands
+RUN php artisan key:generate
+RUN php artisan migrate
+
+# Create storage and cache directories
 RUN mkdir -p /var/www/trg_scheduler/storage /var/www/trg_scheduler/bootstrap/cache
-RUN chown -R www-data:www-data /var/www/trg_scheduler/storage /var/www/trg_scheduler/bootstrap/cache
-
-# Copy existing application directory permissions
 RUN chown -R www-data:www-data /var/www/trg_scheduler/storage /var/www/trg_scheduler/bootstrap/cache
 
 # Change current user to www
