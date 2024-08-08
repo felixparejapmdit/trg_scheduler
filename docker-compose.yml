@@ -11,6 +11,7 @@ services:
         working_dir: /var/www/trg_scheduler
         volumes:
             - .:/var/www/trg_scheduler
+            - ./vendor:/var/www/trg_scheduler/vendor:delegated
             - ./php/local.ini:/usr/local/etc/php/conf.d/local.ini
         networks:
             - trg_scheduler_network
