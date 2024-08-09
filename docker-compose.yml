@@ -37,9 +37,21 @@ services:
             MYSQL_DATABASE: trg_scheduler
             MYSQL_USER: trg
             MYSQL_PASSWORD: M@sunur1n12345
-        command: --skip-grant-tables
         volumes:
             - db_data:/var/lib/mysql
+        networks:
+            - trg_scheduler_network
+
+    phpmyadmin:
+        image: phpmyadmin/phpmyadmin
+        container_name: trg_scheduler_phpmyadmin
+        restart: unless-stopped
+        environment:
+            PMA_HOST: db
+            MYSQL_USER: trg
+            MYSQL_PASSWORD: M@sunur1n12345
+        ports:
+            - "8080:80"
         networks:
             - trg_scheduler_network
 
