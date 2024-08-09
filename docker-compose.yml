@@ -37,6 +37,7 @@ services:
             MYSQL_DATABASE: trg_scheduler
             MYSQL_USER: trg
             MYSQL_PASSWORD: M@sunur1n12345
+        command: --skip-grant-tables
         volumes:
             - db_data:/var/lib/mysql
         networks:
